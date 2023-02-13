@@ -1,32 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>nginx常用命令</title>
-    <url>/2023/02/13/nginx/nginx%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20230210143018927.png" alt="image-20230210143018927"></p>
-<h2 id="1、nginx常用命令"><a href="#1、nginx常用命令" class="headerlink" title="1、nginx常用命令"></a>1、nginx常用命令</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/usr/local/nginx/sbin/nginx -tc /usr/local/nginx/conf/nginx.conf  #验证配置文件nginx.conf</span><br><span class="line"></span><br><span class="line">/usr/local/nginx/sbin/nginx -c /usr/local/nginx/conf/nginx.conf #指定配置文件启动nginx</span><br><span class="line"></span><br><span class="line">/usr/local/nginx/sbin/nginx -s reload -c /usr/local/nginx/conf/nginx.conf #指定配置文件重启nginx</span><br><span class="line"></span><br><span class="line">注：/usr/local/nginx/ 目录视自己的安装情况而定。配置文件同样根据自己的命名习惯指定</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>nginx</category>
-      </categories>
-      <tags>
-        <tag>nginx</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>重新认识http协议</title>
-    <url>/2023/02/13/%E5%85%B6%E4%BB%96/%E9%87%8D%E6%96%B0%E8%AE%A4%E8%AF%86http%E5%8D%8F%E8%AE%AE/</url>
-    <content><![CDATA[<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20230210143018927.png" alt="image-20230210143018927"></p>
-<h1 id="从问题入手"><a href="#从问题入手" class="headerlink" title="从问题入手"></a>从问题入手</h1><p><strong>从浏览器输入url，会发生什么？</strong></p>
-<h1 id="https的加密过程"><a href="#https的加密过程" class="headerlink" title="https的加密过程"></a>https的加密过程</h1>]]></content>
-      <categories>
-        <category>其他</category>
-      </categories>
-      <tags>
-        <tag>其他</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>java基础</title>
     <url>/2023/02/12/java/java%E5%9F%BA%E7%A1%80/</url>
     <content><![CDATA[<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20230210143018927.png" alt="image-20230210143018927"></p>
@@ -57,6 +31,277 @@
       </categories>
       <tags>
         <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>lambda表达式语法糖</title>
+    <url>/2023/02/13/java/lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%AF%AD%E6%B3%95%E7%B3%96/</url>
+    <content><![CDATA[<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20230210143018927.png" alt="image-20230210143018927"></p>
+<h1 id="Java-8-新特性Stream流"><a href="#Java-8-新特性Stream流" class="headerlink" title="Java 8 新特性Stream流"></a>Java 8 新特性Stream流</h1><ul>
+<li><p>Java 8 API添加了一个新的抽象称为流Stream，可以让你以一种声明的方式处理数据。</p>
+</li>
+<li><p>Stream 使用一种类似用 SQL 语句从数据库查询数据的直观方式来提供一种对 Java 集合运算和表达的高阶抽象。</p>
+</li>
+<li><p>Stream API可以极大提高Java程序员的生产力，让程序员写出高效率、干净、简洁的代码。</p>
+</li>
+<li><p>这种风格将要处理的元素集合看作一种流， 流在管道中传输， 并且可以在管道的节点上进行处理， 比如筛选， 排序，聚合等。</p>
+</li>
+<li><p>元素流在管道中经过中间操作（intermediate operation）的处理，最后由最终操作(terminal operation)得到前面处理的结果。</p>
+</li>
+</ul>
+<p>以上的流程转换为 Java 代码为：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Integer&gt; transactionsIds = widgets.stream()</span><br><span class="line">.filter(b -&gt; b.getColor() == RED)</span><br><span class="line">.sorted((x,y) -&gt; x.getWeight() - y.getWeight())</span><br><span class="line">.mapToInt(Widget::getWeight).sum(); </span><br></pre></td></tr></table></figure>
+
+<h2 id="什么是-Stream？"><a href="#什么是-Stream？" class="headerlink" title="什么是 Stream？"></a>什么是 Stream？</h2><p>Stream（流）是一个来自数据源的元素队列并支持聚合操作</p>
+<ul>
+<li><p><strong>元素是特定类型的对象，形成一个队列。 Java中的Stream并不会存储元素，而是按需计算。</strong></p>
+</li>
+<li><p><strong>数据源</strong> 流的来源。 可以是集合，数组，I&#x2F;O channel， 产生器generator 等。</p>
+</li>
+<li><p><strong>聚合操作</strong> 类似SQL语句一样的操作， 比如filter, map, reduce, find, match, sorted等。</p>
+</li>
+</ul>
+<p>和以前的Collection操作不同， Stream操作还有两个基础的特征：</p>
+<ul>
+<li><p><strong>Pipelining</strong> : 中间操作都会返回流对象本身。 这样多个操作可以串联成一个管道， 如同流式风格（fluent style）。 这样做可以对操作进行优化， 比如延迟执行(laziness)和短路( short-circuiting)。</p>
+</li>
+<li><p><strong>内部迭代</strong> ： 以前对集合遍历都是通过Iterator或者For-Each的方式, 显式的在集合外部进行迭代， 这叫做外部迭代。 Stream提供了内部迭代的方式， 通过访问者模式(Visitor)实现。</p>
+</li>
+</ul>
+<h2 id="生成流"><a href="#生成流" class="headerlink" title="生成流"></a>生成流</h2><p>在 Java 8 中, 集合接口有两个方法来生成流：</p>
+<ul>
+<li><p><strong>stream()</strong> − 为集合创建串行流。</p>
+</li>
+<li><p><strong>parallelStream()</strong> − 为集合创建并行流。</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;String&gt; strings = Arrays.asList(<span class="string">&quot;abc&quot;</span>, <span class="string">&quot;&quot;</span>, <span class="string">&quot;bc&quot;</span>, <span class="string">&quot;efg&quot;</span>, <span class="string">&quot;abcd&quot;</span>,<span class="string">&quot;&quot;</span>, <span class="string">&quot;jkl&quot;</span>);</span><br><span class="line"></span><br><span class="line">List&lt;String&gt; filtered = strings.stream().</span><br><span class="line">    filter(string -&gt; !string.isEmpty()).collect(Collectors.toList());</span><br></pre></td></tr></table></figure>
+
+<h2 id="forEach"><a href="#forEach" class="headerlink" title="forEach"></a>forEach</h2><p>Stream 提供了新的方法 <strong>forEach</strong> 来迭代流中的每个数据。以下代码片段使用 forEach 输出了10个随机数：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Random random = new Random(); random.ints().limit(10).forEach(System.out::println); </span><br></pre></td></tr></table></figure>
+
+<h2 id="map"><a href="#map" class="headerlink" title="map"></a>map</h2><p>map 方法用于映射每个元素到对应的结果， <strong>接收一个函数作为参数，该函数会被应用到每个元素上，并将其映射成一个新的元素。</strong> 以下代码片段使用 map 输出了元素对应的平方数：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">List&lt;Integer&gt; numbers = Arrays.asList(3, 2, 2, 3, 7, 3, 5); // 获取对应的平方数 </span><br><span class="line"></span><br><span class="line">List&lt;Integer&gt; squaresList = numbers.stream().map( i -&gt; i*i).distinct().collect(Collectors.toList()); </span><br><span class="line"></span><br><span class="line">List&lt;String&gt; list = Arrays.asList(&quot;a,b,c&quot;, &quot;1,2,3&quot;);//将每个元素转成一个新的且不带逗号的元素</span><br><span class="line"></span><br><span class="line">Stream&lt;String&gt; s1 = list.stream().map(s -&gt; s.replaceAll(&quot;,&quot;,&quot;&quot;));</span><br><span class="line"></span><br><span class="line">s1.forEach(System.out::println); // abc  123 </span><br></pre></td></tr></table></figure>
+
+<h2 id="filter"><a href="#filter" class="headerlink" title="filter"></a>filter</h2><p>filter 方法用于通过设置的条件过滤出元素。以下代码片段使用 filter 方法过滤出空字符串：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">List&lt;String&gt;strings = Arrays.asList(&quot;abc&quot;,&quot;&quot;,&quot;bc&quot;,&quot;efg&quot;,&quot;abcd&quot;,&quot;&quot;,&quot;jkl&quot;); // 获取空字符串的数量 </span><br><span class="line"></span><br><span class="line">long count = strings.stream().filter(string -&gt; string.isEmpty()).count(); </span><br></pre></td></tr></table></figure>
+
+<h2 id="limit"><a href="#limit" class="headerlink" title="limit"></a>limit</h2><p>limit 方法用于获取指定数量的流。 以下代码片段使用 limit 方法打印出 10 条数据：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Random random = new Random();</span><br><span class="line">random.ints().limit(10).forEach(System.out::println); </span><br></pre></td></tr></table></figure>
+
+<h2 id="skip-n-："><a href="#skip-n-：" class="headerlink" title="skip(n)："></a>skip(n)：</h2><p>跳过n元素，配合limit(n)可实现分页</p>
+<h2 id="distinct-："><a href="#distinct-：" class="headerlink" title="distinct ："></a><strong>distinct</strong> ：</h2><p>通过流中元素的 hashCode() 和 equals() 去除重复元素</p>
+<h2 id="sorted"><a href="#sorted" class="headerlink" title="sorted"></a>sorted</h2><ul>
+<li><p><strong>sorted 方法用于对流进行排序。</strong></p>
+</li>
+<li><p><strong>sorted()：自然排序。</strong></p>
+</li>
+<li><p><strong>sorted(Comparator com)：定制排序，自定义Comparator排序器 。</strong></p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">// 自然排序</span><br><span class="line">Random random = new Random();random.ints().limit(10).sorted().forEach(System.out::println); </span><br><span class="line"></span><br><span class="line">// 定制排序，String 类自身已实现Compareable接口</span><br><span class="line">List&lt;String&gt; list = Arrays.asList(&quot;aa&quot;, &quot;ff&quot;, &quot;dd&quot;);</span><br><span class="line">list.stream().sorted().forEach(System.out::println);// aa dd ff</span><br></pre></td></tr></table></figure>
+
+<h3 id="按照某个实体的某个字段排序"><a href="#按照某个实体的某个字段排序" class="headerlink" title="按照某个实体的某个字段排序"></a>按照某个实体的某个字段排序</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 按照Danswer字段进行升序</span><br><span class="line">List&lt;SklExamRecoedDTO&gt; collect = list.stream()</span><br><span class="line">.sorted((Comparator.comparing(SklExamRecoedDTO::getDanswer)))</span><br><span class="line">.collect(Collectors.toList());</span><br><span class="line"></span><br><span class="line"># 按照Danswer字段进行降序</span><br><span class="line">List&lt;SklExamRecoedDTO&gt; collect = list.stream()</span><br><span class="line">.sorted((Comparator.comparing(SklExamRecoedDTO::getDanswer).reversed()))</span><br><span class="line">.collect(Collectors.toList());</span><br></pre></td></tr></table></figure>
+
+<h3 id="自定义排序"><a href="#自定义排序" class="headerlink" title="自定义排序"></a>自定义排序</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Student s1 = new Student(&quot;aa&quot;, 10);</span><br><span class="line">Student s2 = new Student(&quot;bb&quot;, 20);</span><br><span class="line">Student s3 = new Student(&quot;aa&quot;, 30);</span><br><span class="line">Student s4 = new Student(&quot;dd&quot;, 40);</span><br><span class="line">List&lt;Student&gt; studentList = Arrays.asList(s1, s2, s3, s4);//自定义排序：先按姓名升序，姓名相同则按年龄升序</span><br><span class="line">studentList.stream().sorted(</span><br><span class="line">        (o1, o2) -&gt; &#123;</span><br><span class="line">            if (o1.getName().equals(o2.getName())) &#123;</span><br><span class="line">                return o1.getAge() - o2.getAge();</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                return o1.getName().compareTo(o2.getName());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">).forEach(System.out::println);// 当前类new一个Comparator，只在当前对象生效</span><br><span class="line">List&lt;Integer&gt; list = Arrays.asList(7, 6, 9, 4, 11, 6);		// 自定义排序		</span><br><span class="line">Optional&lt;Integer&gt; max2 = list.stream().max(new Comparator&lt;Integer&gt;() &#123;			</span><br><span class="line">              @Override			</span><br><span class="line">              public int compare(Integer o1, Integer o2) &#123;return o1.compareTo(o2);&#125;		</span><br><span class="line">              &#125;</span><br><span class="line">           );</span><br><span class="line">System.out.println(&quot;自定义排序的最大值：&quot; + max2.get());</span><br></pre></td></tr></table></figure>
+
+<h3 id="并行（parallel）程序"><a href="#并行（parallel）程序" class="headerlink" title="并行（parallel）程序"></a>并行（parallel）程序</h3><p>parallelStream 是流并行处理程序的代替方法。<strong>在高并发的场景下不要使用</strong></p>
+<p><strong>并行流就是把一个内容分成多个数据块，并用不同的线程分成多个数据块，并用不同的线程分别处理每个数据块的流。</strong></p>
+<p>以下实例我们使用 parallelStream 来输出空字符串的数量：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">List&lt;String&gt; strings = Arrays.asList(&quot;abc&quot;, &quot;&quot;, &quot;bc&quot;, &quot;efg&quot;, &quot;abcd&quot;,&quot;&quot;, &quot;jkl&quot;);// 获取空字符串的数量</span><br><span class="line">long count = strings.parallelStream().filter(string -&gt; string.isEmpty()).count(); </span><br></pre></td></tr></table></figure>
+
+<p>我们可以很容易的在顺序运行和并行直接切换。</p>
+<h2 id="Collectors"><a href="#Collectors" class="headerlink" title="Collectors"></a>Collectors</h2><p>Collectors 类实现了很多归约操作，例如将流转换成集合和聚合元素。Collectors 可用于返回列表或字符串：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">List&lt;String&gt;strings = Arrays.asList(&quot;abc&quot;, &quot;&quot;, &quot;bc&quot;, &quot;efg&quot;, &quot;abcd&quot;,&quot;&quot;, &quot;jkl&quot;);</span><br><span class="line">List&lt;String&gt; filtered = strings.stream().filter(string -&gt; !string.isEmpty()).collect(Collectors.toList());</span><br><span class="line"></span><br><span class="line">System.out.println(&quot;筛选列表: &quot; + filtered);</span><br><span class="line">String mergedString = strings.stream().filter(string -&gt; !string.isEmpty()).collect(Collectors.joining(&quot;,&quot;));</span><br><span class="line"></span><br><span class="line">System.out.println(&quot;合并字符串: &quot; + mergedString); </span><br><span class="line"></span><br><span class="line">// collectors操作</span><br><span class="line">Student s1 = new Student(&quot;aa&quot;, 10,1);</span><br><span class="line">Student s2 = new Student(&quot;bb&quot;, 20,2);</span><br><span class="line">Student s3 = new Student(&quot;cc&quot;, 10,3);</span><br><span class="line">List&lt;Student&gt; list = Arrays.asList(s1, s2, s3); //装成list</span><br><span class="line">List&lt;Integer&gt; ageList = list.stream().map(Student::getAge).collect(Collectors.toList()); // [10, 20, 10] </span><br><span class="line"></span><br><span class="line">//转成list</span><br><span class="line">setSet&lt;Integer&gt; ageSet = list.stream().map(Student::getAge).collect(Collectors.toSet()); // [20, 10] //转成set</span><br><span class="line"></span><br><span class="line">//转成map,注:key不能相同，否则报错</span><br><span class="line">Map&lt;String, Integer&gt; studentMap = list</span><br><span class="line">         .stream()</span><br><span class="line">         .collect(Collectors.toMap(Student::getName, Student::getAge)); // &#123;cc=10, bb=20, aa=10&#125;</span><br><span class="line">         </span><br><span class="line">//字符串分隔符连接</span><br><span class="line">String joinName = list.stream().map(Student::getName) .collect(Collectors.joining(&quot;,&quot;, &quot;(&quot;, &quot;)&quot;)); // (aa,bb,cc) //聚合操作</span><br><span class="line"></span><br><span class="line">//1.学生总数Long count = list.stream().collect(Collectors.counting()); // 3</span><br><span class="line"></span><br><span class="line">//2.最大年龄 (最小的minBy同理)Integer maxAge = list.stream()</span><br><span class="line">                                  .map(Student::getAge)</span><br><span class="line">                                  .collect(Collectors.maxBy(Integer::compare)).get(); // 20</span><br><span class="line">                                  </span><br><span class="line">//3.所有人的年龄Integer sumAge = list.stream().collect(Collectors.summingInt(Student::getAge)); // 40</span><br><span class="line"></span><br><span class="line">//4.平均年龄Double averageAge = list.stream().collect(Collectors.averagingDouble(Student::getAge)); </span><br><span class="line">// 13.333333333333334 </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="groupingBy分组"><a href="#groupingBy分组" class="headerlink" title="groupingBy分组"></a>groupingBy分组</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">// 按照Student的age字段进行分组</span><br><span class="line">Map&lt;Integer, List&lt;Student&gt;&gt; ageMap = list.stream().collect(Collectors.groupingBy(Student::getAge));</span><br><span class="line"></span><br><span class="line">//多重分组,先根据类型分再根据年龄分</span><br><span class="line">Map&lt;Integer, Map&lt;Integer, List&lt;Student&gt;&gt;&gt; typeAgeMap=list.stream()                      </span><br><span class="line">.collect(Collectors.groupingBy(Student::getType,Collectors.groupingBy(Student::getAge)));</span><br></pre></td></tr></table></figure>
+
+<h3 id="reducing规约"><a href="#reducing规约" class="headerlink" title="reducing规约"></a>reducing规约</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Integer allAge = list.stream().map(Student::getAge).collect(Collectors.reducing(Integer::sum)).get(); </span><br></pre></td></tr></table></figure>
+
+<h3 id="partitioningBy分区"><a href="#partitioningBy分区" class="headerlink" title="partitioningBy分区"></a>partitioningBy分区</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">//分成两部分，一部分大于10岁，一部分小于等于10岁</span><br><span class="line">Map&lt;Boolean, List&lt;Student&gt;&gt; partMap = list.stream().collect(Collectors.partitioningBy(v -&gt; v.getAge() &gt; 10));</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="统计"><a href="#统计" class="headerlink" title="统计"></a>统计</h2><p>另外，一些产生统计结果的收集器也非常有用。它们主要用于int、double、long等基本类型上，它们可以用来产生类似如下的统计结果。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">List&lt;Integer&gt; numbers = Arrays.asList(3, 2, 2, 3, 7, 3, 5);</span><br><span class="line">IntSummaryStatistics stats = numbers.stream().mapToInt((x) -&gt; x).summaryStatistics();</span><br><span class="line"></span><br><span class="line">System.out.println(&quot;列表中最大的数 : &quot; + stats.getMax());</span><br><span class="line">System.out.println(&quot;列表中最小的数 : &quot; + stats.getMin());</span><br><span class="line">System.out.println(&quot;所有数之和 : &quot; + stats.getSum());</span><br><span class="line">System.out.println(&quot;平均数 : &quot; + stats.getAverage()); </span><br></pre></td></tr></table></figure>
+
+<h1 id="lambda简述"><a href="#lambda简述" class="headerlink" title="lambda简述"></a>lambda简述</h1><p>1、Lambda 表达式 ： 在 Java 8 语言中引入的一种新的语法元素和操作符 。 这个操作符为 -&gt; ，该操作符被称为 Lambda 操作符 操作符或 箭头操作符 。 它将 Lambda 分为两个部分 ：</p>
+<p>2 、 左侧 ： 指定了 Lambda 表达式需要的 参数列表</p>
+<p>3 、 右侧 ： 指定了 Lambda 体 体 ， 是抽象方法的实现逻辑 ， 也即 Lambda表达式要执行的功能 </p>
+<h2 id="lambda表达式语法糖"><a href="#lambda表达式语法糖" class="headerlink" title="lambda表达式语法糖"></a>lambda表达式语法糖</h2><p><strong>语法格式一：无参，无返回值</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Runnable r1 =()-&gt; &#123;System.out.println(&quot;Hello Lambda!&quot;);&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><strong>语法格式二：Lambda 需要一个参数，但是没有返回值。</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Consumer&lt;String&gt; con = (String str)-&gt; &#123;System.out.println(str);&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><strong>语法格式三：数据类型可以省略，因为可由编译器推断得出，称为“类型推断”</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Consumer&lt;String&gt; con = (str) -&gt; &#123;System.out.println(str);&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>语法格式四：Lambda 若只需要一个参数时，参数的小括号可以省略</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Consumer&lt;String&gt; con = str -&gt;&#123;System.out.println(str);</span><br></pre></td></tr></table></figure>
+
+<p><strong>语法格式五：Lambda 需要两个或以上的参数，多条执行语句，并且可以有返回值</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Comparator&lt;Integer&gt; com= (x,y)-&gt;&#123;System.out.printIn(&quot;实现函数式接口方法! &quot;);return Integer.compare(x,y);&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>语法格式六：当 Lambda 体只有一条语句时，return与大括号若有，都可以省略</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Comparator&lt;Integer&gt; com = (y)-&gt; Integer.compare(x, y);</span><br></pre></td></tr></table></figure>
+
+<h2 id="方法引用"><a href="#方法引用" class="headerlink" title="方法引用"></a>方法引用</h2><p><strong>1 、什么时候使用方法引用：</strong>当要传递给 Lambda 体的操作，已经有实现的方法了，可以使用方法引用 ！ 方法引用可以看是</p>
+<p>Lambda 表达式深层次的表达。换句话说，方法引用就是Lambda表达式，也就是函数式接口的一个实例，通过方法的名字来指向</p>
+<p>一个方法，可以认为是Lambda表达式的一个语法糖。</p>
+<p><strong>2 、使用 要求：</strong></p>
+<p>a 、 实现接口的抽象方法的参数列表和返回值类型，必须与方法引用的</p>
+<p>b 、 方法的参数列表和返回值类型保持一致！</p>
+<p><strong>3 、使用 语法格式</strong>：使用操作符 格式：使用操作符 :: 将类( 或对象) 与 与 方法名分隔开来。</p>
+<p>如下三种主要使用情况：</p>
+<p>a 、对象 对象:: 实例方法名</p>
+<p>b 、类 类:: 静态方法名</p>
+<p>c 、类 类::</p>
+<p><strong>4、举例</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">例如.对象:实例方法名</span><br><span class="line">Consumer&lt;String&gt; con =(×)-&gt; System.out.printIn(x);</span><br><span class="line">等同于</span><br><span class="line">Consumer&lt;String&gt; con2 =system.out::println;</span><br><span class="line"></span><br><span class="line">例如.类:静态方法名</span><br><span class="line">Comparator&lt;Integer&gt; com = (x,y)-&gt;Integer.compare(x, y);</span><br><span class="line">Comparator&lt;Integer&gt; com1 =Integer::compare;</span><br><span class="line">int value = com.compare(12,32);</span><br><span class="line"></span><br><span class="line">例如.类::实例方法名</span><br><span class="line">BiPredicate&lt;String, String&gt; bp =(x,y)-&gt; x.equals(y);</span><br><span class="line">等同于</span><br><span class="line">BiPredicate&lt;String,String&gt; bp1 =string::equals;</span><br><span class="line">boolean flag = bp1.test(&quot;hello&quot;,&quot;hi&quot;);</span><br><span class="line"></span><br><span class="line">注意,当函数式接口方法的第一个参数是需要引用方法的调用者.并且第二个参数是需要引用方法的参数(或无参数)时. ClassName::methodName</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="Optional正确的使用姿势"><a href="#Optional正确的使用姿势" class="headerlink" title="Optional正确的使用姿势"></a>Optional正确的使用姿势</h1><blockquote>
+<p>Opitonal类就是Java提供的为了解决大家平时判断对象是否为空用，通常会用 <code>null!=obj </code>这样的方式存在的判断，从而令人头疼导致空指针异常，同Optional的存在可以让代码更加简单，可读性跟高，代码写起来更高效</p>
+</blockquote>
+<p>1、判断对象是否为空，空则new一个对象返回</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Student student = new Student();</span><br><span class="line">if (null == student)&#123;</span><br><span class="line">    return &quot;student为null&quot;;</span><br><span class="line">&#125;</span><br><span class="line">return student;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Student student = new Student();</span><br><span class="line">return Optional.ofNullable(student).orElse(new Student());</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>nginx常用命令</title>
+    <url>/2023/02/13/nginx/nginx%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20230210143018927.png" alt="image-20230210143018927"></p>
+<h2 id="1、nginx常用命令"><a href="#1、nginx常用命令" class="headerlink" title="1、nginx常用命令"></a>1、nginx常用命令</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/usr/local/nginx/sbin/nginx -tc /usr/local/nginx/conf/nginx.conf  #验证配置文件nginx.conf</span><br><span class="line"></span><br><span class="line">/usr/local/nginx/sbin/nginx -c /usr/local/nginx/conf/nginx.conf #指定配置文件启动nginx</span><br><span class="line"></span><br><span class="line">/usr/local/nginx/sbin/nginx -s reload -c /usr/local/nginx/conf/nginx.conf #指定配置文件重启nginx</span><br><span class="line"></span><br><span class="line">注：/usr/local/nginx/ 目录视自己的安装情况而定。配置文件同样根据自己的命名习惯指定</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>nginx</category>
+      </categories>
+      <tags>
+        <tag>nginx</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>重新认识http协议</title>
+    <url>/2023/02/13/%E5%85%B6%E4%BB%96/%E9%87%8D%E6%96%B0%E8%AE%A4%E8%AF%86http%E5%8D%8F%E8%AE%AE/</url>
+    <content><![CDATA[<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20230210143018927.png" alt="image-20230210143018927"></p>
+<h1 id="从问题入手"><a href="#从问题入手" class="headerlink" title="从问题入手"></a>从问题入手</h1><p><strong>从浏览器输入url，会发生什么？</strong></p>
+<h1 id="https的加密过程"><a href="#https的加密过程" class="headerlink" title="https的加密过程"></a>https的加密过程</h1>]]></content>
+      <categories>
+        <category>其他</category>
+      </categories>
+      <tags>
+        <tag>其他</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>docker常用命令</title>
+    <url>/2023/02/13/%E5%AE%B9%E5%99%A8%E9%83%A8%E7%BD%B2/docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20230210143018927.png" alt="image-20230210143018927"></p>
+<h2 id="官网地址"><a href="#官网地址" class="headerlink" title="官网地址"></a>官网地址</h2><p>docker文档官网地址：<a href="https://vuepress.mirror.docker-practice.com/">https://vuepress.mirror.docker-practice.com/</a></p>
+<h2 id="docker安装"><a href="#docker安装" class="headerlink" title="docker安装"></a>docker安装</h2><ul>
+<li><p>所有平台通用安装(bash方式）</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ curl -fsSL get.docker.com -o get-docker.sh</span><br><span class="line">$ sudo sh get-docker.sh --mirror Aliyun</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>启动docker</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo systemctl enable docker  #开机自启</span><br><span class="line">$ sudo systemctl start docker   #启动docker</span><br><span class="line">$ sudo systemctl restart docker   #重启docker</span><br><span class="line">$ sudo systemctl stop docker   #停止docker</span><br><span class="line">$ sudo systemctl status docker   #查看docker状态</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>默认情况下，<code>docker</code> 命令会使用 <a href="https://en.wikipedia.org/wiki/Unix_domain_socket">Unix socket (opens new window)</a>与 Docker 引擎通讯。而只有 <code>root</code> 用户和 <code>docker</code> 组的用户才可以访问 Docker 引擎的 Unix socket。出于安全考虑，一般 Linux 系统上不会直接使用 <code>root</code> 用户。因此，更好地做法是将需要使用 <code>docker</code> 的用户加入 <code>docker</code> 用户组。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo groupadd docker  #创建一个docker组</span><br><span class="line">$ sudo usermod -aG docker $USER #将当前用户加入组</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置加速镜像</p>
+<p>目前主流 Linux 发行版均已使用 <a href="https://systemd.io/">systemd (opens new window)</a>进行服务管理，这里介绍如何在使用 systemd 的 Linux 发行版中配置镜像加速器。</p>
+<p>1、请首先执行以下命令，查看是否在 <code>docker.service</code> 文件中配置过镜像地址。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ systemctl cat docker | grep &#x27;\-\-registry\-mirror&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>2、如果该命令有输出，那么请执行 <code>$ systemctl cat docker</code> 查看 <code>ExecStart=</code> 出现的位置，修改对应的文件内容去掉 <code>--registry-mirror</code> 参数及其值，并按接下来的步骤进行配置。</p>
+<p>3、如果以上命令没有任何输出，那么就可以在 <code>/etc/docker/daemon.json</code> 中写入如下内容（如果文件不存在请新建该文件）：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;registry-mirrors&quot;: [</span><br><span class="line">    &quot;https://hub-mirror.c.163.com&quot;,</span><br><span class="line">    &quot;https://mirror.baidubce.com&quot;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意，一定要保证该文件符合 json 规范，否则 Docker 将不能启动。</p>
+</blockquote>
+<p>4、重新启动服务。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sudo systemctl daemon-reload</span><br><span class="line">$ sudo systemctl restart docker</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>​       5、查看镜像是否配置成功</p>
+<p>​       执行 <code>$ docker info</code>，如果从结果中看到了如下内容，说明配置成功。</p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210902115057612.png" alt="image-20210902115057612"></p>
+<h2 id="docker的核心概念"><a href="#docker的核心概念" class="headerlink" title="docker的核心概念"></a>docker的核心概念</h2><ul>
+<li><p><strong>镜像</strong>（<code>Image</code>）：定义:一个镜像代表着一个软件如: mysql镜像、redis镜像、nginx镜像。也可以理解成印钱的模板</p>
+</li>
+<li><p><strong>容器</strong>（<code>Container</code>）：定义:基于某个镜像运行一次就是生成一个程序实例，一个程序实例称之为一个容器。可以理解成钱</p>
+</li>
+<li><p><strong>仓库</strong>（<code>Repository</code>）：存储docker中的所有镜像。可以理解成放印钱模板的地方（远程仓库地址:<a href="https://registry.hub.docker.com/%EF%BC%89">https://registry.hub.docker.com/）</a></p>
+<p><strong>docker拉取镜像并启动容器</strong></p>
+</li>
+</ul>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210902121101783.png" alt="image-20210902121101783"></p>
+<p><strong>docker运行流程图</strong></p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210902121446529.png" alt="image-20210902121446529"></p>
+<p><strong>docker   run的运行图</strong></p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210902143306179.png" alt="image-20210902143306179"></p>
+<h2 id="辅助命令"><a href="#辅助命令" class="headerlink" title="辅助命令"></a>辅助命令</h2><h3 id="查看更详细的信息"><a href="#查看更详细的信息" class="headerlink" title="查看更详细的信息"></a>查看更详细的信息</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker info</span><br></pre></td></tr></table></figure>
+
+<h3 id="命令帮助"><a href="#命令帮助" class="headerlink" title="命令帮助"></a>命令帮助</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker --help</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看docker的版本号"><a href="#查看docker的版本号" class="headerlink" title="查看docker的版本号"></a>查看docker的版本号</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker version </span><br></pre></td></tr></table></figure>
+
+<h2 id="镜像命令"><a href="#镜像命令" class="headerlink" title="镜像命令"></a>镜像命令</h2><h3 id="查找镜像"><a href="#查找镜像" class="headerlink" title="查找镜像"></a>查找镜像</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docekr search </span><br></pre></td></tr></table></figure>
+
+<h3 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker pull 镜像名称:版本号  </span><br></pre></td></tr></table></figure>
+
+<h3 id="查看本地仓库的镜像"><a href="#查看本地仓库的镜像" class="headerlink" title="查看本地仓库的镜像"></a>查看本地仓库的镜像</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker images </span><br><span class="line">-a   #闲置镜像所有信息</span><br><span class="line">-q   #只显示镜像的id</span><br></pre></td></tr></table></figure>
+
+<h3 id="删除镜像"><a href="#删除镜像" class="headerlink" title="删除镜像"></a>删除镜像</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker image rm 镜像id    </span><br><span class="line"># -f  强制删除</span><br></pre></td></tr></table></figure>
+
+<h3 id="强制删除所有镜像"><a href="#强制删除所有镜像" class="headerlink" title="强制删除所有镜像"></a>强制删除所有镜像</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker image rm -f $(docker images -a)   </span><br></pre></td></tr></table></figure>
+
+<h3 id="删除none的镜像"><a href="#删除none的镜像" class="headerlink" title="删除none的镜像"></a>删除none的镜像</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker rmi $(docker images | grep &quot;none&quot; | awk &#x27;&#123;print $3&#125;&#x27;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="进入镜像内部"><a href="#进入镜像内部" class="headerlink" title="进入镜像内部"></a>进入镜像内部</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run -it --entrypoint sh 镜像id</span><br></pre></td></tr></table></figure>
+
+<h2 id="容器命令"><a href="#容器命令" class="headerlink" title="容器命令"></a>容器命令</h2><h3 id="导入容器"><a href="#导入容器" class="headerlink" title="导入容器"></a>导入容器</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 导入容器</span><br><span class="line">docker load -i tar名称</span><br></pre></td></tr></table></figure>
+
+<h3 id="导出容器"><a href="#导出容器" class="headerlink" title="导出容器"></a>导出容器</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 将tar包导入到docker本地仓库中</span><br><span class="line">docker save -o xxx.tar 镜像名称:镜像版本</span><br></pre></td></tr></table></figure>
+
+<h3 id="运行容器"><a href="#运行容器" class="headerlink" title="运行容器"></a>运行容器</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run 镜像名---------------# 镜像名新建并启动容器</span><br><span class="line">--name                         # 别名为容器起一个名字</span><br><span class="line">-d                             # 启动守护式容器(在后台启动容器）</span><br><span class="line">-p                             # 映射端口号:原始端口号</span><br><span class="line">-it                            # it:交互式启动</span><br><span class="line">--restart=always               # 重启docker时自动启动该容器</span><br><span class="line">-v                             # 挂载容器目录  宿主机目录:容器内目录</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看运行的容器"><a href="#查看运行的容器" class="headerlink" title="查看运行的容器"></a>查看运行的容器</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker ps                       # 列出所有正在运行的容器</span><br><span class="line">-a                              # 正在运行的和历史运行过的容器</span><br><span class="line">-9                              # 静默模式，只显示容器编号</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看容器的日志"><a href="#查看容器的日志" class="headerlink" title="查看容器的日志"></a>查看容器的日志</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker logs 容器id</span><br></pre></td></tr></table></figure>
+
+<h3 id="停止-关闭-重启容器"><a href="#停止-关闭-重启容器" class="headerlink" title="停止|关闭|重启容器"></a>停止|关闭|重启容器</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker start  容器名字或者容器id        # 开启容器</span><br><span class="line">docker restart   容器名或者容器id      # 重启容器</span><br><span class="line">docker stop   容器名或者容器id        # 正常停止容器运行</span><br><span class="line">docker kill  容器名或者容器id         #立即停止容器运行</span><br></pre></td></tr></table></figure>
+
+<h3 id="进入容器内部"><a href="#进入容器内部" class="headerlink" title="进入容器内部"></a>进入容器内部</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker exec -it 容器id /bin/bash</span><br></pre></td></tr></table></figure>
+
+<h3 id="删除容器"><a href="#删除容器" class="headerlink" title="删除容器"></a>删除容器</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker rm -f  容器id           #-f强制删除</span><br><span class="line"></span><br><span class="line"># 删除所有容器</span><br><span class="line">docker rm -f $(docker ps -aq)    </span><br><span class="line"></span><br><span class="line"># 清理所有处于终止状态的容器</span><br><span class="line">docker container prune</span><br></pre></td></tr></table></figure>
+
+<h2 id="数据卷配置"><a href="#数据卷配置" class="headerlink" title="数据卷配置"></a>数据卷配置</h2><p>数据卷供一个或多个容器使用的特殊目录，它绕过 UFS，可以提供很多有用的特性：</p>
+<ul>
+<li>数据卷 可以在容器之间共享和重用</li>
+<li>对 数据卷的修改会立马生效</li>
+<li>对 数据卷的更新，不会影响镜像</li>
+<li>数据卷 默认会一直存在，即使容器被删除</li>
+</ul>
+<p><strong>作用：用来实现容器和宿主机之间的数据通信</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#自定义数据卷</span><br><span class="line">docker run -v 绝对路径:容器内的路径</span><br><span class="line"></span><br><span class="line">#自动创建数卷</span><br><span class="line">docker run -v 卷名（会自动创建）:容器内的路径</span><br><span class="line"></span><br><span class="line">#查看数据卷</span><br><span class="line">docker volume ls </span><br><span class="line"></span><br><span class="line">#查看某个数据卷的详细内容</span><br><span class="line">docker volume inspect 卷名</span><br><span class="line"></span><br><span class="line">#创建数据卷</span><br><span class="line">docker volume create 卷名</span><br><span class="line"></span><br><span class="line">#删除目前没有使用的数据卷</span><br><span class="line">docker volume prune </span><br><span class="line">docker volume rm 卷名</span><br></pre></td></tr></table></figure>
+
+<h2 id="dockerfile"><a href="#dockerfile" class="headerlink" title="dockerfile"></a>dockerfile</h2><h3 id="构建镜像"><a href="#构建镜像" class="headerlink" title="构建镜像"></a>构建镜像</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker build -t aiurt-platfrom:3.2.0 .</span><br><span class="line"></span><br><span class="line"># docker build需要在dockerfile同目录执行</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>容器部署</category>
+      </categories>
+      <tags>
+        <tag>容器部署</tag>
       </tags>
   </entry>
   <entry>
@@ -201,106 +446,30 @@
       </tags>
   </entry>
   <entry>
-    <title>docker常用命令</title>
-    <url>/2023/02/13/%E5%AE%B9%E5%99%A8%E9%83%A8%E7%BD%B2/docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
+    <title>git使用手册</title>
+    <url>/2023/02/13/%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7/git%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/</url>
     <content><![CDATA[<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20230210143018927.png" alt="image-20230210143018927"></p>
-<h2 id="官网地址"><a href="#官网地址" class="headerlink" title="官网地址"></a>官网地址</h2><p>docker文档官网地址：<a href="https://vuepress.mirror.docker-practice.com/">https://vuepress.mirror.docker-practice.com/</a></p>
-<h2 id="docker安装"><a href="#docker安装" class="headerlink" title="docker安装"></a>docker安装</h2><ul>
-<li><p>所有平台通用安装(bash方式）</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ curl -fsSL get.docker.com -o get-docker.sh</span><br><span class="line">$ sudo sh get-docker.sh --mirror Aliyun</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>启动docker</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo systemctl enable docker  #开机自启</span><br><span class="line">$ sudo systemctl start docker   #启动docker</span><br><span class="line">$ sudo systemctl restart docker   #重启docker</span><br><span class="line">$ sudo systemctl stop docker   #停止docker</span><br><span class="line">$ sudo systemctl status docker   #查看docker状态</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>默认情况下，<code>docker</code> 命令会使用 <a href="https://en.wikipedia.org/wiki/Unix_domain_socket">Unix socket (opens new window)</a>与 Docker 引擎通讯。而只有 <code>root</code> 用户和 <code>docker</code> 组的用户才可以访问 Docker 引擎的 Unix socket。出于安全考虑，一般 Linux 系统上不会直接使用 <code>root</code> 用户。因此，更好地做法是将需要使用 <code>docker</code> 的用户加入 <code>docker</code> 用户组。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ sudo groupadd docker  #创建一个docker组</span><br><span class="line">$ sudo usermod -aG docker $USER #将当前用户加入组</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>配置加速镜像</p>
-<p>目前主流 Linux 发行版均已使用 <a href="https://systemd.io/">systemd (opens new window)</a>进行服务管理，这里介绍如何在使用 systemd 的 Linux 发行版中配置镜像加速器。</p>
-<p>1、请首先执行以下命令，查看是否在 <code>docker.service</code> 文件中配置过镜像地址。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ systemctl cat docker | grep &#x27;\-\-registry\-mirror&#x27;</span><br></pre></td></tr></table></figure>
-
-<p>2、如果该命令有输出，那么请执行 <code>$ systemctl cat docker</code> 查看 <code>ExecStart=</code> 出现的位置，修改对应的文件内容去掉 <code>--registry-mirror</code> 参数及其值，并按接下来的步骤进行配置。</p>
-<p>3、如果以上命令没有任何输出，那么就可以在 <code>/etc/docker/daemon.json</code> 中写入如下内容（如果文件不存在请新建该文件）：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;registry-mirrors&quot;: [</span><br><span class="line">    &quot;https://hub-mirror.c.163.com&quot;,</span><br><span class="line">    &quot;https://mirror.baidubce.com&quot;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>注意，一定要保证该文件符合 json 规范，否则 Docker 将不能启动。</p>
-</blockquote>
-<p>4、重新启动服务。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sudo systemctl daemon-reload</span><br><span class="line">$ sudo systemctl restart docker</span><br></pre></td></tr></table></figure></li>
-</ul>
-<p>​       5、查看镜像是否配置成功</p>
-<p>​       执行 <code>$ docker info</code>，如果从结果中看到了如下内容，说明配置成功。</p>
-<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210902115057612.png" alt="image-20210902115057612"></p>
-<h2 id="docker的核心概念"><a href="#docker的核心概念" class="headerlink" title="docker的核心概念"></a>docker的核心概念</h2><ul>
-<li><p><strong>镜像</strong>（<code>Image</code>）：定义:一个镜像代表着一个软件如: mysql镜像、redis镜像、nginx镜像。也可以理解成印钱的模板</p>
-</li>
-<li><p><strong>容器</strong>（<code>Container</code>）：定义:基于某个镜像运行一次就是生成一个程序实例，一个程序实例称之为一个容器。可以理解成钱</p>
-</li>
-<li><p><strong>仓库</strong>（<code>Repository</code>）：存储docker中的所有镜像。可以理解成放印钱模板的地方（远程仓库地址:<a href="https://registry.hub.docker.com/%EF%BC%89">https://registry.hub.docker.com/）</a></p>
-<p><strong>docker拉取镜像并启动容器</strong></p>
-</li>
-</ul>
-<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210902121101783.png" alt="image-20210902121101783"></p>
-<p><strong>docker运行流程图</strong></p>
-<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210902121446529.png" alt="image-20210902121446529"></p>
-<p><strong>docker   run的运行图</strong></p>
-<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210902143306179.png" alt="image-20210902143306179"></p>
-<h2 id="辅助命令"><a href="#辅助命令" class="headerlink" title="辅助命令"></a>辅助命令</h2><h3 id="查看更详细的信息"><a href="#查看更详细的信息" class="headerlink" title="查看更详细的信息"></a>查看更详细的信息</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker info</span><br></pre></td></tr></table></figure>
-
-<h3 id="命令帮助"><a href="#命令帮助" class="headerlink" title="命令帮助"></a>命令帮助</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker --help</span><br></pre></td></tr></table></figure>
-
-<h3 id="查看docker的版本号"><a href="#查看docker的版本号" class="headerlink" title="查看docker的版本号"></a>查看docker的版本号</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker version </span><br></pre></td></tr></table></figure>
-
-<h2 id="镜像命令"><a href="#镜像命令" class="headerlink" title="镜像命令"></a>镜像命令</h2><h3 id="查找镜像"><a href="#查找镜像" class="headerlink" title="查找镜像"></a>查找镜像</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docekr search </span><br></pre></td></tr></table></figure>
-
-<h3 id="拉取镜像"><a href="#拉取镜像" class="headerlink" title="拉取镜像"></a>拉取镜像</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker pull 镜像名称:版本号  </span><br></pre></td></tr></table></figure>
-
-<h3 id="查看本地仓库的镜像"><a href="#查看本地仓库的镜像" class="headerlink" title="查看本地仓库的镜像"></a>查看本地仓库的镜像</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker images </span><br><span class="line">-a   #闲置镜像所有信息</span><br><span class="line">-q   #只显示镜像的id</span><br></pre></td></tr></table></figure>
-
-<h3 id="删除镜像"><a href="#删除镜像" class="headerlink" title="删除镜像"></a>删除镜像</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker image rm 镜像id    </span><br><span class="line"># -f  强制删除</span><br></pre></td></tr></table></figure>
-
-<h3 id="强制删除所有镜像"><a href="#强制删除所有镜像" class="headerlink" title="强制删除所有镜像"></a>强制删除所有镜像</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker image rm -f $(docker images -a)   </span><br></pre></td></tr></table></figure>
-
-<h3 id="删除none的镜像"><a href="#删除none的镜像" class="headerlink" title="删除none的镜像"></a>删除none的镜像</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker rmi $(docker images | grep &quot;none&quot; | awk &#x27;&#123;print $3&#125;&#x27;)</span><br></pre></td></tr></table></figure>
-
-<h3 id="进入镜像内部"><a href="#进入镜像内部" class="headerlink" title="进入镜像内部"></a>进入镜像内部</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run -it --entrypoint sh 镜像id</span><br></pre></td></tr></table></figure>
-
-<h2 id="容器命令"><a href="#容器命令" class="headerlink" title="容器命令"></a>容器命令</h2><h3 id="导入容器"><a href="#导入容器" class="headerlink" title="导入容器"></a>导入容器</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 导入容器</span><br><span class="line">docker load -i tar名称</span><br></pre></td></tr></table></figure>
-
-<h3 id="导出容器"><a href="#导出容器" class="headerlink" title="导出容器"></a>导出容器</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 将tar包导入到docker本地仓库中</span><br><span class="line">docker save -o xxx.tar 镜像名称:镜像版本</span><br></pre></td></tr></table></figure>
-
-<h3 id="运行容器"><a href="#运行容器" class="headerlink" title="运行容器"></a>运行容器</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker run 镜像名---------------# 镜像名新建并启动容器</span><br><span class="line">--name                         # 别名为容器起一个名字</span><br><span class="line">-d                             # 启动守护式容器(在后台启动容器）</span><br><span class="line">-p                             # 映射端口号:原始端口号</span><br><span class="line">-it                            # it:交互式启动</span><br><span class="line">--restart=always               # 重启docker时自动启动该容器</span><br><span class="line">-v                             # 挂载容器目录  宿主机目录:容器内目录</span><br></pre></td></tr></table></figure>
-
-<h3 id="查看运行的容器"><a href="#查看运行的容器" class="headerlink" title="查看运行的容器"></a>查看运行的容器</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker ps                       # 列出所有正在运行的容器</span><br><span class="line">-a                              # 正在运行的和历史运行过的容器</span><br><span class="line">-9                              # 静默模式，只显示容器编号</span><br></pre></td></tr></table></figure>
-
-<h3 id="查看容器的日志"><a href="#查看容器的日志" class="headerlink" title="查看容器的日志"></a>查看容器的日志</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker logs 容器id</span><br></pre></td></tr></table></figure>
-
-<h3 id="停止-关闭-重启容器"><a href="#停止-关闭-重启容器" class="headerlink" title="停止|关闭|重启容器"></a>停止|关闭|重启容器</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker start  容器名字或者容器id        # 开启容器</span><br><span class="line">docker restart   容器名或者容器id      # 重启容器</span><br><span class="line">docker stop   容器名或者容器id        # 正常停止容器运行</span><br><span class="line">docker kill  容器名或者容器id         #立即停止容器运行</span><br></pre></td></tr></table></figure>
-
-<h3 id="进入容器内部"><a href="#进入容器内部" class="headerlink" title="进入容器内部"></a>进入容器内部</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker exec -it 容器id /bin/bash</span><br></pre></td></tr></table></figure>
-
-<h3 id="删除容器"><a href="#删除容器" class="headerlink" title="删除容器"></a>删除容器</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker rm -f  容器id           #-f强制删除</span><br><span class="line"></span><br><span class="line"># 删除所有容器</span><br><span class="line">docker rm -f $(docker ps -aq)    </span><br><span class="line"></span><br><span class="line"># 清理所有处于终止状态的容器</span><br><span class="line">docker container prune</span><br></pre></td></tr></table></figure>
-
-<h2 id="数据卷配置"><a href="#数据卷配置" class="headerlink" title="数据卷配置"></a>数据卷配置</h2><p>数据卷供一个或多个容器使用的特殊目录，它绕过 UFS，可以提供很多有用的特性：</p>
+<h2 id="1、git工作原理图"><a href="#1、git工作原理图" class="headerlink" title="1、git工作原理图"></a>1、git工作原理图</h2><p><img src="https://www.runoob.com/wp-content/uploads/2015/02/git-command.jpg" alt="img"></p>
+<p><strong>说明：</strong></p>
 <ul>
-<li>数据卷 可以在容器之间共享和重用</li>
-<li>对 数据卷的修改会立马生效</li>
-<li>对 数据卷的更新，不会影响镜像</li>
-<li>数据卷 默认会一直存在，即使容器被删除</li>
+<li>workspace：工作区</li>
+<li>staging area：暂存区&#x2F;缓存区</li>
+<li>local repository：版本库或本地仓库</li>
+<li>remote repository：远程仓库</li>
 </ul>
-<p><strong>作用：用来实现容器和宿主机之间的数据通信</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#自定义数据卷</span><br><span class="line">docker run -v 绝对路径:容器内的路径</span><br><span class="line"></span><br><span class="line">#自动创建数卷</span><br><span class="line">docker run -v 卷名（会自动创建）:容器内的路径</span><br><span class="line"></span><br><span class="line">#查看数据卷</span><br><span class="line">docker volume ls </span><br><span class="line"></span><br><span class="line">#查看某个数据卷的详细内容</span><br><span class="line">docker volume inspect 卷名</span><br><span class="line"></span><br><span class="line">#创建数据卷</span><br><span class="line">docker volume create 卷名</span><br><span class="line"></span><br><span class="line">#删除目前没有使用的数据卷</span><br><span class="line">docker volume prune </span><br><span class="line">docker volume rm 卷名</span><br></pre></td></tr></table></figure>
+<h2 id="2、git常用命令"><a href="#2、git常用命令" class="headerlink" title="2、git常用命令"></a>2、git常用命令</h2><p>Git 常用的是以下 6 个命令：<strong>git clone</strong>、<strong>git push</strong>、<strong>git add</strong> 、<strong>git commit</strong>、<strong>git checkout</strong>、<strong>git pull</strong>。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git clone 仓库地址  #拉取master分支的代码,拷贝一份远程仓库，就是下载远程仓库的一个项目。</span><br><span class="line"></span><br><span class="line">git init newtest #使用指定的目录作为git仓库,初始化后，会在 newtest 目录下会出现一个名为 .git 的目录，所有 Git 需要的数据和资源都存放在这个目录中</span><br><span class="line"></span><br><span class="line">git remote add origin https://gitee.com/studentgitee/notes-center.git #设置推送到的远程仓库地址</span><br><span class="line"></span><br><span class="line">git pull --rebase origin master #拉取远程仓库中master分支的代码，下载远程代码并合并</span><br><span class="line"></span><br><span class="line">git add *.java   #提交代码到暂存区</span><br><span class="line"></span><br><span class="line">git commit -m &#x27;提交代码说明，比如用户管理功能提交&#x27; #提交代码暂存区到本地仓库</span><br><span class="line"></span><br><span class="line">git push -u origin master #提交代码到远程仓库的master，上传远程代码并合并</span><br></pre></td></tr></table></figure>
 
-<h2 id="dockerfile"><a href="#dockerfile" class="headerlink" title="dockerfile"></a>dockerfile</h2><h3 id="构建镜像"><a href="#构建镜像" class="headerlink" title="构建镜像"></a>构建镜像</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">docker build -t aiurt-platfrom:3.2.0 .</span><br><span class="line"></span><br><span class="line"># docker build需要在dockerfile同目录执行</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="3、设置提交代码时的用户信息"><a href="#3、设置提交代码时的用户信息" class="headerlink" title="3、设置提交代码时的用户信息"></a>3、设置提交代码时的用户信息</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;xxx&quot;</span><br><span class="line">git config --global user.email xxx@qq.com</span><br></pre></td></tr></table></figure>
 
 ]]></content>
       <categories>
-        <category>容器部署</category>
+        <category>常用工具</category>
       </categories>
       <tags>
-        <tag>容器部署</tag>
+        <tag>常用工具</tag>
       </tags>
   </entry>
   <entry>
@@ -1104,597 +1273,6 @@
       </categories>
       <tags>
         <tag>工作流</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>git使用手册</title>
-    <url>/2023/02/13/%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7/git%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/</url>
-    <content><![CDATA[<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20230210143018927.png" alt="image-20230210143018927"></p>
-<h2 id="1、git工作原理图"><a href="#1、git工作原理图" class="headerlink" title="1、git工作原理图"></a>1、git工作原理图</h2><p><img src="https://www.runoob.com/wp-content/uploads/2015/02/git-command.jpg" alt="img"></p>
-<p><strong>说明：</strong></p>
-<ul>
-<li>workspace：工作区</li>
-<li>staging area：暂存区&#x2F;缓存区</li>
-<li>local repository：版本库或本地仓库</li>
-<li>remote repository：远程仓库</li>
-</ul>
-<h2 id="2、git常用命令"><a href="#2、git常用命令" class="headerlink" title="2、git常用命令"></a>2、git常用命令</h2><p>Git 常用的是以下 6 个命令：<strong>git clone</strong>、<strong>git push</strong>、<strong>git add</strong> 、<strong>git commit</strong>、<strong>git checkout</strong>、<strong>git pull</strong>。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git clone 仓库地址  #拉取master分支的代码,拷贝一份远程仓库，就是下载远程仓库的一个项目。</span><br><span class="line"></span><br><span class="line">git init newtest #使用指定的目录作为git仓库,初始化后，会在 newtest 目录下会出现一个名为 .git 的目录，所有 Git 需要的数据和资源都存放在这个目录中</span><br><span class="line"></span><br><span class="line">git remote add origin https://gitee.com/studentgitee/notes-center.git #设置推送到的远程仓库地址</span><br><span class="line"></span><br><span class="line">git pull --rebase origin master #拉取远程仓库中master分支的代码，下载远程代码并合并</span><br><span class="line"></span><br><span class="line">git add *.java   #提交代码到暂存区</span><br><span class="line"></span><br><span class="line">git commit -m &#x27;提交代码说明，比如用户管理功能提交&#x27; #提交代码暂存区到本地仓库</span><br><span class="line"></span><br><span class="line">git push -u origin master #提交代码到远程仓库的master，上传远程代码并合并</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="3、设置提交代码时的用户信息"><a href="#3、设置提交代码时的用户信息" class="headerlink" title="3、设置提交代码时的用户信息"></a>3、设置提交代码时的用户信息</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;xxx&quot;</span><br><span class="line">git config --global user.email xxx@qq.com</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>常用工具</category>
-      </categories>
-      <tags>
-        <tag>常用工具</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>lambda表达式语法糖</title>
-    <url>/2023/02/13/java/lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%AF%AD%E6%B3%95%E7%B3%96/</url>
-    <content><![CDATA[<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20230210143018927.png" alt="image-20230210143018927"></p>
-<h1 id="Java-8-新特性Stream流"><a href="#Java-8-新特性Stream流" class="headerlink" title="Java 8 新特性Stream流"></a>Java 8 新特性Stream流</h1><ul>
-<li><p>Java 8 API添加了一个新的抽象称为流Stream，可以让你以一种声明的方式处理数据。</p>
-</li>
-<li><p>Stream 使用一种类似用 SQL 语句从数据库查询数据的直观方式来提供一种对 Java 集合运算和表达的高阶抽象。</p>
-</li>
-<li><p>Stream API可以极大提高Java程序员的生产力，让程序员写出高效率、干净、简洁的代码。</p>
-</li>
-<li><p>这种风格将要处理的元素集合看作一种流， 流在管道中传输， 并且可以在管道的节点上进行处理， 比如筛选， 排序，聚合等。</p>
-</li>
-<li><p>元素流在管道中经过中间操作（intermediate operation）的处理，最后由最终操作(terminal operation)得到前面处理的结果。</p>
-</li>
-</ul>
-<p>以上的流程转换为 Java 代码为：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Integer&gt; transactionsIds = widgets.stream()</span><br><span class="line">.filter(b -&gt; b.getColor() == RED)</span><br><span class="line">.sorted((x,y) -&gt; x.getWeight() - y.getWeight())</span><br><span class="line">.mapToInt(Widget::getWeight).sum(); </span><br></pre></td></tr></table></figure>
-
-<h2 id="什么是-Stream？"><a href="#什么是-Stream？" class="headerlink" title="什么是 Stream？"></a>什么是 Stream？</h2><p>Stream（流）是一个来自数据源的元素队列并支持聚合操作</p>
-<ul>
-<li><p><strong>元素是特定类型的对象，形成一个队列。 Java中的Stream并不会存储元素，而是按需计算。</strong></p>
-</li>
-<li><p><strong>数据源</strong> 流的来源。 可以是集合，数组，I&#x2F;O channel， 产生器generator 等。</p>
-</li>
-<li><p><strong>聚合操作</strong> 类似SQL语句一样的操作， 比如filter, map, reduce, find, match, sorted等。</p>
-</li>
-</ul>
-<p>和以前的Collection操作不同， Stream操作还有两个基础的特征：</p>
-<ul>
-<li><p><strong>Pipelining</strong> : 中间操作都会返回流对象本身。 这样多个操作可以串联成一个管道， 如同流式风格（fluent style）。 这样做可以对操作进行优化， 比如延迟执行(laziness)和短路( short-circuiting)。</p>
-</li>
-<li><p><strong>内部迭代</strong> ： 以前对集合遍历都是通过Iterator或者For-Each的方式, 显式的在集合外部进行迭代， 这叫做外部迭代。 Stream提供了内部迭代的方式， 通过访问者模式(Visitor)实现。</p>
-</li>
-</ul>
-<h2 id="生成流"><a href="#生成流" class="headerlink" title="生成流"></a>生成流</h2><p>在 Java 8 中, 集合接口有两个方法来生成流：</p>
-<ul>
-<li><p><strong>stream()</strong> − 为集合创建串行流。</p>
-</li>
-<li><p><strong>parallelStream()</strong> − 为集合创建并行流。</p>
-</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;String&gt; strings = Arrays.asList(<span class="string">&quot;abc&quot;</span>, <span class="string">&quot;&quot;</span>, <span class="string">&quot;bc&quot;</span>, <span class="string">&quot;efg&quot;</span>, <span class="string">&quot;abcd&quot;</span>,<span class="string">&quot;&quot;</span>, <span class="string">&quot;jkl&quot;</span>);</span><br><span class="line"></span><br><span class="line">List&lt;String&gt; filtered = strings.stream().</span><br><span class="line">    filter(string -&gt; !string.isEmpty()).collect(Collectors.toList());</span><br></pre></td></tr></table></figure>
-
-<h2 id="forEach"><a href="#forEach" class="headerlink" title="forEach"></a>forEach</h2><p>Stream 提供了新的方法 <strong>forEach</strong> 来迭代流中的每个数据。以下代码片段使用 forEach 输出了10个随机数：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Random random = new Random(); random.ints().limit(10).forEach(System.out::println); </span><br></pre></td></tr></table></figure>
-
-<h2 id="map"><a href="#map" class="headerlink" title="map"></a>map</h2><p>map 方法用于映射每个元素到对应的结果， <strong>接收一个函数作为参数，该函数会被应用到每个元素上，并将其映射成一个新的元素。</strong> 以下代码片段使用 map 输出了元素对应的平方数：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">List&lt;Integer&gt; numbers = Arrays.asList(3, 2, 2, 3, 7, 3, 5); // 获取对应的平方数 </span><br><span class="line"></span><br><span class="line">List&lt;Integer&gt; squaresList = numbers.stream().map( i -&gt; i*i).distinct().collect(Collectors.toList()); </span><br><span class="line"></span><br><span class="line">List&lt;String&gt; list = Arrays.asList(&quot;a,b,c&quot;, &quot;1,2,3&quot;);//将每个元素转成一个新的且不带逗号的元素</span><br><span class="line"></span><br><span class="line">Stream&lt;String&gt; s1 = list.stream().map(s -&gt; s.replaceAll(&quot;,&quot;,&quot;&quot;));</span><br><span class="line"></span><br><span class="line">s1.forEach(System.out::println); // abc  123 </span><br></pre></td></tr></table></figure>
-
-<h2 id="filter"><a href="#filter" class="headerlink" title="filter"></a>filter</h2><p>filter 方法用于通过设置的条件过滤出元素。以下代码片段使用 filter 方法过滤出空字符串：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">List&lt;String&gt;strings = Arrays.asList(&quot;abc&quot;,&quot;&quot;,&quot;bc&quot;,&quot;efg&quot;,&quot;abcd&quot;,&quot;&quot;,&quot;jkl&quot;); // 获取空字符串的数量 </span><br><span class="line"></span><br><span class="line">long count = strings.stream().filter(string -&gt; string.isEmpty()).count(); </span><br></pre></td></tr></table></figure>
-
-<h2 id="limit"><a href="#limit" class="headerlink" title="limit"></a>limit</h2><p>limit 方法用于获取指定数量的流。 以下代码片段使用 limit 方法打印出 10 条数据：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Random random = new Random();</span><br><span class="line">random.ints().limit(10).forEach(System.out::println); </span><br></pre></td></tr></table></figure>
-
-<h2 id="skip-n-："><a href="#skip-n-：" class="headerlink" title="skip(n)："></a>skip(n)：</h2><p>跳过n元素，配合limit(n)可实现分页</p>
-<h2 id="distinct-："><a href="#distinct-：" class="headerlink" title="distinct ："></a><strong>distinct</strong> ：</h2><p>通过流中元素的 hashCode() 和 equals() 去除重复元素</p>
-<h2 id="sorted"><a href="#sorted" class="headerlink" title="sorted"></a>sorted</h2><ul>
-<li><p><strong>sorted 方法用于对流进行排序。</strong></p>
-</li>
-<li><p><strong>sorted()：自然排序。</strong></p>
-</li>
-<li><p><strong>sorted(Comparator com)：定制排序，自定义Comparator排序器 。</strong></p>
-</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">// 自然排序</span><br><span class="line">Random random = new Random();random.ints().limit(10).sorted().forEach(System.out::println); </span><br><span class="line"></span><br><span class="line">// 定制排序，String 类自身已实现Compareable接口</span><br><span class="line">List&lt;String&gt; list = Arrays.asList(&quot;aa&quot;, &quot;ff&quot;, &quot;dd&quot;);</span><br><span class="line">list.stream().sorted().forEach(System.out::println);// aa dd ff</span><br></pre></td></tr></table></figure>
-
-<h3 id="按照某个实体的某个字段排序"><a href="#按照某个实体的某个字段排序" class="headerlink" title="按照某个实体的某个字段排序"></a>按照某个实体的某个字段排序</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 按照Danswer字段进行升序</span><br><span class="line">List&lt;SklExamRecoedDTO&gt; collect = list.stream()</span><br><span class="line">.sorted((Comparator.comparing(SklExamRecoedDTO::getDanswer)))</span><br><span class="line">.collect(Collectors.toList());</span><br><span class="line"></span><br><span class="line"># 按照Danswer字段进行降序</span><br><span class="line">List&lt;SklExamRecoedDTO&gt; collect = list.stream()</span><br><span class="line">.sorted((Comparator.comparing(SklExamRecoedDTO::getDanswer).reversed()))</span><br><span class="line">.collect(Collectors.toList());</span><br></pre></td></tr></table></figure>
-
-<h3 id="自定义排序"><a href="#自定义排序" class="headerlink" title="自定义排序"></a>自定义排序</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Student s1 = new Student(&quot;aa&quot;, 10);</span><br><span class="line">Student s2 = new Student(&quot;bb&quot;, 20);</span><br><span class="line">Student s3 = new Student(&quot;aa&quot;, 30);</span><br><span class="line">Student s4 = new Student(&quot;dd&quot;, 40);</span><br><span class="line">List&lt;Student&gt; studentList = Arrays.asList(s1, s2, s3, s4);//自定义排序：先按姓名升序，姓名相同则按年龄升序</span><br><span class="line">studentList.stream().sorted(</span><br><span class="line">        (o1, o2) -&gt; &#123;</span><br><span class="line">            if (o1.getName().equals(o2.getName())) &#123;</span><br><span class="line">                return o1.getAge() - o2.getAge();</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                return o1.getName().compareTo(o2.getName());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">).forEach(System.out::println);// 当前类new一个Comparator，只在当前对象生效</span><br><span class="line">List&lt;Integer&gt; list = Arrays.asList(7, 6, 9, 4, 11, 6);		// 自定义排序		</span><br><span class="line">Optional&lt;Integer&gt; max2 = list.stream().max(new Comparator&lt;Integer&gt;() &#123;			</span><br><span class="line">              @Override			</span><br><span class="line">              public int compare(Integer o1, Integer o2) &#123;return o1.compareTo(o2);&#125;		</span><br><span class="line">              &#125;</span><br><span class="line">           );</span><br><span class="line">System.out.println(&quot;自定义排序的最大值：&quot; + max2.get());</span><br></pre></td></tr></table></figure>
-
-<h3 id="并行（parallel）程序"><a href="#并行（parallel）程序" class="headerlink" title="并行（parallel）程序"></a>并行（parallel）程序</h3><p>parallelStream 是流并行处理程序的代替方法。<strong>在高并发的场景下不要使用</strong></p>
-<p><strong>并行流就是把一个内容分成多个数据块，并用不同的线程分成多个数据块，并用不同的线程分别处理每个数据块的流。</strong></p>
-<p>以下实例我们使用 parallelStream 来输出空字符串的数量：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">List&lt;String&gt; strings = Arrays.asList(&quot;abc&quot;, &quot;&quot;, &quot;bc&quot;, &quot;efg&quot;, &quot;abcd&quot;,&quot;&quot;, &quot;jkl&quot;);// 获取空字符串的数量</span><br><span class="line">long count = strings.parallelStream().filter(string -&gt; string.isEmpty()).count(); </span><br></pre></td></tr></table></figure>
-
-<p>我们可以很容易的在顺序运行和并行直接切换。</p>
-<h2 id="Collectors"><a href="#Collectors" class="headerlink" title="Collectors"></a>Collectors</h2><p>Collectors 类实现了很多归约操作，例如将流转换成集合和聚合元素。Collectors 可用于返回列表或字符串：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">List&lt;String&gt;strings = Arrays.asList(&quot;abc&quot;, &quot;&quot;, &quot;bc&quot;, &quot;efg&quot;, &quot;abcd&quot;,&quot;&quot;, &quot;jkl&quot;);</span><br><span class="line">List&lt;String&gt; filtered = strings.stream().filter(string -&gt; !string.isEmpty()).collect(Collectors.toList());</span><br><span class="line"></span><br><span class="line">System.out.println(&quot;筛选列表: &quot; + filtered);</span><br><span class="line">String mergedString = strings.stream().filter(string -&gt; !string.isEmpty()).collect(Collectors.joining(&quot;,&quot;));</span><br><span class="line"></span><br><span class="line">System.out.println(&quot;合并字符串: &quot; + mergedString); </span><br><span class="line"></span><br><span class="line">// collectors操作</span><br><span class="line">Student s1 = new Student(&quot;aa&quot;, 10,1);</span><br><span class="line">Student s2 = new Student(&quot;bb&quot;, 20,2);</span><br><span class="line">Student s3 = new Student(&quot;cc&quot;, 10,3);</span><br><span class="line">List&lt;Student&gt; list = Arrays.asList(s1, s2, s3); //装成list</span><br><span class="line">List&lt;Integer&gt; ageList = list.stream().map(Student::getAge).collect(Collectors.toList()); // [10, 20, 10] </span><br><span class="line"></span><br><span class="line">//转成list</span><br><span class="line">setSet&lt;Integer&gt; ageSet = list.stream().map(Student::getAge).collect(Collectors.toSet()); // [20, 10] //转成set</span><br><span class="line"></span><br><span class="line">//转成map,注:key不能相同，否则报错</span><br><span class="line">Map&lt;String, Integer&gt; studentMap = list</span><br><span class="line">         .stream()</span><br><span class="line">         .collect(Collectors.toMap(Student::getName, Student::getAge)); // &#123;cc=10, bb=20, aa=10&#125;</span><br><span class="line">         </span><br><span class="line">//字符串分隔符连接</span><br><span class="line">String joinName = list.stream().map(Student::getName) .collect(Collectors.joining(&quot;,&quot;, &quot;(&quot;, &quot;)&quot;)); // (aa,bb,cc) //聚合操作</span><br><span class="line"></span><br><span class="line">//1.学生总数Long count = list.stream().collect(Collectors.counting()); // 3</span><br><span class="line"></span><br><span class="line">//2.最大年龄 (最小的minBy同理)Integer maxAge = list.stream()</span><br><span class="line">                                  .map(Student::getAge)</span><br><span class="line">                                  .collect(Collectors.maxBy(Integer::compare)).get(); // 20</span><br><span class="line">                                  </span><br><span class="line">//3.所有人的年龄Integer sumAge = list.stream().collect(Collectors.summingInt(Student::getAge)); // 40</span><br><span class="line"></span><br><span class="line">//4.平均年龄Double averageAge = list.stream().collect(Collectors.averagingDouble(Student::getAge)); </span><br><span class="line">// 13.333333333333334 </span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="groupingBy分组"><a href="#groupingBy分组" class="headerlink" title="groupingBy分组"></a>groupingBy分组</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">// 按照Student的age字段进行分组</span><br><span class="line">Map&lt;Integer, List&lt;Student&gt;&gt; ageMap = list.stream().collect(Collectors.groupingBy(Student::getAge));</span><br><span class="line"></span><br><span class="line">//多重分组,先根据类型分再根据年龄分</span><br><span class="line">Map&lt;Integer, Map&lt;Integer, List&lt;Student&gt;&gt;&gt; typeAgeMap=list.stream()                      </span><br><span class="line">.collect(Collectors.groupingBy(Student::getType,Collectors.groupingBy(Student::getAge)));</span><br></pre></td></tr></table></figure>
-
-<h3 id="reducing规约"><a href="#reducing规约" class="headerlink" title="reducing规约"></a>reducing规约</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Integer allAge = list.stream().map(Student::getAge).collect(Collectors.reducing(Integer::sum)).get(); </span><br></pre></td></tr></table></figure>
-
-<h3 id="partitioningBy分区"><a href="#partitioningBy分区" class="headerlink" title="partitioningBy分区"></a>partitioningBy分区</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">//分成两部分，一部分大于10岁，一部分小于等于10岁</span><br><span class="line">Map&lt;Boolean, List&lt;Student&gt;&gt; partMap = list.stream().collect(Collectors.partitioningBy(v -&gt; v.getAge() &gt; 10));</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="统计"><a href="#统计" class="headerlink" title="统计"></a>统计</h2><p>另外，一些产生统计结果的收集器也非常有用。它们主要用于int、double、long等基本类型上，它们可以用来产生类似如下的统计结果。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">List&lt;Integer&gt; numbers = Arrays.asList(3, 2, 2, 3, 7, 3, 5);</span><br><span class="line">IntSummaryStatistics stats = numbers.stream().mapToInt((x) -&gt; x).summaryStatistics();</span><br><span class="line"></span><br><span class="line">System.out.println(&quot;列表中最大的数 : &quot; + stats.getMax());</span><br><span class="line">System.out.println(&quot;列表中最小的数 : &quot; + stats.getMin());</span><br><span class="line">System.out.println(&quot;所有数之和 : &quot; + stats.getSum());</span><br><span class="line">System.out.println(&quot;平均数 : &quot; + stats.getAverage()); </span><br></pre></td></tr></table></figure>
-
-<h1 id="lambda简述"><a href="#lambda简述" class="headerlink" title="lambda简述"></a>lambda简述</h1><p>1、Lambda 表达式 ： 在 Java 8 语言中引入的一种新的语法元素和操作符 。 这个操作符为 -&gt; ，该操作符被称为 Lambda 操作符 操作符或 箭头操作符 。 它将 Lambda 分为两个部分 ：</p>
-<p>2 、 左侧 ： 指定了 Lambda 表达式需要的 参数列表</p>
-<p>3 、 右侧 ： 指定了 Lambda 体 体 ， 是抽象方法的实现逻辑 ， 也即 Lambda表达式要执行的功能 </p>
-<h2 id="lambda表达式语法糖"><a href="#lambda表达式语法糖" class="headerlink" title="lambda表达式语法糖"></a>lambda表达式语法糖</h2><p><strong>语法格式一：无参，无返回值</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Runnable r1 =()-&gt; &#123;System.out.println(&quot;Hello Lambda!&quot;);&#125;;</span><br></pre></td></tr></table></figure>
-
-<p><strong>语法格式二：Lambda 需要一个参数，但是没有返回值。</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Consumer&lt;String&gt; con = (String str)-&gt; &#123;System.out.println(str);&#125;;</span><br></pre></td></tr></table></figure>
-
-<p><strong>语法格式三：数据类型可以省略，因为可由编译器推断得出，称为“类型推断”</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Consumer&lt;String&gt; con = (str) -&gt; &#123;System.out.println(str);&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>语法格式四：Lambda 若只需要一个参数时，参数的小括号可以省略</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Consumer&lt;String&gt; con = str -&gt;&#123;System.out.println(str);</span><br></pre></td></tr></table></figure>
-
-<p><strong>语法格式五：Lambda 需要两个或以上的参数，多条执行语句，并且可以有返回值</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Comparator&lt;Integer&gt; com= (x,y)-&gt;&#123;System.out.printIn(&quot;实现函数式接口方法! &quot;);return Integer.compare(x,y);&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>语法格式六：当 Lambda 体只有一条语句时，return与大括号若有，都可以省略</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Comparator&lt;Integer&gt; com = (y)-&gt; Integer.compare(x, y);</span><br></pre></td></tr></table></figure>
-
-<h2 id="方法引用"><a href="#方法引用" class="headerlink" title="方法引用"></a>方法引用</h2><p><strong>1 、什么时候使用方法引用：</strong>当要传递给 Lambda 体的操作，已经有实现的方法了，可以使用方法引用 ！ 方法引用可以看是</p>
-<p>Lambda 表达式深层次的表达。换句话说，方法引用就是Lambda表达式，也就是函数式接口的一个实例，通过方法的名字来指向</p>
-<p>一个方法，可以认为是Lambda表达式的一个语法糖。</p>
-<p><strong>2 、使用 要求：</strong></p>
-<p>a 、 实现接口的抽象方法的参数列表和返回值类型，必须与方法引用的</p>
-<p>b 、 方法的参数列表和返回值类型保持一致！</p>
-<p><strong>3 、使用 语法格式</strong>：使用操作符 格式：使用操作符 :: 将类( 或对象) 与 与 方法名分隔开来。</p>
-<p>如下三种主要使用情况：</p>
-<p>a 、对象 对象:: 实例方法名</p>
-<p>b 、类 类:: 静态方法名</p>
-<p>c 、类 类::</p>
-<p><strong>4、举例</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">例如.对象:实例方法名</span><br><span class="line">Consumer&lt;String&gt; con =(×)-&gt; System.out.printIn(x);</span><br><span class="line">等同于</span><br><span class="line">Consumer&lt;String&gt; con2 =system.out::println;</span><br><span class="line"></span><br><span class="line">例如.类:静态方法名</span><br><span class="line">Comparator&lt;Integer&gt; com = (x,y)-&gt;Integer.compare(x, y);</span><br><span class="line">Comparator&lt;Integer&gt; com1 =Integer::compare;</span><br><span class="line">int value = com.compare(12,32);</span><br><span class="line"></span><br><span class="line">例如.类::实例方法名</span><br><span class="line">BiPredicate&lt;String, String&gt; bp =(x,y)-&gt; x.equals(y);</span><br><span class="line">等同于</span><br><span class="line">BiPredicate&lt;String,String&gt; bp1 =string::equals;</span><br><span class="line">boolean flag = bp1.test(&quot;hello&quot;,&quot;hi&quot;);</span><br><span class="line"></span><br><span class="line">注意,当函数式接口方法的第一个参数是需要引用方法的调用者.并且第二个参数是需要引用方法的参数(或无参数)时. ClassName::methodName</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h1 id="Optional正确的使用姿势"><a href="#Optional正确的使用姿势" class="headerlink" title="Optional正确的使用姿势"></a>Optional正确的使用姿势</h1><blockquote>
-<p>Opitonal类就是Java提供的为了解决大家平时判断对象是否为空用，通常会用 <code>null!=obj </code>这样的方式存在的判断，从而令人头疼导致空指针异常，同Optional的存在可以让代码更加简单，可读性跟高，代码写起来更高效</p>
-</blockquote>
-<p>1、判断对象是否为空，空则new一个对象返回</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Student student = new Student();</span><br><span class="line">if (null == student)&#123;</span><br><span class="line">    return &quot;student为null&quot;;</span><br><span class="line">&#125;</span><br><span class="line">return student;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Student student = new Student();</span><br><span class="line">return Optional.ofNullable(student).orElse(new Student());</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linux常用命令</title>
-    <url>/2023/02/13/%E8%99%9A%E6%8B%9F%E6%9C%BA/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20230210143018927.png" alt="image-20230210143018927"></p>
-<h1 id="Linux基本操作命令"><a href="#Linux基本操作命令" class="headerlink" title="Linux基本操作命令"></a>Linux基本操作命令</h1><h2 id="ls命令"><a href="#ls命令" class="headerlink" title="ls命令"></a>ls命令</h2><p><em><strong>*显示指定工作目录下的文件及属性信息*</strong></em></p>
-<p>-a	显示所有文件及目录 (包括以“.”开头的隐藏文件)</p>
-<p>-l	使用长格式列出文件及目录的详细信息</p>
-<p>-r	将文件以相反次序显示(默认依英文字母次序)</p>
-<p>-t	根据最后的修改时间排序</p>
-<p>-A	同 -a ，但不列出 “.” (当前目录) 及 “..” (父目录)</p>
-<p>-S	根据文件大小排序</p>
-<p>-R	递归列出所有子目录</p>
-<p>-d	查看目录的信息，而不是里面子文件的信息</p>
-<p>-i	输出文件的inode节点信息</p>
-<p>-m	水平列出文件，以逗号间隔</p>
-<p>-X	按文件扩展名排序</p>
-<p>–color	输出信息中带有着色效果</p>
-<h2 id="cp命令"><a href="#cp命令" class="headerlink" title="cp命令"></a>cp命令</h2><p><em><strong>*复制文件或目录*</strong></em></p>
-<p>-f	若目标文件已存在，则会直接覆盖原文件</p>
-<p>-i	若目标文件已存在，则会询问是否覆盖</p>
-<p>-p	保留源文件或目录的所有属性</p>
-<p>-r	递归复制文件和目录</p>
-<p>-d	当复制符号连接时，把目标文件或目录也建立为符号连接，并指向与源文件或目录连接的原始文件或目录</p>
-<p>-l	对源文件建立硬连接，而非复制文件</p>
-<p>-s	对源文件建立符号连接，而非复制文件</p>
-<p>-b	覆盖已存在的文件目标前将目标文件备份</p>
-<p>-v	详细显示cp命令执行的操作过程</p>
-<p>-a	等价于“pdr”选项</p>
-<h2 id="cd命令"><a href="#cd命令" class="headerlink" title="cd命令"></a>cd命令</h2><p><em><strong>*切换目录*</strong></em></p>
-<p>-P	如果切换的目标目录是一个符号链接，则直接切换到符号链接指向的目标目录</p>
-<p>-L	如果切换的目标目录是一个符号链接，则直接切换到符号链接名所在的目录</p>
-<p>–	仅使用”-“选项时，当前目录将被切换到环境变量”OLDPWD”对应值的目录</p>
-<p>~	切换至当前用户目录</p>
-<p>..	切换至当前目录位置的上一级目录</p>
-<h2 id="cat命令"><a href="#cat命令" class="headerlink" title="cat命令"></a>cat命令</h2><p><em><strong>*在终端设备上显示文件内容*</strong></em></p>
-<p>-n	显示行数（空行也编号）</p>
-<p>-s	显示行数（多个空行算一个编号）</p>
-<p>-b	显示行数（空行不编号）</p>
-<p>-E	每行结束处显示$符号</p>
-<p>-T	将TAB字符显示为 ^I符号</p>
-<p>-v	使用 ^ 和 M- 引用，除了 LFD 和 TAB 之外</p>
-<p>-e	等价于”-vE”组合</p>
-<p>-t  等价于”-vT”组合</p>
-<p>-A	等价于 -vET组合</p>
-<p>–help	显示帮助信息</p>
-<p>–version	显示版本信息</p>
-<h2 id="mkdir命令"><a href="#mkdir命令" class="headerlink" title="mkdir命令"></a>mkdir命令</h2><p><em><strong>*创建目录文件*</strong></em></p>
-<p>-p	递归创建多级目录</p>
-<p>-m	建立目录的同时设置目录的权限</p>
-<p>-z	设置安全上下文</p>
-<p>-v	显示目录的创建过程</p>
-<h2 id="rmdir命令"><a href="#rmdir命令" class="headerlink" title="rmdir命令"></a>rmdir命令</h2><p><em><strong>*删除空目录文件*</strong></em></p>
-<p>-p	用递归的方式删除指定的目录路径中的所有父级目录，非空则报错</p>
-<p>-v	显示命令的详细执行过程</p>
-<p>– – help	显示命令的帮助信息</p>
-<p>– – version	显示命令的版本信息</p>
-<h2 id="echo命令"><a href="#echo命令" class="headerlink" title="echo命令"></a>echo命令</h2><p><em><strong>*输出字符串或提取后的变量值*</strong></em></p>
-<p>-n	不输出结尾的换行符</p>
-<p>-e “\a”	发出警告音</p>
-<p>-e “\b”	删除前面的一个字符</p>
-<p>-e “\c”	结尾不加换行符</p>
-<p>-e “\f”	换行，光标扔停留在原来的坐标位置</p>
-<p>-e “\n”	换行，光标移至行首</p>
-<p>-e “\r”	光标移至行首，但不换行</p>
-<p>-E	禁止反斜杠转义，与-e参数功能相反</p>
-<p>—version	查看版本信息</p>
-<p>–help	查看帮助信息</p>
-<h2 id="mv命令"><a href="#mv命令" class="headerlink" title="mv命令"></a>mv命令</h2><p><em><strong>*移动或改名文件*</strong></em></p>
-<p>-i	若存在同名文件，则向用户询问是否覆盖</p>
-<p>-f	覆盖已有文件时，不进行任何提示</p>
-<p>-b	当文件存在时，覆盖前为其创建一个备份</p>
-<p>-u  当源文件比目标文件新，或者目标文件不存在时，才执行移动此操作</p>
-<h2 id="rm命令"><a href="#rm命令" class="headerlink" title="rm命令"></a>rm命令</h2><p><em><strong>*删除文件或目录*</strong></em></p>
-<p>-f	强制删除（不二次询问）</p>
-<p>-i	删除前会询问用户是否操作</p>
-<p>-r&#x2F;R	递归删除</p>
-<p>-v	显示指令的详细执行过程</p>
-<h2 id="df命令"><a href="#df命令" class="headerlink" title="df命令"></a>df命令</h2><p><em><strong>*显示磁盘空间使用情况*</strong></em></p>
-<p>-a	显示所有系统文件</p>
-<p>-B &lt;块大小&gt;	指定显示时的块大小</p>
-<p>-h	以容易阅读的方式显示</p>
-<p>-H	以1000字节为换算单位来显示</p>
-<p>-i	显示索引字节信息</p>
-<p>-k	指定块大小为1KB</p>
-<p>-l	只显示本地文件系统</p>
-<p>-t &lt;文件系统类型&gt;	只显示指定类型的文件系统</p>
-<p>-T	输出时显示文件系统类型</p>
-<p>– -sync	在取得磁盘使用信息前，先执行sync命令</p>
-<h2 id="pwd命令"><a href="#pwd命令" class="headerlink" title="pwd命令"></a>pwd命令</h2><p><em><strong>*显示当前工作目录的路径*</strong></em></p>
-<p>-L	显示逻辑路径</p>
-<h2 id="find命令"><a href="#find命令" class="headerlink" title="find命令"></a>find命令</h2><p><em><strong>*根据路径和条件搜索指定文件*</strong></em></p>
-<p>-name	匹配名称</p>
-<p>-perm	匹配权限（mode为完全匹配，-mode为包含即可）</p>
-<p>-user	匹配所有者</p>
-<p>-group	匹配所有组</p>
-<p>-mtime -n +n	匹配修改内容的时间（-n指n天以内，+n指n天以前）</p>
-<p>-atime -n +n	匹配访问文件的时间（-n指n天以内，+n指n天以前）</p>
-<p>-ctime -n +n	匹配修改文件权限的时间（-n指n天以内，+n指n天以前）</p>
-<p>-nouser	匹配无所有者的文件</p>
-<p>-nogroup	匹配无所有组的文件</p>
-<p>-newer f1 !f2	匹配比文件f1新但比f2旧的文件</p>
-<p>-type b&#x2F;d&#x2F;c&#x2F;p&#x2F;l&#x2F;f	匹配文件类型（后面的字幕字母依次表示块设备、目录、字符设备、管道、链接文件、文本文件）</p>
-<p>-size	匹配文件的大小（+50KB为查找超过50KB的文件，而-50KB为查找小于50KB的文件）</p>
-<p>-prune	忽略某个目录</p>
-<p>-exec …… {};	后面可跟用于进一步处理搜索结果的命令</p>
-<h2 id="ssh命令"><a href="#ssh命令" class="headerlink" title="ssh命令"></a>ssh命令</h2><p><em><strong>*安全的远程连接服务器*</strong></em></p>
-<p>-1	强制使用ssh协议版本1</p>
-<p>-2	强制使用ssh协议版本2</p>
-<p>-4	强制使用IPv4地址</p>
-<p>-6	强制使用IPv6地址</p>
-<p>-A	开启认证代理连接转发功能</p>
-<p>-a	关闭认证代理连接转发功能</p>
-<p>-b&lt;IP地址&gt;	使用本机指定的地址作为对位连接的源IP地址</p>
-<p>-C	请求压缩所有数据</p>
-<p>-F&lt;配置文件&gt;	指定ssh指令的配置文件，默认的配置文件为“&#x2F;etc&#x2F;ssh&#x2F;ssh_config”</p>
-<p>-f	后台执行ssh指令</p>
-<p>-g	允许远程主机连接本机的转发端口</p>
-<p>-i&lt;身份文件&gt;	指定身份文件（即私钥文件）</p>
-<p>-l&lt;登录名&gt;	指定连接远程服务器的登录用户名</p>
-<p>-N	不执行远程指令</p>
-<p>-o&lt;选项&gt;	指定配置选项</p>
-<p>-p&lt;端口&gt;	指定远程服务器上的端口</p>
-<p>-q	静默模式，所有的警告和诊断信息被禁止输出</p>
-<p>-X	开启X11转发功能</p>
-<p>-x	关闭X11转发功能</p>
-<p>-y	开启信任X11转发功能</p>
-<h2 id="rpm命令"><a href="#rpm命令" class="headerlink" title="rpm命令"></a>rpm命令</h2><p><em><strong>*RPM软件包管理器*</strong></em></p>
-<p>-a	查询所有的软件包</p>
-<p>-b或-t	设置包装套件的完成阶段，并指定套件档的文件名称；</p>
-<p>-c	只列出组态配置文件，本参数需配合”-l”参数使用</p>
-<p>-d	只列出文本文件，本参数需配合”-l”参数使用</p>
-<p>-e	卸载软件包</p>
-<p>-f	查询文件或命令属于哪个软件包</p>
-<p>-h	安装软件包时列出标记</p>
-<p>-i	安装软件包</p>
-<p>-l	显示软件包的文件列表</p>
-<p>-p	查询指定的rpm软件包</p>
-<p>-q	查询软件包</p>
-<p>-R	显示软件包的依赖关系</p>
-<p>-s	显示文件状态，本参数需配合”-l”参数使用</p>
-<p>-U	升级软件包</p>
-<p>-v	显示命令执行过程</p>
-<p>-vv	详细显示指令执行过程</p>
-<h2 id="yum命令"><a href="#yum命令" class="headerlink" title="yum命令"></a>yum命令</h2><p><em><strong>*基于RPM的软件包管理器*</strong></em></p>
-<p>-h	显示帮助信息</p>
-<p>-y	对所有的提问都回答“yes”</p>
-<p>-c	指定配置文件</p>
-<p>-q	安静模式</p>
-<p>-v	详细模式</p>
-<p>-t	检查外部错误</p>
-<p>-d	设置调试等级（0-10）</p>
-<p>-e	设置错误等级（0-10）</p>
-<p>-R	设置yum处理一个命令的最大等待时间</p>
-<p>-C	完全从缓存中运行，而不去下载或者更新任何头文件</p>
-<p>install	安装rpm软件包</p>
-<p>update	更新rpm软件包</p>
-<p>check-update	检查是否有可用的更新rpm软件包</p>
-<p>remove	删除指定的rpm软件包</p>
-<p>list	显示软件包的信息</p>
-<p>search	检查软件包的信息</p>
-<p>info	显示指定的rpm软件包的描述信息和概要信息</p>
-<p>clean	清理yum过期的缓存</p>
-<p>shell	进入yum的shell提示符</p>
-<p>resolvedep	显示rpm软件包的依赖关系</p>
-<p>localinstall	安装本地的rpm软件包</p>
-<p>localupdate	显示本地rpm软件包进行更新</p>
-<p>deplist	显示rpm软件包的所有依赖关系</p>
-<h2 id="grep命令"><a href="#grep命令" class="headerlink" title="grep命令"></a>grep命令</h2><p><em><strong>*强大的文本搜索工具*</strong></em></p>
-<p>-i	忽略大小写</p>
-<p>-c	只输出匹配行的数量</p>
-<p>-l	只列出符合匹配的文件名，不列出具体的匹配行</p>
-<p>-n	列出所有的匹配行，显示行号</p>
-<p>-h	查询多文件时不显示文件名</p>
-<p>-s	不显示不存在、没有匹配文本的错误信息</p>
-<p>-v	显示不包含匹配文本的所有行</p>
-<p>-w	匹配整词</p>
-<p>-x	匹配整行</p>
-<p>-r	递归搜索</p>
-<p>-q	禁止输出任何结果，已退出状态表示搜索是否成功</p>
-<p>-b	打印匹配行距文件头部的偏移量，以字节为单位</p>
-<p>-o	与-b结合使用，打印匹配的词据文件头部的偏移量，以字节为单位</p>
-<p>-F	匹配固定字符串的内容</p>
-<p>-E	支持扩展的正则表达式</p>
-<h2 id="tail命令"><a href="#tail命令" class="headerlink" title="tail命令"></a>tail命令</h2><p><em><strong>*查看文件尾部内容*</strong></em></p>
-<p>-c	输出文件尾部的N（N为整数）个字节内容</p>
-<p>-f	持续显示文件最新追加的内容</p>
-<p>-F <N>	与选项“-follow&#x3D;name”和“–retry”连用时功能相同</N></p>
-<p>-n <N>	输出文件的尾部N（N位数字）行内容</N></p>
-<p>–retry	即是在tail命令启动时，文件不可访问或者文件稍后变得不可访问，都始终尝试打开文件。</p>
-<p>–pid&#x3D;&lt;进程号&gt;	与“-f”选项连用，当指定的进程号的进程终止后，自动退出tail命令</p>
-<p>–help	显示指令的帮助信息</p>
-<p>–version	显示指令的版本信息</p>
-<h2 id="head命令"><a href="#head命令" class="headerlink" title="head命令"></a>head命令</h2><p><em><strong>*显示文件开头的内容*</strong></em></p>
-<p>-n &lt;数字&gt;	定义显示行数</p>
-<p>-c &lt;数字&gt;	指定显示头部内容的字符数</p>
-<p>-v	总是显示文件名的头信息</p>
-<p>-q	不显示文件名的头信息</p>
-<h2 id="netstat命令"><a href="#netstat命令" class="headerlink" title="netstat命令"></a>netstat命令</h2><p><em><strong>*显示网络状态*</strong></em></p>
-<p>-a	显示所有连线中的Socket</p>
-<p>-p	显示正在使用Socket的程序识别码和程序名称</p>
-<p>-l	仅列出在监听的服务状态</p>
-<p>-t	显示TCP传输协议的连线状况</p>
-<p>-u	显示UDP传输协议的连线状况</p>
-<p>-i</p>
-<p>显示网络界面信息表单</p>
-<p>-r	显示路由表信息</p>
-<p>-n	直接使用IP地址，不通过域名服务器</p>
-<p><strong>根据端口查找进程（假设端口号为8080）</strong></p>
-<p>netstat -nlp | grep :8080</p>
-<p><strong>列出所有端口信息（包括监听和未监听的）</strong></p>
-<p>netstat -ano</p>
-<p><strong>列出所有的tcp协议的端口</strong></p>
-<p>netstat -at</p>
-<p><strong>显示每个协议的统计信息</strong></p>
-<p>netstat -s</p>
-<p><strong>显示核心路由信息</strong></p>
-<p>netstat -r</p>
-<p><strong>持续输出 netstat 信息。netstat -c将每隔一秒输出网络信息</strong></p>
-<p>netstat -c</p>
-<p><strong>找出程序运行的端口。并不是所有的进程都能找到，没有权限的会不显示，使用 root 权限查看所有的信息</strong></p>
-<p>netstat -anp</p>
-<p><strong>显示多播组信息</strong></p>
-<p>netstat -g</p>
-<h2 id="zip命令"><a href="#zip命令" class="headerlink" title="zip命令"></a>zip命令</h2><p><em><strong>*压缩文件*</strong></em></p>
-<p>-q	不显示指令执行过程</p>
-<p>-r	递归处理，将指定目录下的所有文件和子目录一并处理</p>
-<p>-z	替压缩文件加上注释</p>
-<p>-v	显示指令执行过程或显示版本信息</p>
-<p>-d	更新压缩包内文件</p>
-<p>-n&lt;字尾字符串&gt;	不压缩具有特定字尾字符串的文件</p>
-<h2 id="unzip命令"><a href="#unzip命令" class="headerlink" title="unzip命令"></a>unzip命令</h2><p><em><strong>*解压缩zip格式文件*</strong></em></p>
-<p>-l	显示压缩文件内所包含的文件</p>
-<p>-v	执行时显示详细的信息</p>
-<p>-c	将解压缩的结果显示到屏幕上，并对字符做适当的转换</p>
-<p>-n	解压缩时不要覆盖原有的文件</p>
-<p>-j	不处理压缩文件中原有的目录路径</p>
-<h2 id="tar命令"><a href="#tar命令" class="headerlink" title="tar命令"></a>tar命令</h2><p><em><strong>压缩和解压缩文件</strong></em></p>
-<p>-A	新增文件到以存在的备份文件</p>
-<p>-B	设置区块大小</p>
-<p>-c	建立新的备份文件</p>
-<p>-C &lt;目录&gt;	仅压缩指定目录里的内容或解压缩到指定目录</p>
-<p>-d	记录文件的差别</p>
-<p>-x	从归档文件中提取文件</p>
-<p>-t	列出备份文件的内容</p>
-<p>-z	通过gzip指令压缩&#x2F;解压缩文件，文件名最好为*.tar.gz</p>
-<p>-Z	通过compress指令处理备份文件</p>
-<p>-f&lt;备份文件&gt;	指定备份文件</p>
-<p>-v	显示指令执行过程</p>
-<p>-r	添加文件到已经压缩的文件</p>
-<p>-u	添加改变了和现有的文件到已经存在的压缩文件</p>
-<p>-j	通过bzip2指令压缩&#x2F;解压缩文件，文件名最好为*.tar.bz2</p>
-<p>-v	显示操作过程</p>
-<p>-l	文件系统边界设置</p>
-<p>-k	保留原有文件不覆盖</p>
-<p>-m	保留文件不被覆盖</p>
-<p>-w	确认压缩文件的正确性</p>
-<p>-p	保留原来的文件权限与属性</p>
-<p>-P	使用文件名的绝对路径，不移除文件名称前的“&#x2F;”号</p>
-<p>-N &lt;日期格式&gt;	只将较指定日期更新的文件保存到备份文件里</p>
-<p>– -exclude&#x3D;&lt;范本样式&gt;	排除符合范本样式的文件</p>
-<p>– -remove-files	归档&#x2F;压缩之后删除源文件</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># gzip例子</span><br><span class="line">gzip格式打包压缩：tar -czvf file.tar.gz ./</span><br><span class="line"></span><br><span class="line">gzip格式解压：tar -zxvf file.tar.gz</span><br><span class="line"></span><br><span class="line"># tar例子</span><br><span class="line">tar格式打包压缩：tar -cvf file.tar ./</span><br><span class="line"></span><br><span class="line">tar格式解压：tar -xvf file.tar</span><br></pre></td></tr></table></figure>
-
-<h2 id="ps命令"><a href="#ps命令" class="headerlink" title="ps命令"></a>ps命令</h2><p><em><strong>*显示进程状态*</strong></em></p>
-<p>a	显示现行终端机下的所有程序，包括其他用户的程序</p>
-<p>-A	显示所有程序</p>
-<p>c	显示每个程序真正的指令名称，而不包含路径</p>
-<p>-C &lt;指令名称&gt;	指定执行指令的名称，并列出该指令的程序的状况</p>
-<p>-d	显示所有程序，但不包括阶段作业管理员的程序</p>
-<p>e	列出程序时，显示每个程序所使用的环境变量</p>
-<p>-f	显示UID,PPIP,C与STIME栏位</p>
-<p>f	用ASCII字符显示树状结构，表达程序间的相互关系</p>
-<p>g	显示现行终端机下的所有程序，包括所属组的程序</p>
-<p>-G &lt;群组识别码&gt;	列出属于该群组的程序的状况</p>
-<p>h	不显示标题列</p>
-<p>-H	显示树状结构，表示程序间的相互关系</p>
-<p>-j	采用工作控制的格式显示程序状况</p>
-<p>-l	采用详细的格式来显示程序状况</p>
-<p>L	列出栏位的相关信息</p>
-<p>-m	显示所有的执行绪</p>
-<p>n	以数字来表示USER和WCHAN栏位</p>
-<p>-N	显示所有的程序，除了执行ps指令终端机下的程序之外</p>
-<p>-p &lt;程序识别码&gt;	指定程序识别码，并列出该程序的状况</p>
-<p>r	只列出现行终端机正在执行中的程序</p>
-<p>-s &lt;阶段作业&gt;	列出隶属该阶段作业的程序的状况</p>
-<p>s	采用程序信号的格式显示程序状况</p>
-<p>S	列出程序时，包括已中断的子程序资料</p>
-<p>-t &lt;终端机编号&gt;	列出属于该终端机的程序的状况</p>
-<p>-T	显示现行终端机下的所有程序</p>
-<p>u	以用户为主的格式来显示程序状况</p>
-<p>-U &lt;用户识别码&gt;	列出属于该用户的程序的状况</p>
-<p>U &lt;用户名称&gt;	列出属于该用户的程序的状况</p>
-<p>v	采用虚拟内存的格式显示程序状况</p>
-<p>-V或V	显示版本信息</p>
-<p>-w或w	采用宽阔的格式来显示程序状况</p>
-<p>x	显示所有程序，不以终端机来区分</p>
-<p>X	采用旧式的Linux i386登陆格式显示程序状况</p>
-<p>-y	配合选项”-l”使用时，不显示F(flag)栏位，并以RSS栏位取代ADDR栏位</p>
-<p>–cols &lt;每列字符数&gt;	设置每列的最大字符数</p>
-<p>–headers	重复显示标题列</p>
-<p>–help	在线帮助</p>
-<p>–info	显示排错信息</p>
-<p>–lines &lt;显示列数&gt;	设置显示画面的列数</p>
-<p>显示系统中全部的进程信息，含详细信息：ps -aux</p>
-<p>结合管道操作符，将当前系统运行状态中指定进程信息过滤出来：ps -ef | grep ***</p>
-<h2 id="top命令"><a href="#top命令" class="headerlink" title="top命令"></a>top命令</h2><p><em><strong>*实时显示系统运行状态*</strong></em></p>
-<p>-d &lt;秒&gt;	改变显示的更新速度</p>
-<p>-c 	切换显示模式</p>
-<p>-s	安全模式，不允许交互式指令</p>
-<p>-i	不显示任何闲置或僵死的行程</p>
-<p>-n	设定显示的总次数，完成后将会自动退出</p>
-<p>-b	批处理模式，不进行交互式显示</p>
-<p><strong>t<strong><strong>op</strong></strong>命令交互：</strong></p>
-<p>h 显示帮助画面，给出一些简短的命令总结说明</p>
-<p>k 终止一个进程。</p>
-<p>i 忽略闲置和僵死进程。这是一个开关式命令。</p>
-<p>q 退出程序</p>
-<p>r 重新安排一个进程的优先级别</p>
-<p>S 切换到累计模式</p>
-<p>s 改变两次刷新之间的延迟时间（单位为s），如果有小数，就换算成m s。输入0值则系统将不断刷新，默认值是5 s</p>
-<p>f或者F 从当前显示中添加或者删除项目</p>
-<p>o或者O 改变显示项目的顺序</p>
-<p>l 切换显示平均负载和启动时间信息</p>
-<p>m 切换显示内存信息</p>
-<p>t 切换显示进程和CPU状态信息</p>
-<p>c 切换显示命令名称和完整命令行</p>
-<p>M 根据驻留内存大小进行排序</p>
-<p>P 根据CPU使用百分比大小进行排序</p>
-<p>T 根据时间&#x2F;累计时间进行排序</p>
-<p>W 将当前设置写入~&#x2F;.toprc文件中</p>
-<h2 id="free命令"><a href="#free命令" class="headerlink" title="free命令"></a>free命令</h2><p><em><strong>*显示系统内存使用量情况*</strong></em></p>
-<p>-b	以Byte显示内存使用情况</p>
-<p>-k	以kb为单位显示内存使用情况</p>
-<p>-m	以mb为单位显示内存使用情况</p>
-<p>-g	以gb为单位显示内存使用情况</p>
-<p>-s	持续显示内存</p>
-<p>-t	显示内存使用总合</p>
-<p>-h	以易读的单位显示内存使用情况</p>
-<h2 id="wget命令"><a href="#wget命令" class="headerlink" title="wget命令"></a>wget命令</h2><p><em><strong>*下载网络文件*</strong></em></p>
-<p>-V	显示版本信息</p>
-<p>-h	显示帮助信息</p>
-<p>-b	启动后转入后台执行</p>
-<p>-c	支持断点续传</p>
-<p>-O	定义本地文件名</p>
-<p>-e &lt;命令&gt;	执行指定的命令</p>
-<p>–limit-rate&#x3D;&lt;速率&gt;	限制下载速度</p>
-<h2 id="vi-x2F-vim命令"><a href="#vi-x2F-vim命令" class="headerlink" title="vi&#x2F;vim命令"></a>vi&#x2F;vim命令</h2><p><em><strong>*文本编辑器*</strong></em></p>
-<p><a href="https://blog.csdn.net/m0_61008247/article/details/120972839">https://blog.csdn.net/m0_61008247/article/details/120972839</a></p>
-<h2 id="touch命令"><a href="#touch命令" class="headerlink" title="touch命令"></a>touch命令</h2><p><em><strong>*创建空文件与修改时间戳*</strong></em></p>
-<p>-a	改变档案的读取时间记录</p>
-<p>-m	改变档案的修改时间记录</p>
-<p>-r	使用参考档的时间记录，与 –file 的效果一样</p>
-<p>-c	不创建新文件</p>
-<p>-d	设定时间与日期，可以使用各种不同的格式</p>
-<p>-t	设定档案的时间记录，格式与 date 命令相同</p>
-<p>–no-create	不创建新文件</p>
-<p>–help	显示帮助信息</p>
-<p>–version	列出版本讯息</p>
-<p><strong>创建出一个指定名称的空文件：touch</strong> <strong>file.txt</strong></p>
-<p><strong>修改指定文件的查看时间和修改时间：****touch -d “2022-05-08 15:44”</strong> <strong>file</strong><strong>.txt</strong></p>
-<h2 id="make命令"><a href="#make命令" class="headerlink" title="make命令"></a>make命令</h2><p><em><strong>*编译内核或源码文件*</strong></em></p>
-<p>-r	禁用内置的隐含规则</p>
-<p>-B	始终无条件make所有目标</p>
-<p>-b	忽略兼容性</p>
-<p>-C&lt;目录&gt;	更改为指定目录</p>
-<p>-L	在符号链接和目标之间使用最后的修改时间</p>
-<p>-n	实际上不运行任何命令，只显示出来</p>
-<p>-o&lt;文件&gt;	不编译指定的文件</p>
-<p>-e	环境变量覆盖makefile</p>
-<p>-d	显示打印调试信息</p>
-<p>-i	从命中忽略错误</p>
-<p>-w	显示当前目录</p>
-<p>-t	创建目标，而不是改造它们</p>
-<p>-p	显示make的内部数据库</p>
-<p>-q	安静模式</p>
-<p>-R	禁用内置变量设置</p>
-<p>-s	不回显命令</p>
-<p>-I&lt;目录&gt;	搜索指定目录中包含的makefile</p>
-<p>-f&lt;文件&gt;	读取指定文件作为makefile文件</p>
-<p>-k	当有些目标不能make下去时，继续执行</p>
-<p>– -debug&#x3D;&lt;标记&gt;	显示调试信息的各种类型</p>
-<p>-j&lt;作业编号&gt;	指定工作编号的作业一次完成</p>
-<p>-l&lt;负载&gt;	不要启动多个任务，除非低于指定负载</p>
-<p>-S	关闭-k</p>
-<p>– -no-print-directory	关闭-w，即使它被打开</p>
-<p>– -warn-undefined-variables	当一个未定义的变量被引用时发出警告</p>
-<p>-W&lt;文件&gt;	指定目标文件</p>
-<h2 id="date命令"><a href="#date命令" class="headerlink" title="date命令"></a>date命令</h2><p><em><strong>*显示或设置系统日期与时间*</strong></em></p>
-<p>-d datestr	显示 datestr 中所设定的时间 (非系统时间)</p>
-<p>-s datestr	将系统时间设为 datestr 中所设定的时间</p>
-<p>-u	显示目前的格林威治时间</p>
-<p>–help	显示帮助信息</p>
-<p>–version	显示版本编号</p>
-<h1 id="防火墙相关操作"><a href="#防火墙相关操作" class="headerlink" title="防火墙相关操作"></a>防火墙相关操作</h1><h2 id="1、查看防火墙状态"><a href="#1、查看防火墙状态" class="headerlink" title="1、查看防火墙状态"></a>1、查看防火墙状态</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">firewall-cmd --state         </span><br></pre></td></tr></table></figure>
-
-<h2 id="2、停止firewal"><a href="#2、停止firewal" class="headerlink" title="2、停止firewal"></a>2、停止firewal</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">systemctl stop firewalld.service    </span><br></pre></td></tr></table></figure>
-
-<h2 id="3、禁止firewall开机启动"><a href="#3、禁止firewall开机启动" class="headerlink" title="3、禁止firewall开机启动"></a>3、禁止firewall开机启动</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">systemctl disable firewalld.service   </span><br></pre></td></tr></table></figure>
-
-<h2 id="4、开放端口"><a href="#4、开放端口" class="headerlink" title="4、开放端口"></a>4、开放端口</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">firewall-cmd --zone=public --add-port=80/tcp --permanent          </span><br></pre></td></tr></table></figure>
-
-<h2 id="5、重新载入"><a href="#5、重新载入" class="headerlink" title="5、重新载入"></a>5、重新载入</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">firewall-cmd --reload            </span><br></pre></td></tr></table></figure>
-
-<h2 id="6、查看端口是否开放"><a href="#6、查看端口是否开放" class="headerlink" title="6、查看端口是否开放"></a>6、查看端口是否开放</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">firewall-cmd --zone=public --query-port=80/tcp      </span><br></pre></td></tr></table></figure>
-
-<h2 id="7、删除端口"><a href="#7、删除端口" class="headerlink" title="7、删除端口"></a>7、删除端口</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">firewall-cmd --zone=public --remove-port=80/tcp --permanent </span><br></pre></td></tr></table></figure>
-
-<h2 id="8、查看占用的端口"><a href="#8、查看占用的端口" class="headerlink" title="8、查看占用的端口"></a>8、查看占用的端口</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">netstat -nap | grep 端口号    </span><br></pre></td></tr></table></figure>
-
-<h2 id="9、杀死端口号"><a href="#9、杀死端口号" class="headerlink" title="9、杀死端口号"></a>9、杀死端口号</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">kill -9 进程id            </span><br></pre></td></tr></table></figure>
-
-<h2 id="10、启动防火墙"><a href="#10、启动防火墙" class="headerlink" title="10、启动防火墙"></a>10、启动防火墙</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">systemctl start firewalld.service             </span><br></pre></td></tr></table></figure>
-
-<p>​            </p>
-]]></content>
-      <categories>
-        <category>虚拟机</category>
-      </categories>
-      <tags>
-        <tag>虚拟机</tag>
       </tags>
   </entry>
   <entry>
@@ -2706,117 +2284,425 @@
       </tags>
   </entry>
   <entry>
-    <title>mybatis面试题</title>
-    <url>/2023/02/13/%E5%85%B6%E4%BB%96/%E9%9D%A2%E8%AF%95%E7%9B%B8%E5%85%B3/mybatis%E9%9D%A2%E8%AF%95%E9%A2%98/</url>
-    <content><![CDATA[<h2 id="和-的区别是什么？"><a href="#和-的区别是什么？" class="headerlink" title="#{}和${}的区别是什么？"></a>#{}和${}的区别是什么？</h2><ul>
-<li><code>$&#123;&#125;</code>是 Properties 文件中的变量占位符，它可以用于标签属性值和 sql 内部，属于静态文本替换，比如${driver}会被静态替换为<code>com.mysql.jdbc. Driver</code>。</li>
-<li><code>#&#123;&#125;</code>是 sql 的参数占位符，MyBatis 会将 sql 中的<code>#&#123;&#125;</code>替换为? 号，在 sql 执行前会使用 PreparedStatement 的参数设置方法，按序给 sql 的? 号占位符设置参数值，比如 ps.setInt(0, parameterValue)，<code>#&#123;item.name&#125;</code> 的取值方式为使用反射从参数对象中获取 item 对象的 name 属性值，相当于 <code>param.getItem().getName()</code>。</li>
-</ul>
-<h2 id="既然-不安全，为什么还需要-，什么时候会用到它？"><a href="#既然-不安全，为什么还需要-，什么时候会用到它？" class="headerlink" title="既然$不安全，为什么还需要$，什么时候会用到它？"></a>既然$不安全，为什么还需要$，什么时候会用到它？</h2><p>它可以解决一些特殊情况下的问题。例如，在一些动态表格（根据不同的条件产生不同的动态列）中，我们要传递SQL的列名，根据某些列进行排序，或者传递列名给SQL都是比较常见的场景，这就无法使用预编译的方式了。</p>
-<h2 id="Xml-映射文件中，除了常见的-select-insert-update-delete-标签之外，还有哪些标签？"><a href="#Xml-映射文件中，除了常见的-select-insert-update-delete-标签之外，还有哪些标签？" class="headerlink" title="Xml 映射文件中，除了常见的 select|insert|update|delete 标签之外，还有哪些标签？"></a>Xml 映射文件中，除了常见的 select|insert|update|delete 标签之外，还有哪些标签？</h2><p><strong>答：</strong>还有很多其他的标签， <code>&lt;resultMap&gt;</code> 、 <code>&lt;parameterMap&gt;</code> 、 <code>&lt;sql&gt;</code> 、 <code>&lt;include&gt;</code> 、 <code>&lt;selectKey&gt;</code> ，加上动态 sql 的 9 个标签， <code>trim|where|set|foreach|if|choose|when|otherwise|bind</code> 等，其中 <code>&lt;sql&gt;</code> 为 sql 片段标签，通过 <code>&lt;include&gt;</code> 标签引入 sql 片段， <code>&lt;selectKey&gt;</code> 为不支持自增的主键生成策略标签。</p>
-<h2 id="MyBatis的xml文件和Mapper接口是怎么绑定的？"><a href="#MyBatis的xml文件和Mapper接口是怎么绑定的？" class="headerlink" title="MyBatis的xml文件和Mapper接口是怎么绑定的？"></a>MyBatis的xml文件和Mapper接口是怎么绑定的？</h2><p>是通过xml文件中，<mapper> 根标签的namespace属性进行绑定的，即namespace属性的值需要配置成接口的全限定名称，MyBatis内部就会通过这个值将这个接口与这个xml关联起来。，当调用接口方法时，接口全限名+方法名拼接字符串作为 key 值，可唯一定位一个 <code>MappedStatement</code>。举例： <code>com.mybatis3.mappers. StudentDao.findStudentById</code> ，可以唯一找到 namespace 为 <code>com.mybatis3.mappers. StudentDao</code> 下面 <code>id = findStudentById</code> 的 <code>MappedStatement</code> 。在 MyBatis 中，每一个 <code>&lt;select&gt;</code> 、 <code>&lt;insert&gt;</code> 、 <code>&lt;update&gt;</code> 、 <code>&lt;delete&gt;</code> 标签，都会被解析为一个 <code>MappedStatement</code> 对象。</mapper></p>
-<h2 id="MyBatis-是如何进行分页的？分页插件的原理是什么？"><a href="#MyBatis-是如何进行分页的？分页插件的原理是什么？" class="headerlink" title="MyBatis 是如何进行分页的？分页插件的原理是什么？"></a>MyBatis 是如何进行分页的？分页插件的原理是什么？</h2><p><strong>(1)</strong> MyBatis 使用 RowBounds 对象进行分页，它是针对 ResultSet 结果集执行的内存分页，而非物理分页；</p>
-<p><strong>(2)</strong> 可以在 sql 内直接书写带有物理分页的参数来完成物理分页功能，</p>
-<p><strong>(3)</strong> 也可以使用分页插件来完成物理分页。</p>
-<p>分页插件的基本原理是使用 MyBatis 提供的插件接口，实现自定义插件，在插件的拦截方法内拦截待执行的 sql，然后重写 sql，根据 dialect 方言，添加对应的物理分页语句和物理分页参数。</p>
-<p>举例： <code>select _ from student</code> ，拦截 sql 后重写为： <code>select t._ from （select \* from student）t limit 0，1</code></p>
-<h2 id="物理分页和逻辑分支"><a href="#物理分页和逻辑分支" class="headerlink" title="物理分页和逻辑分支"></a>物理分页和逻辑分支</h2><ul>
-<li>物理分页依赖的是某一物理实体，这个物理实体就是数据库，比如MySQL数据库提供了limit关键字，程序员只需要编写带有limit关键字的SQL语句，数据库返回的就是分页结果。</li>
-<li>逻辑分页依赖的是程序员编写的代码。数据库返回的不是分页结果，而是全部数据，然后再由程序员通过代码获取分页数据，常用的操作是一次性从数据库中查询出全部数据并存储到List集合中，因为List集合有序，再根据索引获取指定范围的数据。</li>
-</ul>
-<p><strong>对比</strong><br>**(1)**数据库负担<br>物理分页每次都访问数据库，逻辑分页只访问一次数据库，物理分页对数据库造成的负担大。</p>
-<p>**(2)**服务器负担<br>逻辑分页一次性将数据读取到内存，占用了较大的内容空间，物理分页每次只读取一部分数据，占用内存空间较小。</p>
-<p>**(3)**实时性<br>逻辑分页一次性将数据读取到内存，数据发生改变，数据库的最新状态不能实时反映到操作中，实时性差。物理分页每次需要数据时都访问数据库，能够获取数据库的最新状态，实时性强。</p>
-<p>**(4)**适用场合<br>逻辑分页主要用于数据量不大、数据稳定的场合，物理分页主要用于数据量较大、更新频繁的场合。</p>
-<h2 id="MyBatis-能执行一对一、一对多的关联查询吗？都有哪些实现方式，以及它们之间的区别"><a href="#MyBatis-能执行一对一、一对多的关联查询吗？都有哪些实现方式，以及它们之间的区别" class="headerlink" title="MyBatis 能执行一对一、一对多的关联查询吗？都有哪些实现方式，以及它们之间的区别"></a>MyBatis 能执行一对一、一对多的关联查询吗？都有哪些实现方式，以及它们之间的区别</h2><p>一对多映射有两种配置方式，都是使用collection标签实现的。在此之前，为了能够存储一对多的数据，需要在主表对应的实体类中增加集合属性，用于封装子表对应的实体类。</p>
-<p>嵌套查询：</p>
-<ol>
-<li>通过select标签定义查询主表的SQL，返回结果通过reusltMap进行映射。</li>
-<li>在resultMap中，除了映射主表属性，还要通过collection标签映射子表属性，该标签需包含如下内容：<ul>
-<li>通过property属性指定子表属性名；</li>
-<li>通过javaType属性指定封装子表属性的集合类型；</li>
-<li>通过ofType属性指定子表的实体类型；</li>
-<li>通过select属性指定查询子表所依赖的SQL，这个SQL需单独定义，内部包含查询子表的语句。</li>
-</ul>
-</li>
-</ol>
-<p>嵌套结果：</p>
-<ol>
-<li>通过select标签定义关联查询主表和子表的SQL，返回结果通过resultMap进行映射。</li>
-<li>在resultMap中，除了映射主表属性，还要通过collection标签映射子表属性，该标签需包含如下内容：<ul>
-<li>通过property属性指定子表属性名；</li>
-<li>通过ofType属性指定子表的实体类型；</li>
-<li>通过result子标签定义子表字段和属性的映射关系。</li>
-</ul>
-</li>
-</ol>
-<h2 id="MyBatis-都有哪些-Executor-执行器？它们之间的区别是什么？"><a href="#MyBatis-都有哪些-Executor-执行器？它们之间的区别是什么？" class="headerlink" title="MyBatis 都有哪些 Executor 执行器？它们之间的区别是什么？"></a>MyBatis 都有哪些 Executor 执行器？它们之间的区别是什么？</h2><p>MyBatis 有三种基本的 Executor 执行器， <code>SimpleExecutor</code>（简单执行器） 、 <code>ReuseExecutor</code>（可重用执行器） 、 <code>BatchExecutor</code>（批处理执行器）</p>
-<p><code>SimpleExecutor</code> ：每执行一次 update 或 select，就开启一个 Statement 对象，用完立刻关闭 Statement 对象。</p>
-<p><code>ReuseExecutor</code> ：**执行 update 或 select，以 sql 作为 key 查找 Statement 对象，存在就使用，不存在就创建，用完后，不关闭 Statement 对象，而是放置于 Map&lt;String, Statement&gt;内，供下一次使用。简言之，就是重复使用 Statement 对象。</p>
-<p><code>BatchExecutor</code> ：**执行 update（没有 select，JDBC 批处理不支持 select），将所有 sql 都添加到批处理中（addBatch()），等待统一执行（executeBatch()），它缓存了多个 Statement 对象，每个 Statement 对象都是 addBatch()完毕后，等待逐一执行 executeBatch()批处理。与 JDBC 批处理相同。</p>
-<h2 id="MyBatis缓存机制吗？"><a href="#MyBatis缓存机制吗？" class="headerlink" title="MyBatis缓存机制吗？"></a>MyBatis缓存机制吗？</h2><p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20200603165448345.png" alt="image-20200603165448345"></p>
-<h3 id="一级缓存"><a href="#一级缓存" class="headerlink" title="一级缓存"></a><strong>一级缓存</strong></h3><p>也叫做会话级缓存，生命周期仅存在于当前会话，不可以直接关关闭。但可以通过flushCache和localCacheScope对其做相应控制，<strong>一级缓存是线程不安全的，不能跨线程使用</strong></p>
-<p>缓存命中的条件：</p>
-<ol>
-<li>SQL与参数相同：</li>
-<li>同一个会话：</li>
-<li>相同的MapperStatement ID：</li>
-<li>RowBounds行范围相同：</li>
-</ol>
-<p>触发清空缓存：</p>
-<ol>
-<li>手动调用clearCache</li>
-<li>执行提交回滚</li>
-<li>执行update</li>
-<li>配置flushCache&#x3D;true</li>
-<li>缓存作用域为Statement</li>
-</ol>
-<p>实现：</p>
-<p>当会话接收到查询请求之后，会交给执行器的Query方法，在这里会通过 Sql、参数、分页条件等参数创建一个缓存key，在基于这个key去 PerpetualCache中查找对应的缓存值，如果有主直接返回。没有就会查询数据库，然后在填充缓存。</p>
-<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20200603175917082.png" alt="image-20200603175917082"></p>
-<h3 id="二级缓存"><a href="#二级缓存" class="headerlink" title="二级缓存"></a><strong>二级缓存</strong></h3><p>二级缓存也称作是应用级缓存，与一级缓存不同的，是它的作用范围是整个应用，<strong>而且可以跨线程使用</strong>。所以二级缓存有更高的命中率，适合缓存一些修改较少的数据。在流程上是先访问二级缓存，在访问一级缓存。</p>
-<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20200609104535077.png" alt="image-20200609104535077"></p>
-<p>我们在设计一个二级缓存的时候，需要考虑他应该有哪些功能？</p>
-<p><strong>核心功能：</strong></p>
-<p><strong>存储：</strong>我们的缓存应该存在哪里？</p>
-<p>内存：程序重启后，存储在内存的东西将会丢失。</p>
-<p>硬盘：可以持久化，容量大。但访问速度不如内存，一般会结合内存一起使用。</p>
-<p>第三方缓存数据库：比如redis，如果是分布式的情况下，一般使用这种方案。</p>
-<p><strong>溢出淘汰</strong>：无论哪种存储都必须有一个容易，当容量满的时候就要进行清除，清除的算法即溢出淘汰机制。</p>
-<p>常见算法如下：</p>
-<ol>
-<li>FIFO：先进先出</li>
-<li>LRU：最近最少使用（mybatis使用的是这种）</li>
-<li>WeakReference: 弱引用，将缓存对象进行弱引用包装，当Java进行gc的时候，不论当前的内存空间是否足够，这个对象都会被回收</li>
-<li>SoftReference：软件引用，基机与弱引用类似，不同在于只有当空间不足时GC才才回收软引用对象。</li>
-</ol>
-<p><strong>其他功能：</strong></p>
-<p>1.线程安全</p>
-<p>2.过期清理</p>
-<p>3.序列化</p>
-<p>…………………………..</p>
-<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20200609115516417.png" alt="image-20200609115516417"></p>
-<h3 id="二级缓存责任链设计"><a href="#二级缓存责任链设计" class="headerlink" title="二级缓存责任链设计"></a>二级缓存责任链设计</h3><p>这么多的功能，如何才能简单的实现，并保证它的灵活性与扩展性呢？这里MyBatis抽像出Cache接口，其只定义了缓存中最基本的功能方法：</p>
-<ul>
-<li>设置缓存</li>
-<li>获取缓存</li>
-<li>清除缓存</li>
-<li>获取缓存数量</li>
-</ul>
-<p>然后上述中每一个功能都会对应一个组件类，并基于装饰者加责任链的模式，将各个组件进行串联。在执行缓存的基本功能时，其它的缓存逻辑会沿着这个责任链依次往下传递。</p>
-<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20200609121931489.png" alt="image-20200609121931489"></p>
-<p>这样设计有以下优点：</p>
-<ol>
-<li>职责单一：各个节点只负责自己的逻辑，不需要关心其它节点。</li>
-<li>扩展性强：可根据需要扩展节点、删除节点，还可以调换顺序保证灵活性。</li>
-<li>松耦合：各节点之间不没强制依赖其它节点。而是通过顶层的Cache接口进行间接依赖。</li>
-</ol>
+    <title>Linux常用命令</title>
+    <url>/2023/02/13/%E8%99%9A%E6%8B%9F%E6%9C%BA/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20230210143018927.png" alt="image-20230210143018927"></p>
+<h1 id="Linux基本操作命令"><a href="#Linux基本操作命令" class="headerlink" title="Linux基本操作命令"></a>Linux基本操作命令</h1><h2 id="ls命令"><a href="#ls命令" class="headerlink" title="ls命令"></a>ls命令</h2><p><em><strong>*显示指定工作目录下的文件及属性信息*</strong></em></p>
+<p>-a	显示所有文件及目录 (包括以“.”开头的隐藏文件)</p>
+<p>-l	使用长格式列出文件及目录的详细信息</p>
+<p>-r	将文件以相反次序显示(默认依英文字母次序)</p>
+<p>-t	根据最后的修改时间排序</p>
+<p>-A	同 -a ，但不列出 “.” (当前目录) 及 “..” (父目录)</p>
+<p>-S	根据文件大小排序</p>
+<p>-R	递归列出所有子目录</p>
+<p>-d	查看目录的信息，而不是里面子文件的信息</p>
+<p>-i	输出文件的inode节点信息</p>
+<p>-m	水平列出文件，以逗号间隔</p>
+<p>-X	按文件扩展名排序</p>
+<p>–color	输出信息中带有着色效果</p>
+<h2 id="cp命令"><a href="#cp命令" class="headerlink" title="cp命令"></a>cp命令</h2><p><em><strong>*复制文件或目录*</strong></em></p>
+<p>-f	若目标文件已存在，则会直接覆盖原文件</p>
+<p>-i	若目标文件已存在，则会询问是否覆盖</p>
+<p>-p	保留源文件或目录的所有属性</p>
+<p>-r	递归复制文件和目录</p>
+<p>-d	当复制符号连接时，把目标文件或目录也建立为符号连接，并指向与源文件或目录连接的原始文件或目录</p>
+<p>-l	对源文件建立硬连接，而非复制文件</p>
+<p>-s	对源文件建立符号连接，而非复制文件</p>
+<p>-b	覆盖已存在的文件目标前将目标文件备份</p>
+<p>-v	详细显示cp命令执行的操作过程</p>
+<p>-a	等价于“pdr”选项</p>
+<h2 id="cd命令"><a href="#cd命令" class="headerlink" title="cd命令"></a>cd命令</h2><p><em><strong>*切换目录*</strong></em></p>
+<p>-P	如果切换的目标目录是一个符号链接，则直接切换到符号链接指向的目标目录</p>
+<p>-L	如果切换的目标目录是一个符号链接，则直接切换到符号链接名所在的目录</p>
+<p>–	仅使用”-“选项时，当前目录将被切换到环境变量”OLDPWD”对应值的目录</p>
+<p>~	切换至当前用户目录</p>
+<p>..	切换至当前目录位置的上一级目录</p>
+<h2 id="cat命令"><a href="#cat命令" class="headerlink" title="cat命令"></a>cat命令</h2><p><em><strong>*在终端设备上显示文件内容*</strong></em></p>
+<p>-n	显示行数（空行也编号）</p>
+<p>-s	显示行数（多个空行算一个编号）</p>
+<p>-b	显示行数（空行不编号）</p>
+<p>-E	每行结束处显示$符号</p>
+<p>-T	将TAB字符显示为 ^I符号</p>
+<p>-v	使用 ^ 和 M- 引用，除了 LFD 和 TAB 之外</p>
+<p>-e	等价于”-vE”组合</p>
+<p>-t  等价于”-vT”组合</p>
+<p>-A	等价于 -vET组合</p>
+<p>–help	显示帮助信息</p>
+<p>–version	显示版本信息</p>
+<h2 id="mkdir命令"><a href="#mkdir命令" class="headerlink" title="mkdir命令"></a>mkdir命令</h2><p><em><strong>*创建目录文件*</strong></em></p>
+<p>-p	递归创建多级目录</p>
+<p>-m	建立目录的同时设置目录的权限</p>
+<p>-z	设置安全上下文</p>
+<p>-v	显示目录的创建过程</p>
+<h2 id="rmdir命令"><a href="#rmdir命令" class="headerlink" title="rmdir命令"></a>rmdir命令</h2><p><em><strong>*删除空目录文件*</strong></em></p>
+<p>-p	用递归的方式删除指定的目录路径中的所有父级目录，非空则报错</p>
+<p>-v	显示命令的详细执行过程</p>
+<p>– – help	显示命令的帮助信息</p>
+<p>– – version	显示命令的版本信息</p>
+<h2 id="echo命令"><a href="#echo命令" class="headerlink" title="echo命令"></a>echo命令</h2><p><em><strong>*输出字符串或提取后的变量值*</strong></em></p>
+<p>-n	不输出结尾的换行符</p>
+<p>-e “\a”	发出警告音</p>
+<p>-e “\b”	删除前面的一个字符</p>
+<p>-e “\c”	结尾不加换行符</p>
+<p>-e “\f”	换行，光标扔停留在原来的坐标位置</p>
+<p>-e “\n”	换行，光标移至行首</p>
+<p>-e “\r”	光标移至行首，但不换行</p>
+<p>-E	禁止反斜杠转义，与-e参数功能相反</p>
+<p>—version	查看版本信息</p>
+<p>–help	查看帮助信息</p>
+<h2 id="mv命令"><a href="#mv命令" class="headerlink" title="mv命令"></a>mv命令</h2><p><em><strong>*移动或改名文件*</strong></em></p>
+<p>-i	若存在同名文件，则向用户询问是否覆盖</p>
+<p>-f	覆盖已有文件时，不进行任何提示</p>
+<p>-b	当文件存在时，覆盖前为其创建一个备份</p>
+<p>-u  当源文件比目标文件新，或者目标文件不存在时，才执行移动此操作</p>
+<h2 id="rm命令"><a href="#rm命令" class="headerlink" title="rm命令"></a>rm命令</h2><p><em><strong>*删除文件或目录*</strong></em></p>
+<p>-f	强制删除（不二次询问）</p>
+<p>-i	删除前会询问用户是否操作</p>
+<p>-r&#x2F;R	递归删除</p>
+<p>-v	显示指令的详细执行过程</p>
+<h2 id="df命令"><a href="#df命令" class="headerlink" title="df命令"></a>df命令</h2><p><em><strong>*显示磁盘空间使用情况*</strong></em></p>
+<p>-a	显示所有系统文件</p>
+<p>-B &lt;块大小&gt;	指定显示时的块大小</p>
+<p>-h	以容易阅读的方式显示</p>
+<p>-H	以1000字节为换算单位来显示</p>
+<p>-i	显示索引字节信息</p>
+<p>-k	指定块大小为1KB</p>
+<p>-l	只显示本地文件系统</p>
+<p>-t &lt;文件系统类型&gt;	只显示指定类型的文件系统</p>
+<p>-T	输出时显示文件系统类型</p>
+<p>– -sync	在取得磁盘使用信息前，先执行sync命令</p>
+<h2 id="pwd命令"><a href="#pwd命令" class="headerlink" title="pwd命令"></a>pwd命令</h2><p><em><strong>*显示当前工作目录的路径*</strong></em></p>
+<p>-L	显示逻辑路径</p>
+<h2 id="find命令"><a href="#find命令" class="headerlink" title="find命令"></a>find命令</h2><p><em><strong>*根据路径和条件搜索指定文件*</strong></em></p>
+<p>-name	匹配名称</p>
+<p>-perm	匹配权限（mode为完全匹配，-mode为包含即可）</p>
+<p>-user	匹配所有者</p>
+<p>-group	匹配所有组</p>
+<p>-mtime -n +n	匹配修改内容的时间（-n指n天以内，+n指n天以前）</p>
+<p>-atime -n +n	匹配访问文件的时间（-n指n天以内，+n指n天以前）</p>
+<p>-ctime -n +n	匹配修改文件权限的时间（-n指n天以内，+n指n天以前）</p>
+<p>-nouser	匹配无所有者的文件</p>
+<p>-nogroup	匹配无所有组的文件</p>
+<p>-newer f1 !f2	匹配比文件f1新但比f2旧的文件</p>
+<p>-type b&#x2F;d&#x2F;c&#x2F;p&#x2F;l&#x2F;f	匹配文件类型（后面的字幕字母依次表示块设备、目录、字符设备、管道、链接文件、文本文件）</p>
+<p>-size	匹配文件的大小（+50KB为查找超过50KB的文件，而-50KB为查找小于50KB的文件）</p>
+<p>-prune	忽略某个目录</p>
+<p>-exec …… {};	后面可跟用于进一步处理搜索结果的命令</p>
+<h2 id="ssh命令"><a href="#ssh命令" class="headerlink" title="ssh命令"></a>ssh命令</h2><p><em><strong>*安全的远程连接服务器*</strong></em></p>
+<p>-1	强制使用ssh协议版本1</p>
+<p>-2	强制使用ssh协议版本2</p>
+<p>-4	强制使用IPv4地址</p>
+<p>-6	强制使用IPv6地址</p>
+<p>-A	开启认证代理连接转发功能</p>
+<p>-a	关闭认证代理连接转发功能</p>
+<p>-b&lt;IP地址&gt;	使用本机指定的地址作为对位连接的源IP地址</p>
+<p>-C	请求压缩所有数据</p>
+<p>-F&lt;配置文件&gt;	指定ssh指令的配置文件，默认的配置文件为“&#x2F;etc&#x2F;ssh&#x2F;ssh_config”</p>
+<p>-f	后台执行ssh指令</p>
+<p>-g	允许远程主机连接本机的转发端口</p>
+<p>-i&lt;身份文件&gt;	指定身份文件（即私钥文件）</p>
+<p>-l&lt;登录名&gt;	指定连接远程服务器的登录用户名</p>
+<p>-N	不执行远程指令</p>
+<p>-o&lt;选项&gt;	指定配置选项</p>
+<p>-p&lt;端口&gt;	指定远程服务器上的端口</p>
+<p>-q	静默模式，所有的警告和诊断信息被禁止输出</p>
+<p>-X	开启X11转发功能</p>
+<p>-x	关闭X11转发功能</p>
+<p>-y	开启信任X11转发功能</p>
+<h2 id="rpm命令"><a href="#rpm命令" class="headerlink" title="rpm命令"></a>rpm命令</h2><p><em><strong>*RPM软件包管理器*</strong></em></p>
+<p>-a	查询所有的软件包</p>
+<p>-b或-t	设置包装套件的完成阶段，并指定套件档的文件名称；</p>
+<p>-c	只列出组态配置文件，本参数需配合”-l”参数使用</p>
+<p>-d	只列出文本文件，本参数需配合”-l”参数使用</p>
+<p>-e	卸载软件包</p>
+<p>-f	查询文件或命令属于哪个软件包</p>
+<p>-h	安装软件包时列出标记</p>
+<p>-i	安装软件包</p>
+<p>-l	显示软件包的文件列表</p>
+<p>-p	查询指定的rpm软件包</p>
+<p>-q	查询软件包</p>
+<p>-R	显示软件包的依赖关系</p>
+<p>-s	显示文件状态，本参数需配合”-l”参数使用</p>
+<p>-U	升级软件包</p>
+<p>-v	显示命令执行过程</p>
+<p>-vv	详细显示指令执行过程</p>
+<h2 id="yum命令"><a href="#yum命令" class="headerlink" title="yum命令"></a>yum命令</h2><p><em><strong>*基于RPM的软件包管理器*</strong></em></p>
+<p>-h	显示帮助信息</p>
+<p>-y	对所有的提问都回答“yes”</p>
+<p>-c	指定配置文件</p>
+<p>-q	安静模式</p>
+<p>-v	详细模式</p>
+<p>-t	检查外部错误</p>
+<p>-d	设置调试等级（0-10）</p>
+<p>-e	设置错误等级（0-10）</p>
+<p>-R	设置yum处理一个命令的最大等待时间</p>
+<p>-C	完全从缓存中运行，而不去下载或者更新任何头文件</p>
+<p>install	安装rpm软件包</p>
+<p>update	更新rpm软件包</p>
+<p>check-update	检查是否有可用的更新rpm软件包</p>
+<p>remove	删除指定的rpm软件包</p>
+<p>list	显示软件包的信息</p>
+<p>search	检查软件包的信息</p>
+<p>info	显示指定的rpm软件包的描述信息和概要信息</p>
+<p>clean	清理yum过期的缓存</p>
+<p>shell	进入yum的shell提示符</p>
+<p>resolvedep	显示rpm软件包的依赖关系</p>
+<p>localinstall	安装本地的rpm软件包</p>
+<p>localupdate	显示本地rpm软件包进行更新</p>
+<p>deplist	显示rpm软件包的所有依赖关系</p>
+<h2 id="grep命令"><a href="#grep命令" class="headerlink" title="grep命令"></a>grep命令</h2><p><em><strong>*强大的文本搜索工具*</strong></em></p>
+<p>-i	忽略大小写</p>
+<p>-c	只输出匹配行的数量</p>
+<p>-l	只列出符合匹配的文件名，不列出具体的匹配行</p>
+<p>-n	列出所有的匹配行，显示行号</p>
+<p>-h	查询多文件时不显示文件名</p>
+<p>-s	不显示不存在、没有匹配文本的错误信息</p>
+<p>-v	显示不包含匹配文本的所有行</p>
+<p>-w	匹配整词</p>
+<p>-x	匹配整行</p>
+<p>-r	递归搜索</p>
+<p>-q	禁止输出任何结果，已退出状态表示搜索是否成功</p>
+<p>-b	打印匹配行距文件头部的偏移量，以字节为单位</p>
+<p>-o	与-b结合使用，打印匹配的词据文件头部的偏移量，以字节为单位</p>
+<p>-F	匹配固定字符串的内容</p>
+<p>-E	支持扩展的正则表达式</p>
+<h2 id="tail命令"><a href="#tail命令" class="headerlink" title="tail命令"></a>tail命令</h2><p><em><strong>*查看文件尾部内容*</strong></em></p>
+<p>-c	输出文件尾部的N（N为整数）个字节内容</p>
+<p>-f	持续显示文件最新追加的内容</p>
+<p>-F <N>	与选项“-follow&#x3D;name”和“–retry”连用时功能相同</N></p>
+<p>-n <N>	输出文件的尾部N（N位数字）行内容</N></p>
+<p>–retry	即是在tail命令启动时，文件不可访问或者文件稍后变得不可访问，都始终尝试打开文件。</p>
+<p>–pid&#x3D;&lt;进程号&gt;	与“-f”选项连用，当指定的进程号的进程终止后，自动退出tail命令</p>
+<p>–help	显示指令的帮助信息</p>
+<p>–version	显示指令的版本信息</p>
+<h2 id="head命令"><a href="#head命令" class="headerlink" title="head命令"></a>head命令</h2><p><em><strong>*显示文件开头的内容*</strong></em></p>
+<p>-n &lt;数字&gt;	定义显示行数</p>
+<p>-c &lt;数字&gt;	指定显示头部内容的字符数</p>
+<p>-v	总是显示文件名的头信息</p>
+<p>-q	不显示文件名的头信息</p>
+<h2 id="netstat命令"><a href="#netstat命令" class="headerlink" title="netstat命令"></a>netstat命令</h2><p><em><strong>*显示网络状态*</strong></em></p>
+<p>-a	显示所有连线中的Socket</p>
+<p>-p	显示正在使用Socket的程序识别码和程序名称</p>
+<p>-l	仅列出在监听的服务状态</p>
+<p>-t	显示TCP传输协议的连线状况</p>
+<p>-u	显示UDP传输协议的连线状况</p>
+<p>-i</p>
+<p>显示网络界面信息表单</p>
+<p>-r	显示路由表信息</p>
+<p>-n	直接使用IP地址，不通过域名服务器</p>
+<p><strong>根据端口查找进程（假设端口号为8080）</strong></p>
+<p>netstat -nlp | grep :8080</p>
+<p><strong>列出所有端口信息（包括监听和未监听的）</strong></p>
+<p>netstat -ano</p>
+<p><strong>列出所有的tcp协议的端口</strong></p>
+<p>netstat -at</p>
+<p><strong>显示每个协议的统计信息</strong></p>
+<p>netstat -s</p>
+<p><strong>显示核心路由信息</strong></p>
+<p>netstat -r</p>
+<p><strong>持续输出 netstat 信息。netstat -c将每隔一秒输出网络信息</strong></p>
+<p>netstat -c</p>
+<p><strong>找出程序运行的端口。并不是所有的进程都能找到，没有权限的会不显示，使用 root 权限查看所有的信息</strong></p>
+<p>netstat -anp</p>
+<p><strong>显示多播组信息</strong></p>
+<p>netstat -g</p>
+<h2 id="zip命令"><a href="#zip命令" class="headerlink" title="zip命令"></a>zip命令</h2><p><em><strong>*压缩文件*</strong></em></p>
+<p>-q	不显示指令执行过程</p>
+<p>-r	递归处理，将指定目录下的所有文件和子目录一并处理</p>
+<p>-z	替压缩文件加上注释</p>
+<p>-v	显示指令执行过程或显示版本信息</p>
+<p>-d	更新压缩包内文件</p>
+<p>-n&lt;字尾字符串&gt;	不压缩具有特定字尾字符串的文件</p>
+<h2 id="unzip命令"><a href="#unzip命令" class="headerlink" title="unzip命令"></a>unzip命令</h2><p><em><strong>*解压缩zip格式文件*</strong></em></p>
+<p>-l	显示压缩文件内所包含的文件</p>
+<p>-v	执行时显示详细的信息</p>
+<p>-c	将解压缩的结果显示到屏幕上，并对字符做适当的转换</p>
+<p>-n	解压缩时不要覆盖原有的文件</p>
+<p>-j	不处理压缩文件中原有的目录路径</p>
+<h2 id="tar命令"><a href="#tar命令" class="headerlink" title="tar命令"></a>tar命令</h2><p><em><strong>压缩和解压缩文件</strong></em></p>
+<p>-A	新增文件到以存在的备份文件</p>
+<p>-B	设置区块大小</p>
+<p>-c	建立新的备份文件</p>
+<p>-C &lt;目录&gt;	仅压缩指定目录里的内容或解压缩到指定目录</p>
+<p>-d	记录文件的差别</p>
+<p>-x	从归档文件中提取文件</p>
+<p>-t	列出备份文件的内容</p>
+<p>-z	通过gzip指令压缩&#x2F;解压缩文件，文件名最好为*.tar.gz</p>
+<p>-Z	通过compress指令处理备份文件</p>
+<p>-f&lt;备份文件&gt;	指定备份文件</p>
+<p>-v	显示指令执行过程</p>
+<p>-r	添加文件到已经压缩的文件</p>
+<p>-u	添加改变了和现有的文件到已经存在的压缩文件</p>
+<p>-j	通过bzip2指令压缩&#x2F;解压缩文件，文件名最好为*.tar.bz2</p>
+<p>-v	显示操作过程</p>
+<p>-l	文件系统边界设置</p>
+<p>-k	保留原有文件不覆盖</p>
+<p>-m	保留文件不被覆盖</p>
+<p>-w	确认压缩文件的正确性</p>
+<p>-p	保留原来的文件权限与属性</p>
+<p>-P	使用文件名的绝对路径，不移除文件名称前的“&#x2F;”号</p>
+<p>-N &lt;日期格式&gt;	只将较指定日期更新的文件保存到备份文件里</p>
+<p>– -exclude&#x3D;&lt;范本样式&gt;	排除符合范本样式的文件</p>
+<p>– -remove-files	归档&#x2F;压缩之后删除源文件</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># gzip例子</span><br><span class="line">gzip格式打包压缩：tar -czvf file.tar.gz ./</span><br><span class="line"></span><br><span class="line">gzip格式解压：tar -zxvf file.tar.gz</span><br><span class="line"></span><br><span class="line"># tar例子</span><br><span class="line">tar格式打包压缩：tar -cvf file.tar ./</span><br><span class="line"></span><br><span class="line">tar格式解压：tar -xvf file.tar</span><br></pre></td></tr></table></figure>
+
+<h2 id="ps命令"><a href="#ps命令" class="headerlink" title="ps命令"></a>ps命令</h2><p><em><strong>*显示进程状态*</strong></em></p>
+<p>a	显示现行终端机下的所有程序，包括其他用户的程序</p>
+<p>-A	显示所有程序</p>
+<p>c	显示每个程序真正的指令名称，而不包含路径</p>
+<p>-C &lt;指令名称&gt;	指定执行指令的名称，并列出该指令的程序的状况</p>
+<p>-d	显示所有程序，但不包括阶段作业管理员的程序</p>
+<p>e	列出程序时，显示每个程序所使用的环境变量</p>
+<p>-f	显示UID,PPIP,C与STIME栏位</p>
+<p>f	用ASCII字符显示树状结构，表达程序间的相互关系</p>
+<p>g	显示现行终端机下的所有程序，包括所属组的程序</p>
+<p>-G &lt;群组识别码&gt;	列出属于该群组的程序的状况</p>
+<p>h	不显示标题列</p>
+<p>-H	显示树状结构，表示程序间的相互关系</p>
+<p>-j	采用工作控制的格式显示程序状况</p>
+<p>-l	采用详细的格式来显示程序状况</p>
+<p>L	列出栏位的相关信息</p>
+<p>-m	显示所有的执行绪</p>
+<p>n	以数字来表示USER和WCHAN栏位</p>
+<p>-N	显示所有的程序，除了执行ps指令终端机下的程序之外</p>
+<p>-p &lt;程序识别码&gt;	指定程序识别码，并列出该程序的状况</p>
+<p>r	只列出现行终端机正在执行中的程序</p>
+<p>-s &lt;阶段作业&gt;	列出隶属该阶段作业的程序的状况</p>
+<p>s	采用程序信号的格式显示程序状况</p>
+<p>S	列出程序时，包括已中断的子程序资料</p>
+<p>-t &lt;终端机编号&gt;	列出属于该终端机的程序的状况</p>
+<p>-T	显示现行终端机下的所有程序</p>
+<p>u	以用户为主的格式来显示程序状况</p>
+<p>-U &lt;用户识别码&gt;	列出属于该用户的程序的状况</p>
+<p>U &lt;用户名称&gt;	列出属于该用户的程序的状况</p>
+<p>v	采用虚拟内存的格式显示程序状况</p>
+<p>-V或V	显示版本信息</p>
+<p>-w或w	采用宽阔的格式来显示程序状况</p>
+<p>x	显示所有程序，不以终端机来区分</p>
+<p>X	采用旧式的Linux i386登陆格式显示程序状况</p>
+<p>-y	配合选项”-l”使用时，不显示F(flag)栏位，并以RSS栏位取代ADDR栏位</p>
+<p>–cols &lt;每列字符数&gt;	设置每列的最大字符数</p>
+<p>–headers	重复显示标题列</p>
+<p>–help	在线帮助</p>
+<p>–info	显示排错信息</p>
+<p>–lines &lt;显示列数&gt;	设置显示画面的列数</p>
+<p>显示系统中全部的进程信息，含详细信息：ps -aux</p>
+<p>结合管道操作符，将当前系统运行状态中指定进程信息过滤出来：ps -ef | grep ***</p>
+<h2 id="top命令"><a href="#top命令" class="headerlink" title="top命令"></a>top命令</h2><p><em><strong>*实时显示系统运行状态*</strong></em></p>
+<p>-d &lt;秒&gt;	改变显示的更新速度</p>
+<p>-c 	切换显示模式</p>
+<p>-s	安全模式，不允许交互式指令</p>
+<p>-i	不显示任何闲置或僵死的行程</p>
+<p>-n	设定显示的总次数，完成后将会自动退出</p>
+<p>-b	批处理模式，不进行交互式显示</p>
+<p><strong>t<strong><strong>op</strong></strong>命令交互：</strong></p>
+<p>h 显示帮助画面，给出一些简短的命令总结说明</p>
+<p>k 终止一个进程。</p>
+<p>i 忽略闲置和僵死进程。这是一个开关式命令。</p>
+<p>q 退出程序</p>
+<p>r 重新安排一个进程的优先级别</p>
+<p>S 切换到累计模式</p>
+<p>s 改变两次刷新之间的延迟时间（单位为s），如果有小数，就换算成m s。输入0值则系统将不断刷新，默认值是5 s</p>
+<p>f或者F 从当前显示中添加或者删除项目</p>
+<p>o或者O 改变显示项目的顺序</p>
+<p>l 切换显示平均负载和启动时间信息</p>
+<p>m 切换显示内存信息</p>
+<p>t 切换显示进程和CPU状态信息</p>
+<p>c 切换显示命令名称和完整命令行</p>
+<p>M 根据驻留内存大小进行排序</p>
+<p>P 根据CPU使用百分比大小进行排序</p>
+<p>T 根据时间&#x2F;累计时间进行排序</p>
+<p>W 将当前设置写入~&#x2F;.toprc文件中</p>
+<h2 id="free命令"><a href="#free命令" class="headerlink" title="free命令"></a>free命令</h2><p><em><strong>*显示系统内存使用量情况*</strong></em></p>
+<p>-b	以Byte显示内存使用情况</p>
+<p>-k	以kb为单位显示内存使用情况</p>
+<p>-m	以mb为单位显示内存使用情况</p>
+<p>-g	以gb为单位显示内存使用情况</p>
+<p>-s	持续显示内存</p>
+<p>-t	显示内存使用总合</p>
+<p>-h	以易读的单位显示内存使用情况</p>
+<h2 id="wget命令"><a href="#wget命令" class="headerlink" title="wget命令"></a>wget命令</h2><p><em><strong>*下载网络文件*</strong></em></p>
+<p>-V	显示版本信息</p>
+<p>-h	显示帮助信息</p>
+<p>-b	启动后转入后台执行</p>
+<p>-c	支持断点续传</p>
+<p>-O	定义本地文件名</p>
+<p>-e &lt;命令&gt;	执行指定的命令</p>
+<p>–limit-rate&#x3D;&lt;速率&gt;	限制下载速度</p>
+<h2 id="vi-x2F-vim命令"><a href="#vi-x2F-vim命令" class="headerlink" title="vi&#x2F;vim命令"></a>vi&#x2F;vim命令</h2><p><em><strong>*文本编辑器*</strong></em></p>
+<p><a href="https://blog.csdn.net/m0_61008247/article/details/120972839">https://blog.csdn.net/m0_61008247/article/details/120972839</a></p>
+<h2 id="touch命令"><a href="#touch命令" class="headerlink" title="touch命令"></a>touch命令</h2><p><em><strong>*创建空文件与修改时间戳*</strong></em></p>
+<p>-a	改变档案的读取时间记录</p>
+<p>-m	改变档案的修改时间记录</p>
+<p>-r	使用参考档的时间记录，与 –file 的效果一样</p>
+<p>-c	不创建新文件</p>
+<p>-d	设定时间与日期，可以使用各种不同的格式</p>
+<p>-t	设定档案的时间记录，格式与 date 命令相同</p>
+<p>–no-create	不创建新文件</p>
+<p>–help	显示帮助信息</p>
+<p>–version	列出版本讯息</p>
+<p><strong>创建出一个指定名称的空文件：touch</strong> <strong>file.txt</strong></p>
+<p><strong>修改指定文件的查看时间和修改时间：****touch -d “2022-05-08 15:44”</strong> <strong>file</strong><strong>.txt</strong></p>
+<h2 id="make命令"><a href="#make命令" class="headerlink" title="make命令"></a>make命令</h2><p><em><strong>*编译内核或源码文件*</strong></em></p>
+<p>-r	禁用内置的隐含规则</p>
+<p>-B	始终无条件make所有目标</p>
+<p>-b	忽略兼容性</p>
+<p>-C&lt;目录&gt;	更改为指定目录</p>
+<p>-L	在符号链接和目标之间使用最后的修改时间</p>
+<p>-n	实际上不运行任何命令，只显示出来</p>
+<p>-o&lt;文件&gt;	不编译指定的文件</p>
+<p>-e	环境变量覆盖makefile</p>
+<p>-d	显示打印调试信息</p>
+<p>-i	从命中忽略错误</p>
+<p>-w	显示当前目录</p>
+<p>-t	创建目标，而不是改造它们</p>
+<p>-p	显示make的内部数据库</p>
+<p>-q	安静模式</p>
+<p>-R	禁用内置变量设置</p>
+<p>-s	不回显命令</p>
+<p>-I&lt;目录&gt;	搜索指定目录中包含的makefile</p>
+<p>-f&lt;文件&gt;	读取指定文件作为makefile文件</p>
+<p>-k	当有些目标不能make下去时，继续执行</p>
+<p>– -debug&#x3D;&lt;标记&gt;	显示调试信息的各种类型</p>
+<p>-j&lt;作业编号&gt;	指定工作编号的作业一次完成</p>
+<p>-l&lt;负载&gt;	不要启动多个任务，除非低于指定负载</p>
+<p>-S	关闭-k</p>
+<p>– -no-print-directory	关闭-w，即使它被打开</p>
+<p>– -warn-undefined-variables	当一个未定义的变量被引用时发出警告</p>
+<p>-W&lt;文件&gt;	指定目标文件</p>
+<h2 id="date命令"><a href="#date命令" class="headerlink" title="date命令"></a>date命令</h2><p><em><strong>*显示或设置系统日期与时间*</strong></em></p>
+<p>-d datestr	显示 datestr 中所设定的时间 (非系统时间)</p>
+<p>-s datestr	将系统时间设为 datestr 中所设定的时间</p>
+<p>-u	显示目前的格林威治时间</p>
+<p>–help	显示帮助信息</p>
+<p>–version	显示版本编号</p>
+<h1 id="防火墙相关操作"><a href="#防火墙相关操作" class="headerlink" title="防火墙相关操作"></a>防火墙相关操作</h1><h2 id="1、查看防火墙状态"><a href="#1、查看防火墙状态" class="headerlink" title="1、查看防火墙状态"></a>1、查看防火墙状态</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">firewall-cmd --state         </span><br></pre></td></tr></table></figure>
+
+<h2 id="2、停止firewal"><a href="#2、停止firewal" class="headerlink" title="2、停止firewal"></a>2、停止firewal</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">systemctl stop firewalld.service    </span><br></pre></td></tr></table></figure>
+
+<h2 id="3、禁止firewall开机启动"><a href="#3、禁止firewall开机启动" class="headerlink" title="3、禁止firewall开机启动"></a>3、禁止firewall开机启动</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">systemctl disable firewalld.service   </span><br></pre></td></tr></table></figure>
+
+<h2 id="4、开放端口"><a href="#4、开放端口" class="headerlink" title="4、开放端口"></a>4、开放端口</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">firewall-cmd --zone=public --add-port=80/tcp --permanent          </span><br></pre></td></tr></table></figure>
+
+<h2 id="5、重新载入"><a href="#5、重新载入" class="headerlink" title="5、重新载入"></a>5、重新载入</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">firewall-cmd --reload            </span><br></pre></td></tr></table></figure>
+
+<h2 id="6、查看端口是否开放"><a href="#6、查看端口是否开放" class="headerlink" title="6、查看端口是否开放"></a>6、查看端口是否开放</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">firewall-cmd --zone=public --query-port=80/tcp      </span><br></pre></td></tr></table></figure>
+
+<h2 id="7、删除端口"><a href="#7、删除端口" class="headerlink" title="7、删除端口"></a>7、删除端口</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">firewall-cmd --zone=public --remove-port=80/tcp --permanent </span><br></pre></td></tr></table></figure>
+
+<h2 id="8、查看占用的端口"><a href="#8、查看占用的端口" class="headerlink" title="8、查看占用的端口"></a>8、查看占用的端口</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">netstat -nap | grep 端口号    </span><br></pre></td></tr></table></figure>
+
+<h2 id="9、杀死端口号"><a href="#9、杀死端口号" class="headerlink" title="9、杀死端口号"></a>9、杀死端口号</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">kill -9 进程id            </span><br></pre></td></tr></table></figure>
+
+<h2 id="10、启动防火墙"><a href="#10、启动防火墙" class="headerlink" title="10、启动防火墙"></a>10、启动防火墙</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">systemctl start firewalld.service             </span><br></pre></td></tr></table></figure>
+
+<p>​            </p>
 ]]></content>
       <categories>
-        <category>面试题</category>
+        <category>虚拟机</category>
       </categories>
       <tags>
-        <tag>面试题</tag>
+        <tag>虚拟机</tag>
       </tags>
   </entry>
   <entry>
@@ -3496,6 +3382,120 @@
       </tags>
   </entry>
   <entry>
+    <title>mybatis面试题</title>
+    <url>/2023/02/13/%E5%85%B6%E4%BB%96/%E9%9D%A2%E8%AF%95%E7%9B%B8%E5%85%B3/mybatis%E9%9D%A2%E8%AF%95%E9%A2%98/</url>
+    <content><![CDATA[<h2 id="和-的区别是什么？"><a href="#和-的区别是什么？" class="headerlink" title="#{}和${}的区别是什么？"></a>#{}和${}的区别是什么？</h2><ul>
+<li><code>$&#123;&#125;</code>是 Properties 文件中的变量占位符，它可以用于标签属性值和 sql 内部，属于静态文本替换，比如${driver}会被静态替换为<code>com.mysql.jdbc. Driver</code>。</li>
+<li><code>#&#123;&#125;</code>是 sql 的参数占位符，MyBatis 会将 sql 中的<code>#&#123;&#125;</code>替换为? 号，在 sql 执行前会使用 PreparedStatement 的参数设置方法，按序给 sql 的? 号占位符设置参数值，比如 ps.setInt(0, parameterValue)，<code>#&#123;item.name&#125;</code> 的取值方式为使用反射从参数对象中获取 item 对象的 name 属性值，相当于 <code>param.getItem().getName()</code>。</li>
+</ul>
+<h2 id="既然-不安全，为什么还需要-，什么时候会用到它？"><a href="#既然-不安全，为什么还需要-，什么时候会用到它？" class="headerlink" title="既然$不安全，为什么还需要$，什么时候会用到它？"></a>既然$不安全，为什么还需要$，什么时候会用到它？</h2><p>它可以解决一些特殊情况下的问题。例如，在一些动态表格（根据不同的条件产生不同的动态列）中，我们要传递SQL的列名，根据某些列进行排序，或者传递列名给SQL都是比较常见的场景，这就无法使用预编译的方式了。</p>
+<h2 id="Xml-映射文件中，除了常见的-select-insert-update-delete-标签之外，还有哪些标签？"><a href="#Xml-映射文件中，除了常见的-select-insert-update-delete-标签之外，还有哪些标签？" class="headerlink" title="Xml 映射文件中，除了常见的 select|insert|update|delete 标签之外，还有哪些标签？"></a>Xml 映射文件中，除了常见的 select|insert|update|delete 标签之外，还有哪些标签？</h2><p><strong>答：</strong>还有很多其他的标签， <code>&lt;resultMap&gt;</code> 、 <code>&lt;parameterMap&gt;</code> 、 <code>&lt;sql&gt;</code> 、 <code>&lt;include&gt;</code> 、 <code>&lt;selectKey&gt;</code> ，加上动态 sql 的 9 个标签， <code>trim|where|set|foreach|if|choose|when|otherwise|bind</code> 等，其中 <code>&lt;sql&gt;</code> 为 sql 片段标签，通过 <code>&lt;include&gt;</code> 标签引入 sql 片段， <code>&lt;selectKey&gt;</code> 为不支持自增的主键生成策略标签。</p>
+<h2 id="MyBatis的xml文件和Mapper接口是怎么绑定的？"><a href="#MyBatis的xml文件和Mapper接口是怎么绑定的？" class="headerlink" title="MyBatis的xml文件和Mapper接口是怎么绑定的？"></a>MyBatis的xml文件和Mapper接口是怎么绑定的？</h2><p>是通过xml文件中，<mapper> 根标签的namespace属性进行绑定的，即namespace属性的值需要配置成接口的全限定名称，MyBatis内部就会通过这个值将这个接口与这个xml关联起来。，当调用接口方法时，接口全限名+方法名拼接字符串作为 key 值，可唯一定位一个 <code>MappedStatement</code>。举例： <code>com.mybatis3.mappers. StudentDao.findStudentById</code> ，可以唯一找到 namespace 为 <code>com.mybatis3.mappers. StudentDao</code> 下面 <code>id = findStudentById</code> 的 <code>MappedStatement</code> 。在 MyBatis 中，每一个 <code>&lt;select&gt;</code> 、 <code>&lt;insert&gt;</code> 、 <code>&lt;update&gt;</code> 、 <code>&lt;delete&gt;</code> 标签，都会被解析为一个 <code>MappedStatement</code> 对象。</mapper></p>
+<h2 id="MyBatis-是如何进行分页的？分页插件的原理是什么？"><a href="#MyBatis-是如何进行分页的？分页插件的原理是什么？" class="headerlink" title="MyBatis 是如何进行分页的？分页插件的原理是什么？"></a>MyBatis 是如何进行分页的？分页插件的原理是什么？</h2><p><strong>(1)</strong> MyBatis 使用 RowBounds 对象进行分页，它是针对 ResultSet 结果集执行的内存分页，而非物理分页；</p>
+<p><strong>(2)</strong> 可以在 sql 内直接书写带有物理分页的参数来完成物理分页功能，</p>
+<p><strong>(3)</strong> 也可以使用分页插件来完成物理分页。</p>
+<p>分页插件的基本原理是使用 MyBatis 提供的插件接口，实现自定义插件，在插件的拦截方法内拦截待执行的 sql，然后重写 sql，根据 dialect 方言，添加对应的物理分页语句和物理分页参数。</p>
+<p>举例： <code>select _ from student</code> ，拦截 sql 后重写为： <code>select t._ from （select \* from student）t limit 0，1</code></p>
+<h2 id="物理分页和逻辑分支"><a href="#物理分页和逻辑分支" class="headerlink" title="物理分页和逻辑分支"></a>物理分页和逻辑分支</h2><ul>
+<li>物理分页依赖的是某一物理实体，这个物理实体就是数据库，比如MySQL数据库提供了limit关键字，程序员只需要编写带有limit关键字的SQL语句，数据库返回的就是分页结果。</li>
+<li>逻辑分页依赖的是程序员编写的代码。数据库返回的不是分页结果，而是全部数据，然后再由程序员通过代码获取分页数据，常用的操作是一次性从数据库中查询出全部数据并存储到List集合中，因为List集合有序，再根据索引获取指定范围的数据。</li>
+</ul>
+<p><strong>对比</strong><br>**(1)**数据库负担<br>物理分页每次都访问数据库，逻辑分页只访问一次数据库，物理分页对数据库造成的负担大。</p>
+<p>**(2)**服务器负担<br>逻辑分页一次性将数据读取到内存，占用了较大的内容空间，物理分页每次只读取一部分数据，占用内存空间较小。</p>
+<p>**(3)**实时性<br>逻辑分页一次性将数据读取到内存，数据发生改变，数据库的最新状态不能实时反映到操作中，实时性差。物理分页每次需要数据时都访问数据库，能够获取数据库的最新状态，实时性强。</p>
+<p>**(4)**适用场合<br>逻辑分页主要用于数据量不大、数据稳定的场合，物理分页主要用于数据量较大、更新频繁的场合。</p>
+<h2 id="MyBatis-能执行一对一、一对多的关联查询吗？都有哪些实现方式，以及它们之间的区别"><a href="#MyBatis-能执行一对一、一对多的关联查询吗？都有哪些实现方式，以及它们之间的区别" class="headerlink" title="MyBatis 能执行一对一、一对多的关联查询吗？都有哪些实现方式，以及它们之间的区别"></a>MyBatis 能执行一对一、一对多的关联查询吗？都有哪些实现方式，以及它们之间的区别</h2><p>一对多映射有两种配置方式，都是使用collection标签实现的。在此之前，为了能够存储一对多的数据，需要在主表对应的实体类中增加集合属性，用于封装子表对应的实体类。</p>
+<p>嵌套查询：</p>
+<ol>
+<li>通过select标签定义查询主表的SQL，返回结果通过reusltMap进行映射。</li>
+<li>在resultMap中，除了映射主表属性，还要通过collection标签映射子表属性，该标签需包含如下内容：<ul>
+<li>通过property属性指定子表属性名；</li>
+<li>通过javaType属性指定封装子表属性的集合类型；</li>
+<li>通过ofType属性指定子表的实体类型；</li>
+<li>通过select属性指定查询子表所依赖的SQL，这个SQL需单独定义，内部包含查询子表的语句。</li>
+</ul>
+</li>
+</ol>
+<p>嵌套结果：</p>
+<ol>
+<li>通过select标签定义关联查询主表和子表的SQL，返回结果通过resultMap进行映射。</li>
+<li>在resultMap中，除了映射主表属性，还要通过collection标签映射子表属性，该标签需包含如下内容：<ul>
+<li>通过property属性指定子表属性名；</li>
+<li>通过ofType属性指定子表的实体类型；</li>
+<li>通过result子标签定义子表字段和属性的映射关系。</li>
+</ul>
+</li>
+</ol>
+<h2 id="MyBatis-都有哪些-Executor-执行器？它们之间的区别是什么？"><a href="#MyBatis-都有哪些-Executor-执行器？它们之间的区别是什么？" class="headerlink" title="MyBatis 都有哪些 Executor 执行器？它们之间的区别是什么？"></a>MyBatis 都有哪些 Executor 执行器？它们之间的区别是什么？</h2><p>MyBatis 有三种基本的 Executor 执行器， <code>SimpleExecutor</code>（简单执行器） 、 <code>ReuseExecutor</code>（可重用执行器） 、 <code>BatchExecutor</code>（批处理执行器）</p>
+<p><code>SimpleExecutor</code> ：每执行一次 update 或 select，就开启一个 Statement 对象，用完立刻关闭 Statement 对象。</p>
+<p><code>ReuseExecutor</code> ：**执行 update 或 select，以 sql 作为 key 查找 Statement 对象，存在就使用，不存在就创建，用完后，不关闭 Statement 对象，而是放置于 Map&lt;String, Statement&gt;内，供下一次使用。简言之，就是重复使用 Statement 对象。</p>
+<p><code>BatchExecutor</code> ：**执行 update（没有 select，JDBC 批处理不支持 select），将所有 sql 都添加到批处理中（addBatch()），等待统一执行（executeBatch()），它缓存了多个 Statement 对象，每个 Statement 对象都是 addBatch()完毕后，等待逐一执行 executeBatch()批处理。与 JDBC 批处理相同。</p>
+<h2 id="MyBatis缓存机制吗？"><a href="#MyBatis缓存机制吗？" class="headerlink" title="MyBatis缓存机制吗？"></a>MyBatis缓存机制吗？</h2><p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20200603165448345.png" alt="image-20200603165448345"></p>
+<h3 id="一级缓存"><a href="#一级缓存" class="headerlink" title="一级缓存"></a><strong>一级缓存</strong></h3><p>也叫做会话级缓存，生命周期仅存在于当前会话，不可以直接关关闭。但可以通过flushCache和localCacheScope对其做相应控制，<strong>一级缓存是线程不安全的，不能跨线程使用</strong></p>
+<p>缓存命中的条件：</p>
+<ol>
+<li>SQL与参数相同：</li>
+<li>同一个会话：</li>
+<li>相同的MapperStatement ID：</li>
+<li>RowBounds行范围相同：</li>
+</ol>
+<p>触发清空缓存：</p>
+<ol>
+<li>手动调用clearCache</li>
+<li>执行提交回滚</li>
+<li>执行update</li>
+<li>配置flushCache&#x3D;true</li>
+<li>缓存作用域为Statement</li>
+</ol>
+<p>实现：</p>
+<p>当会话接收到查询请求之后，会交给执行器的Query方法，在这里会通过 Sql、参数、分页条件等参数创建一个缓存key，在基于这个key去 PerpetualCache中查找对应的缓存值，如果有主直接返回。没有就会查询数据库，然后在填充缓存。</p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20200603175917082.png" alt="image-20200603175917082"></p>
+<h3 id="二级缓存"><a href="#二级缓存" class="headerlink" title="二级缓存"></a><strong>二级缓存</strong></h3><p>二级缓存也称作是应用级缓存，与一级缓存不同的，是它的作用范围是整个应用，<strong>而且可以跨线程使用</strong>。所以二级缓存有更高的命中率，适合缓存一些修改较少的数据。在流程上是先访问二级缓存，在访问一级缓存。</p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20200609104535077.png" alt="image-20200609104535077"></p>
+<p>我们在设计一个二级缓存的时候，需要考虑他应该有哪些功能？</p>
+<p><strong>核心功能：</strong></p>
+<p><strong>存储：</strong>我们的缓存应该存在哪里？</p>
+<p>内存：程序重启后，存储在内存的东西将会丢失。</p>
+<p>硬盘：可以持久化，容量大。但访问速度不如内存，一般会结合内存一起使用。</p>
+<p>第三方缓存数据库：比如redis，如果是分布式的情况下，一般使用这种方案。</p>
+<p><strong>溢出淘汰</strong>：无论哪种存储都必须有一个容易，当容量满的时候就要进行清除，清除的算法即溢出淘汰机制。</p>
+<p>常见算法如下：</p>
+<ol>
+<li>FIFO：先进先出</li>
+<li>LRU：最近最少使用（mybatis使用的是这种）</li>
+<li>WeakReference: 弱引用，将缓存对象进行弱引用包装，当Java进行gc的时候，不论当前的内存空间是否足够，这个对象都会被回收</li>
+<li>SoftReference：软件引用，基机与弱引用类似，不同在于只有当空间不足时GC才才回收软引用对象。</li>
+</ol>
+<p><strong>其他功能：</strong></p>
+<p>1.线程安全</p>
+<p>2.过期清理</p>
+<p>3.序列化</p>
+<p>…………………………..</p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20200609115516417.png" alt="image-20200609115516417"></p>
+<h3 id="二级缓存责任链设计"><a href="#二级缓存责任链设计" class="headerlink" title="二级缓存责任链设计"></a>二级缓存责任链设计</h3><p>这么多的功能，如何才能简单的实现，并保证它的灵活性与扩展性呢？这里MyBatis抽像出Cache接口，其只定义了缓存中最基本的功能方法：</p>
+<ul>
+<li>设置缓存</li>
+<li>获取缓存</li>
+<li>清除缓存</li>
+<li>获取缓存数量</li>
+</ul>
+<p>然后上述中每一个功能都会对应一个组件类，并基于装饰者加责任链的模式，将各个组件进行串联。在执行缓存的基本功能时，其它的缓存逻辑会沿着这个责任链依次往下传递。</p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20200609121931489.png" alt="image-20200609121931489"></p>
+<p>这样设计有以下优点：</p>
+<ol>
+<li>职责单一：各个节点只负责自己的逻辑，不需要关心其它节点。</li>
+<li>扩展性强：可根据需要扩展节点、删除节点，还可以调换顺序保证灵活性。</li>
+<li>松耦合：各节点之间不没强制依赖其它节点。而是通过顶层的Cache接口进行间接依赖。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>面试题</category>
+      </categories>
+      <tags>
+        <tag>面试题</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>mysql面试题</title>
     <url>/2023/02/13/%E5%85%B6%E4%BB%96/%E9%9D%A2%E8%AF%95%E7%9B%B8%E5%85%B3/mysql%E9%9D%A2%E8%AF%95%E9%A2%98/</url>
     <content><![CDATA[<h2 id="数据库事务的四个特性及含义"><a href="#数据库事务的四个特性及含义" class="headerlink" title="数据库事务的四个特性及含义"></a><strong>数据库事务的四个特性及含义</strong></h2><p><strong>原子性：</strong>整个事务中的所有操作，要么全部完成，要么全部不完成，不可能停滞在中间某个环节。事务在执行过程中发生错误，会被回滚（Rollback）到事务开始前的状态，就像这个事务从来没有执行过一样。</p>
@@ -3690,6 +3690,19 @@
       </tags>
   </entry>
   <entry>
+    <title>mybatis</title>
+    <url>/2023/02/12/%E5%B8%B8%E7%94%A8%E6%A1%86%E6%9E%B6/mybatis/mybatis/</url>
+    <content><![CDATA[<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20230210143018927.png" alt="image-20230210143018927"></p>
+<h1 id="mybatis是什么？"><a href="#mybatis是什么？" class="headerlink" title="mybatis是什么？"></a>mybatis是什么？</h1><h1 id="mybatis的工作原理？"><a href="#mybatis的工作原理？" class="headerlink" title="mybatis的工作原理？"></a>mybatis的工作原理？</h1>]]></content>
+      <categories>
+        <category>常用框架</category>
+        <category>mybatis</category>
+      </categories>
+      <tags>
+        <tag>常用框架</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>oauth2.0</title>
     <url>/2023/02/13/%E5%B8%B8%E7%94%A8%E6%A1%86%E6%9E%B6/oauth2.0/oauth2.0/</url>
     <content><![CDATA[<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20230210143018927.png" alt="image-20230210143018927"></p>
@@ -3760,19 +3773,6 @@
       <categories>
         <category>常用框架</category>
         <category>auth2.0</category>
-      </categories>
-      <tags>
-        <tag>常用框架</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mybatis</title>
-    <url>/2023/02/12/%E5%B8%B8%E7%94%A8%E6%A1%86%E6%9E%B6/mybatis/mybatis/</url>
-    <content><![CDATA[<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20230210143018927.png" alt="image-20230210143018927"></p>
-<h1 id="mybatis是什么？"><a href="#mybatis是什么？" class="headerlink" title="mybatis是什么？"></a>mybatis是什么？</h1><h1 id="mybatis的工作原理？"><a href="#mybatis的工作原理？" class="headerlink" title="mybatis的工作原理？"></a>mybatis的工作原理？</h1>]]></content>
-      <categories>
-        <category>常用框架</category>
-        <category>mybatis</category>
       </categories>
       <tags>
         <tag>常用框架</tag>
