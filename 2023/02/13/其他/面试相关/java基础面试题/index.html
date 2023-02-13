@@ -1,0 +1,823 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>java基础面试题 | Gping</title><meta name="author" content="MrWei"><meta name="copyright" content="MrWei"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="referrer" content="no-referrer"><meta name="description" content="Java有几种基本数据类型 有八种基本数据类型。一个字节等于8个bit位     数据类型 占用字节    byte 1   short 2   int 4   long 8   double 4   float 8   char 2   boolean 4   为什么要有包装类型 术语：让基本类型也具有对象的特征 为了让基本类型也具有对象的特征，就出现了包装类型（如我们在使用集合类型Collec">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java基础面试题">
+<meta property="og:url" content="http://example.com/2023/02/13/%E5%85%B6%E4%BB%96/%E9%9D%A2%E8%AF%95%E7%9B%B8%E5%85%B3/java%E5%9F%BA%E7%A1%80%E9%9D%A2%E8%AF%95%E9%A2%98/index.html">
+<meta property="og:site_name" content="Gping">
+<meta property="og:description" content="Java有几种基本数据类型 有八种基本数据类型。一个字节等于8个bit位     数据类型 占用字节    byte 1   short 2   int 4   long 8   double 4   float 8   char 2   boolean 4   为什么要有包装类型 术语：让基本类型也具有对象的特征 为了让基本类型也具有对象的特征，就出现了包装类型（如我们在使用集合类型Collec">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/studentgitee/note-picture/raw/master/115.jpg">
+<meta property="article:published_time" content="2023-02-13T00:43:54.203Z">
+<meta property="article:modified_time" content="2023-02-13T02:38:06.730Z">
+<meta property="article:author" content="MrWei">
+<meta property="article:tag" content="面试题">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/studentgitee/note-picture/raw/master/115.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2023/02/13/%E5%85%B6%E4%BB%96/%E9%9D%A2%E8%AF%95%E7%9B%B8%E5%85%B3/java%E5%9F%BA%E7%A1%80%E9%9D%A2%E8%AF%95%E9%A2%98/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'java基础面试题',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-02-13 10:38:06'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = url => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      link.onload = () => resolve()
+      link.onerror = () => reject()
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="./css/background.css"><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://gitee.com/studentgitee/note-picture/raw/master/1676193401851.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">19</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/plan/"><i class="fa-fw fas fa-navicon"></i><span> 计划</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://gitee.com/studentgitee/note-picture/raw/master/115.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="Gping"><span class="site-name">Gping</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/plan/"><i class="fa-fw fas fa-navicon"></i><span> 计划</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">java基础面试题</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-02-13T00:43:54.203Z" title="发表于 2023-02-13 08:43:54">2023-02-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-02-13T02:38:06.730Z" title="更新于 2023-02-13 10:38:06">2023-02-13</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E9%9D%A2%E8%AF%95%E9%A2%98/">面试题</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="java基础面试题"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="Java有几种基本数据类型"><a href="#Java有几种基本数据类型" class="headerlink" title="Java有几种基本数据类型"></a>Java有几种基本数据类型</h2><blockquote>
+<p>有八种基本数据类型。一个字节等于8个bit位</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th align="center">数据类型</th>
+<th align="center">占用字节</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">byte</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">short</td>
+<td align="center">2</td>
+</tr>
+<tr>
+<td align="center">int</td>
+<td align="center">4</td>
+</tr>
+<tr>
+<td align="center">long</td>
+<td align="center">8</td>
+</tr>
+<tr>
+<td align="center">double</td>
+<td align="center">4</td>
+</tr>
+<tr>
+<td align="center">float</td>
+<td align="center">8</td>
+</tr>
+<tr>
+<td align="center">char</td>
+<td align="center">2</td>
+</tr>
+<tr>
+<td align="center">boolean</td>
+<td align="center">4</td>
+</tr>
+</tbody></table>
+<h2 id="为什么要有包装类型"><a href="#为什么要有包装类型" class="headerlink" title="为什么要有包装类型"></a>为什么要有包装类型</h2><blockquote>
+<p>术语：让基本类型也具有对象的特征</p>
+<p>为了让基本类型也具有对象的特征，就出现了包装类型（如我们在使用集合类型Collection时就一定要使用包装类型而非基本类型）因为容器都是装object的，这是就需要这些基本类型的包装器类了。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th align="center">基本类型</th>
+<th align="center">包装类型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">byte</td>
+<td align="center">Byte</td>
+</tr>
+<tr>
+<td align="center">short</td>
+<td align="center">Short</td>
+</tr>
+<tr>
+<td align="center">int</td>
+<td align="center">Integer</td>
+</tr>
+<tr>
+<td align="center">long</td>
+<td align="center">Long</td>
+</tr>
+<tr>
+<td align="center">double</td>
+<td align="center">Double</td>
+</tr>
+<tr>
+<td align="center">float</td>
+<td align="center">Float</td>
+</tr>
+<tr>
+<td align="center">char</td>
+<td align="center">Char</td>
+</tr>
+<tr>
+<td align="center">boolean</td>
+<td align="center">Boolean</td>
+</tr>
+</tbody></table>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">自动装箱: <span class="keyword">new</span> <span class="title class_">Integer</span>(<span class="number">6</span>)</span><br><span class="line">底层调用: Integer.valueOf(<span class="number">6</span>)</span><br><span class="line"></span><br><span class="line">自动拆箱: <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Integer</span>(<span class="number">6</span>)</span><br><span class="line">底层调用: i.intValue()</span><br></pre></td></tr></table></figure>
+
+<h2 id="基本类型和包装类型的区别"><a href="#基本类型和包装类型的区别" class="headerlink" title="基本类型和包装类型的区别"></a>基本类型和包装类型的区别</h2><ul>
+<li>成员变量包装类型不赋值就是 <code>null</code> ，而基本类型有默认值且不是 <code>null</code>。</li>
+<li>包装类型可用于泛型，而基本类型不可以。</li>
+<li>基本数据类型的局部变量存放在 Java 虚拟机栈中的局部变量表中，基本数据类型的成员变量（未被 <code>static</code> 修饰 ）存放在 Java 虚拟机的堆中。包装类型属于对象类型，我们知道几乎所有对象实例都存在于堆中。</li>
+<li>相比于对象类型， 基本数据类型占用的空间非常小。</li>
+</ul>
+<p><strong>为什么说是几乎所有对象实例呢？</strong> 这是因为 HotSpot 虚拟机引入了 JIT 优化之后，会对对象进行逃逸分析，如果发现某一个对象并没有逃逸到方法外部，那么就可能通过标量替换来实现栈上分配，而避免堆上分配内存</p>
+<p>⚠️注意 ： <strong>基本数据类型存放在栈中是一个常见的误区！</strong> 基本数据类型的成员变量如果没有被 <code>static</code> 修饰的话（不建议这么使用，应该要使用基本数据类型对应的包装类型），就存放在堆中。</p>
+<h2 id="面向对象三大特征"><a href="#面向对象三大特征" class="headerlink" title="面向对象三大特征"></a>面向对象三大特征</h2><blockquote>
+<p>面向对象的编程语言有封装、继承 、多态等3个主要的特征。</p>
+</blockquote>
+<p><strong>封装</strong>：简单的来说就是我将不想给别人看的数据，以及别人无需知道的内部细节， “锁起来” ，我们只留下一些入口，使其与外部发生联系。public、private、protected 等权限修饰符 在类的 同程度的 ”锁“ 决定了紧跟其后被定义的东西能够被谁使用。</p>
+<p><strong>继承</strong>：子类继承了父类后，仍然获取了父类中的所有属性和方法，但是由于对象的封装性影响，使得子类调用不了父类的属性和方法，类可以多层继承，但一个类不能同时继承多个类</p>
+<p><strong>多态</strong>：</p>
+<ul>
+<li><p>多态使用的前提是要有继承关系，不然没意义</p>
+</li>
+<li><p>方法重写</p>
+</li>
+<li><p>多态不适合属性，只适合方法</p>
+</li>
+<li><p>多态性是一个运行时行为</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 父类的引用指向子类的对象,编译是看左边的类型，执行看右边的类型</span><br><span class="line">B <span class="keyword">extends</span> <span class="title class_">A</span></span><br><span class="line"><span class="type">A</span> <span class="variable">b</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">B</span>();</span><br></pre></td></tr></table></figure>
+
+<h2 id="面向对象和面向过程的区别"><a href="#面向对象和面向过程的区别" class="headerlink" title="面向对象和面向过程的区别"></a>面向对象和面向过程的区别</h2><p>两者的主要区别在于解决问题的方式不同：</p>
+<ul>
+<li>面向过程把解决问题的过程拆成一个个方法，通过一个个方法的执行解决问题。</li>
+<li>面向对象会先抽象出对象，然后用对象执行方法的方式解决问题。</li>
+</ul>
+<p>另外，面向对象开发的程序一般更易维护、易复用、易扩展。</p>
+<h2 id="重载与重写的区别"><a href="#重载与重写的区别" class="headerlink" title="重载与重写的区别"></a>重载与重写的区别</h2><p><strong>重载：两同一不同</strong></p>
+<p>1、<code>两同</code>：同一个类中，同一个方法名称</p>
+<p>2、<code>一不同</code>：方法的参数类型、参数个数、参数顺序不同、</p>
+<p>3、重载跟方法的返回类型没有关系</p>
+<p><strong>重写：子类继承父类，可以重写父类方法,方法的重写要遵循“两同两小一大”</strong></p>
+<blockquote>
+<p>构造方法无法被重写</p>
+</blockquote>
+<p>1、<code>两同</code>子类重写的方法必须和父类被重写的方法具有相同的<code>方法名称</code>、<code>参数列表</code></p>
+<p>2、子类重写的方法的返回值类型不能大于父类被重写的方法的返回值类型</p>
+<ul>
+<li>如果父类的方法的返回值类型是void，那么子类的返回值类型也是void</li>
+<li>如果父类的方法的返回值类型是基本类型（double），那么子类的返回值类型也是double</li>
+<li>如果父类的方法的返回值类型A类型，那么子类的返回值类型是A类型或者A类型的子类</li>
+</ul>
+<p>3、子类重写的方法使用的访问权限不能小于父类被重写的方法的访问权限</p>
+<ul>
+<li>子类不能覆盖父类的private方法</li>
+<li>比如父类的方法时public，那么子类在重写该方法的时候权限要比public小，比如default、protected、private</li>
+</ul>
+<p>4、<code>一大</code>指的是子类抛出的异常不能大于父类被重写方法的异常</p>
+<p><strong>二者之间的区别</strong></p>
+<ol>
+<li>声明方式不同：基本类型不使用new关键字，而包装类型需要使用new关键字来在堆中分配存储空间；</li>
+<li>存储方式及位置不同：基本类型是直接将变量值存储在栈中，而包装类型是将对象放在堆中，然后通过引用来使用；</li>
+<li>初始值不同：基本类型的初始值如int为0，boolean为false，而包装类型的初始值为null；</li>
+<li>使用方式不同：基本类型直接赋值直接使用就可以，而包装类型在集合如Collection、Map时会使用到；</li>
+</ol>
+<h2 id="x3D-x3D-和-equals区别"><a href="#x3D-x3D-和-equals区别" class="headerlink" title="&#x3D;&#x3D; 和 equals区别"></a>&#x3D;&#x3D; 和 equals区别</h2><p><strong><code>==</code></strong> ：它的作用是判断两个对象的地址是不是相等。即，判断两个对象是不是同一个对象</p>
+<ul>
+<li>对于基本数据类型<code>==</code>比较的是值</li>
+<li>对于引用数据类型<code>==</code>比较的是内存地址</li>
+</ul>
+<p><code>equals</code>：分两种情况来理解</p>
+<ul>
+<li>情况 1：类没有重写 equals() 方法。则通过 equals() 比较该类的两个对象时，等价于通过<code>==</code>比较这两个对象。</li>
+<li>情况 2：类重写了 equals() 方法。一般，我们都重写 equals() 方法来比较两个对象的内容是否相等；若它们的内容相等，则返回 true (即，认为这两个对象相等)。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*我们来看看String重写的equals方法：它不止判断了内存地址，还增加了字符串是否相同的比较。*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">equals</span><span class="params">(Object anObject)</span> &#123;</span><br><span class="line">    <span class="comment">//判断内存地址是否相同</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">this</span> == anObject) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 判断参数类型是否是String类型</span></span><br><span class="line">    <span class="keyword">if</span> (anObject <span class="keyword">instanceof</span> String) &#123;</span><br><span class="line">        <span class="comment">// 强转</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">anotherString</span> <span class="operator">=</span> (String)anObject;</span><br><span class="line">        <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> value.length;</span><br><span class="line">        <span class="comment">// 判断两个字符串长度是否相等</span></span><br><span class="line">        <span class="keyword">if</span> (n == anotherString.value.length) &#123;</span><br><span class="line">            <span class="type">char</span> v1[] = value;</span><br><span class="line">            <span class="type">char</span> v2[] = anotherString.value;</span><br><span class="line">            <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">            <span class="comment">// 一一比较 字符是否相同</span></span><br><span class="line">            <span class="keyword">while</span> (n-- != <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">if</span> (v1[i] != v2[i])</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">                i++;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="String和StringBuffer和StringBuilder区别"><a href="#String和StringBuffer和StringBuilder区别" class="headerlink" title="String和StringBuffer和StringBuilder区别"></a>String和StringBuffer和StringBuilder区别</h2><p> <strong>数据可变和不可变</strong></p>
+<p>1、<code>String</code>底层使用一个不可变的字符数组<code>private final char value[];</code>所以它内容不可变。</p>
+<p>2、<code>StringBuffer</code>和<code>StringBuilder</code>都继承了<code>AbstractStringBuilder</code>底层使用的是可变字符数组：<code>char[] value;</code></p>
+<p><strong>线程安全</strong></p>
+<p>1、<code>StringBuilder</code>是线程不安全的，效率较高；而<code>StringBuffer</code>是线程安全的，效率较低。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># StringBuilder没有加<span class="keyword">synchronized</span>，而StringBuffer添加了<span class="keyword">synchronized</span>锁</span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">synchronized</span> StringBuffer <span class="title function_">append</span><span class="params">(Object obj)</span> &#123;</span><br><span class="line">    toStringCache = <span class="literal">null</span>;</span><br><span class="line">    <span class="built_in">super</span>.append(String.valueOf(obj));</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">this</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> StringBuilder <span class="title function_">append</span><span class="params">(String str)</span> &#123;</span><br><span class="line">    <span class="built_in">super</span>.append(str);</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>操作速度</strong></p>
+<blockquote>
+<p>StringBuilder &gt; StringBuffer &gt; String</p>
+</blockquote>
+<p><strong>什么时候适用</strong></p>
+<p>1、操作少量的数据: 适用 String </p>
+<p>2、单线程操作字符串缓冲区下操作大量数据: 适用 StringBuilder </p>
+<p>3、 多线程操作字符串缓冲区下操作大量数据: 适用 StringBuff</p>
+<h2 id="接口和抽象类的区别"><a href="#接口和抽象类的区别" class="headerlink" title="接口和抽象类的区别"></a>接口和抽象类的区别</h2><p><strong>设计上的区别：</strong></p>
+<p>1、接口：自上而下，先定义接口约束，在去实现接口（对类进行约束）</p>
+<p>2、抽象类：自下而上，已经有了很多类，发现他们有很多相同的共性，提取成抽象类（代码复用）</p>
+<p>3、抽象类似对类本质的抽象，表达的是is a 的关系，比如BWM is a Car.由子类去实现</p>
+<p>4、接口是对行为上的抽象，表达的是like a的关系，比如 Bird like a Aircraft(像飞行器一样)，但其实本质上是is a Bird,接口的核心是定义的行为</p>
+<p><strong>使用场景：</strong></p>
+<p>1、关注事物的本质，用抽象类</p>
+<p>2、关注一个操作的时候，用接口</p>
+<p><strong>语法上的区别：</strong></p>
+<p>1、接口只有定义，不能有方法的实现，但java 1.8中可以定义default方法体，而抽象类可以有定义与实现，方法可在抽象类中实现</p>
+<p>2、抽象类中可以包含非抽象的普通方法，接口中的所有方法必须都是抽象的，不能有非抽象的普通方法。</p>
+<p>3、抽象类中可以包含静态方法，接口中不能包含静态方法</p>
+<ul>
+<li>抽象类和接口中都可以包含静态成员变量，抽象类中的静态成员变量的访问类型可以任意，但接口中定义的变量只能是<code>public static final</code>类型，并且默认即为<code>public static final</code>类型</li>
+</ul>
+<p>4、实现接口的关键字为<code>implements</code>，继承抽象类的关键字为<code>extends</code>。一个类可以实现多个接口，但一个类只能继承一个抽象类。所以，使用接口可以间接地实现多重继承</p>
+<p>5、接口方法默认修饰符是 <code>public</code>，抽象方法可以有 <code>public</code>、<code>protected</code> 和<code> default</code> 这些修饰符（抽象方法就是为了被重写所以不能使用 private&#96;关键字修饰！）。</p>
+<h2 id="Java访问修饰符有哪些"><a href="#Java访问修饰符有哪些" class="headerlink" title="Java访问修饰符有哪些"></a>Java访问修饰符有哪些</h2><blockquote>
+<p>Java中的修饰符有public、private、protected </p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th align="center">修饰符</th>
+<th align="center">当前类</th>
+<th align="center">同包</th>
+<th align="center">子类</th>
+<th align="center">其他包</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">private</td>
+<td align="center">√</td>
+<td align="center">×</td>
+<td align="center">×</td>
+<td align="center">×</td>
+</tr>
+<tr>
+<td align="center">default</td>
+<td align="center">√</td>
+<td align="center">√</td>
+<td align="center">×</td>
+<td align="center">×</td>
+</tr>
+<tr>
+<td align="center">protected</td>
+<td align="center">√</td>
+<td align="center">√</td>
+<td align="center">√</td>
+<td align="center">×</td>
+</tr>
+<tr>
+<td align="center">public</td>
+<td align="center">√</td>
+<td align="center">√</td>
+<td align="center">√</td>
+<td align="center">√</td>
+</tr>
+</tbody></table>
+<h2 id="static和final区别"><a href="#static和final区别" class="headerlink" title="static和final区别"></a>static和final区别</h2><table>
+<thead>
+<tr>
+<th align="center">关键词</th>
+<th align="center">修饰物</th>
+<th align="center">影响</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">final</td>
+<td align="center">变量</td>
+<td align="center">分配到常量池中，程序不可改变其值</td>
+</tr>
+<tr>
+<td align="center">final</td>
+<td align="center">方法</td>
+<td align="center">子类中将不能被重写</td>
+</tr>
+<tr>
+<td align="center">final</td>
+<td align="center">类</td>
+<td align="center">不能被继承</td>
+</tr>
+<tr>
+<td align="center">static</td>
+<td align="center">变量</td>
+<td align="center">分配在内存堆上，引用都会指向这一个地址而不会重新分配内存</td>
+</tr>
+<tr>
+<td align="center">static</td>
+<td align="center">方法块</td>
+<td align="center">虚拟机优先加载</td>
+</tr>
+<tr>
+<td align="center">static</td>
+<td align="center">类</td>
+<td align="center">可以直接通过类来调用而不需要new</td>
+</tr>
+</tbody></table>
+<h2 id="子父类代码执行顺序"><a href="#子父类代码执行顺序" class="headerlink" title="子父类代码执行顺序"></a>子父类代码执行顺序</h2><blockquote>
+<ul>
+<li>1.父类静态代码块！</li>
+<li>2.子类静态代码块！</li>
+<li>3.父类代码块！</li>
+<li>4.父类构造！</li>
+<li>5.子类代码块！</li>
+<li>6.子类构造！</li>
+</ul>
+</blockquote>
+<h2 id="String-s-x3D-“hello”和String-s-x3D-new-String-“hello”-区别"><a href="#String-s-x3D-“hello”和String-s-x3D-new-String-“hello”-区别" class="headerlink" title="String s &#x3D; “hello”和String s &#x3D; new String(“hello”);区别"></a>String s &#x3D; “hello”和String s &#x3D; new String(“hello”);区别</h2><p><code>String s = new String(&quot;hello&quot;);</code>可能创建两个对象也可能创建一个对象。如果常量池中有<code>hello</code>字符串常量的话，则仅仅在堆中创建一个对象。如果常量池中没有<code>hello</code>对象，则堆上和常量池都需要创建。</p>
+<p><code>String s = &quot;hello&quot;</code>这样创建的对象，JVM会直接检查字符串常量池是否已有”hello”字符串对象，如没有，就分配一个内存存放”hello”，如有了，则直接将字符串常量池中的地址返回给栈。(没有new，没有堆的操作)</p>
+<h2 id="Java中的深拷贝和浅拷贝"><a href="#Java中的深拷贝和浅拷贝" class="headerlink" title="Java中的深拷贝和浅拷贝"></a>Java中的深拷贝和浅拷贝</h2><blockquote>
+<p>回答：深拷贝和浅拷贝都是对象拷贝</p>
+</blockquote>
+<p><code>浅拷贝</code>：按位拷贝对象，它会创建一个新对象，这个对象有着原始对象属性值的一份精确贝。如果属性是基本类型，拷贝的就是基本类型的值；如果属性是内存地址（引用类型），拷贝的就是内存地址 ，因此如果其中一个对象改变了这个地址，就会影响到另一个对象。（浅拷贝仅仅复制所考虑的对象，而不复制它所引用的对象。）</p>
+<p>上图： 两个引用 <code>student1 </code>和<code> student2</code> 指向不同的两个对象，但是两个引用 <code>student1</code>  和<code>student2 </code>中的两个 teacher 引用指向的是同一个对象，所以说明是 <code>浅拷贝 </code></p>
+<p><code>深拷贝</code>：在拷贝引用类型成员变量时，为引用类型的数据成员另辟了一个独立的内存空间，实现真正内容上的拷贝。（深拷贝把要复制的对象所引用的对象都复制了一遍。）</p>
+<p>上图：两个引用 <code>student1</code> 和 <code>student2</code> 指向不同的两个对象，两个引用 <code>student1</code> 和<br><code>student2 </code>中的两个 teacher 引用指向的是两个对象，但对 teacher 对象的修改只能影响<br>student1 对象，所以说是 <code>深拷贝</code></p>
+<h2 id="Java中的异常体系"><a href="#Java中的异常体系" class="headerlink" title="Java中的异常体系"></a>Java中的异常体系</h2><p>Java中的异常主要分为Error和Exception。</p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20230212115226826.png" alt="image-20230212115226826"></p>
+<blockquote>
+<p><strong>Error</strong> 指Java程序运行错误，如果程序在启动时出现Error，则启动失败；如果程序运行过程中出现Error，则系统将退出程序。出现Error是系统的内部错误或资源耗尽，Error不能在程序运行过程中被动态处理，一旦出现Error，系统能做的只有记录错误的原因和安全终止。</p>
+</blockquote>
+<blockquote>
+<p>Exception 指 Java程序运行异常，在运行中的程序发生了程序员不期望发生的事情，可以被Java异常处理机制处理。Exception也是程序开发中异常处理的核心，可分为RuntimeException（运行时异常）和CheckedException（检查异常）</p>
+</blockquote>
+<p>1、<code>RuntimeException</code>（运行时异常）：指在Java虚拟机正常运行期间抛出的异常RuntimeException可以被捕获并处理，如果出现此情况，我们需要抛出异常或者捕获并处理异常。常见的有：<code>NullPointerException</code>（空指针错误）、<code>ClassCastException</code>（类型转换错误）、<code>ArrayIndexOutOfBoundsException</code>（数组越界错误）等;</p>
+<p>2、<code>CheckedException</code>（检查异常）：指在编译阶段Java编译器检查CheckedException异常，并强制程序捕获和处理此类异常，要求程序在可能出现异常的地方通过try catch语句块捕获异常并处理异常，如果不处理，则编译不通过。常见的有由于I&#x2F;O错误导致的<code>IOException</code>、<code>SQLException</code>、<code>ClassNotFoundException</code>等。该类异常通常由于打开错误的文件、SQL语法错误、类不存等引起。</p>
+<h3 id="追问1：异常的处理方式？"><a href="#追问1：异常的处理方式？" class="headerlink" title="追问1：异常的处理方式？"></a>追问1：异常的处理方式？</h3><p>回答：异常处理方式有抛出异常和使用try catch语句块捕获异常两种方式。</p>
+<p>1、抛出异常：遇到异常时不进行具体的处理，直接将异常抛给调用者，让调用者自己根据情况处理。抛出异常的三种形式：throws、throw和系统自动抛出异常。其中throws作用在方法上，用于定义方法可能抛出的异常；throw作用在方法内，表示明确抛出一个异常。</p>
+<p>2、使用try catch捕获并处理异常：使用try catch 捕获异常能够有针对性的处理每种可能出现的异常，并在捕获到异常后根据不同的情况做不同的处理。其使用过程比较简单：用try catch语句块将可能出现异常的代码抱起来即可。</p>
+<h3 id="追问2：-try-catch-finally-如何使用"><a href="#追问2：-try-catch-finally-如何使用" class="headerlink" title="追问2： try-catch-finally 如何使用"></a>追问2： try-catch-finally 如何使用</h3><ul>
+<li><code>try</code>块 ： 用于捕获异常。其后可接零个或多个 <code>catch</code> 块，如果没有 <code>catch</code> 块，则必须跟一个 <code>finally</code> 块。</li>
+<li><code>catch</code>块 ： 用于处理 try 捕获到的异常。</li>
+<li><code>finally</code> 块 ： 无论是否捕获或处理异常，<code>finally</code> 块里的语句都会被执行。当在 <code>try</code> 块或 <code>catch</code> 块中遇到 <code>return</code> 语句时，<code>finally</code> 语句块将在方法返回之前被执行。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;Try to do something&quot;</span>);</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(<span class="string">&quot;RuntimeException&quot;</span>);</span><br><span class="line">&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;Catch Exception -&gt; &quot;</span> + e.getMessage());</span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;Finally&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>⚠️注意：不要在 finally 语句块中使用 return!</strong> 当 try 语句和 finally 语句中都有 return 语句时，try 语句块中的 return 语句会被忽略。这是因为 try 语句中的 return 返回值会先被暂存在一个本地变量中，当执行到 finally 语句中的 return 之后，这个本地变量的值就变为了 finally 语句中的 return 返回值。</p>
+<h3 id="追问3：finally-中的代码一定会执行吗？"><a href="#追问3：finally-中的代码一定会执行吗？" class="headerlink" title="追问3：finally 中的代码一定会执行吗？"></a>追问3：finally 中的代码一定会执行吗？</h3><p>不一定的！在某些情况下，finally 中的代码不会被执行。</p>
+<p>就比如说 finally 之前虚拟机被终止运行的话，finally 中的代码就不会被执行。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;Try to do something&quot;</span>);</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(<span class="string">&quot;RuntimeException&quot;</span>);</span><br><span class="line">&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;Catch Exception -&gt; &quot;</span> + e.getMessage());</span><br><span class="line">    <span class="comment">// 终止当前正在运行的Java虚拟机</span></span><br><span class="line">    System.exit(<span class="number">1</span>);</span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;Finally&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>另外，在以下 2 种特殊情况下，<code>finally</code> 块的代码也不会被执行：</p>
+<ol>
+<li>程序所在的线程死亡。</li>
+<li>关闭 CPU。</li>
+</ol>
+<h2 id="什么是泛型？有什么作用？"><a href="#什么是泛型？有什么作用？" class="headerlink" title="什么是泛型？有什么作用？"></a>什么是泛型？有什么作用？</h2><p><strong>Java 泛型（Generics）</strong> 是 JDK 5 中引入的一个新特性。使用泛型参数，可以增强代码的可读性以及稳定性。</p>
+<p>编译器可以对泛型参数进行检测，并且通过泛型参数可以指定传入的对象类型。比如 <code>ArrayList&lt;Persion&gt; persons = new ArrayList&lt;Persion&gt;()</code> 这行代码就指明了该 <code>ArrayList</code> 对象只能传入 <code>Persion</code> 对象，如果传入其他类型的对象就会报错.</p>
+<h3 id="追问1：泛型的使用方式有哪几种"><a href="#追问1：泛型的使用方式有哪几种" class="headerlink" title="追问1：泛型的使用方式有哪几种"></a>追问1：泛型的使用方式有哪几种</h3><p>泛型一般有三种使用方式:<strong>泛型类</strong>、<strong>泛型接口</strong>、<strong>泛型方法</strong>。</p>
+<p><strong>1、泛型类</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//此处T可以随便写为任意标识，常见的如T、E、K、V等形式的参数常用于表示泛型</span></span><br><span class="line"><span class="comment">//在实例化泛型类时，必须指定T的具体类型</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Generic</span>&lt;T&gt;&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> T key;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Generic</span><span class="params">(T key)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.key = key;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> T <span class="title function_">getKey</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> key;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如何实例化泛型类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Generic&lt;Integer&gt; genericInteger = <span class="keyword">new</span> <span class="title class_">Generic</span>&lt;Integer&gt;(<span class="number">123456</span>);</span><br></pre></td></tr></table></figure>
+
+<p><strong>2、泛型接口</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Generator</span>&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">public</span> T <span class="title function_">method</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>实现泛型接口，不指定类型：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">GeneratorImpl</span>&lt;T&gt; <span class="keyword">implements</span> <span class="title class_">Generator</span>&lt;T&gt;&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> T <span class="title function_">method</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>实现泛型接口，指定类型：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">GeneratorImpl</span>&lt;T&gt; <span class="keyword">implements</span> <span class="title class_">Generator</span>&lt;String&gt;&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">method</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;hello&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>3、泛型方法</strong> ：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt; E &gt; <span class="keyword">void</span> <span class="title function_">printArray</span><span class="params">( E[] inputArray )</span></span><br><span class="line">&#123;</span><br><span class="line">      <span class="keyword">for</span> ( E element : inputArray )&#123;</span><br><span class="line">         System.out.printf( <span class="string">&quot;%s &quot;</span>, element );</span><br><span class="line">      &#125;</span><br><span class="line">      System.out.println();</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用泛型方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建不同类型数组： Integer, Double 和 Character</span></span><br><span class="line">Integer[] intArray = &#123; <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span> &#125;;</span><br><span class="line">String[] stringArray = &#123; <span class="string">&quot;Hello&quot;</span>, <span class="string">&quot;World&quot;</span> &#125;;</span><br><span class="line">printArray( intArray  );</span><br><span class="line">printArray( stringArray  );</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意: <code>public static &lt; E &gt; void printArray( E[] inputArray )</code> 一般被称为静态泛型方法;在 java 中泛型只是一个占位符，必须在传递类型后才能使用。类在实例化时才能真正的传递类型参数，由于静态方法的加载先于类的实例化，也就是说类中的泛型还没有传递真正的类型参数，静态的方法的加载就已经完成了，所以静态泛型方法是没有办法使用类上声明的泛型的。只能使用自己声明的 <code>&lt;E&gt;</code></p>
+</blockquote>
+<h3 id="追问2：泛型应用场景"><a href="#追问2：泛型应用场景" class="headerlink" title="追问2：泛型应用场景"></a>追问2：泛型应用场景</h3><ul>
+<li>自定义接口通用返回结果 <code>CommonResult&lt;T&gt;</code> 通过参数 <code>T</code> 可根据具体的返回类型动态指定结果的数据类型</li>
+</ul>
+<h3 id="追问3：什么是泛型的类型擦除"><a href="#追问3：什么是泛型的类型擦除" class="headerlink" title="追问3：什么是泛型的类型擦除"></a>追问3：什么是泛型的类型擦除</h3><p>ArrayList<String>和ArrayList<Integer>在编译时是不同的类型，但是在编译完成后都被编译器简化成了ArrayList，这一现象，被称为泛型的类型擦除(Type Erasure)。泛型的本质是参数化类型，而类型擦除使得类型参数只存在于编译期，在运行时，jvm是并不知道泛型的存在的。</Integer></String></p>
+<h3 id="追问4：为什么要进行泛型类型擦除"><a href="#追问4：为什么要进行泛型类型擦除" class="headerlink" title="追问4：为什么要进行泛型类型擦除"></a>追问4：为什么要进行泛型类型擦除</h3><blockquote>
+<p>类型擦除的主要目的是避免过多的创建类而造成的运行时的过度消耗</p>
+</blockquote>
+<p>类型擦除分为两种：</p>
+<p>1、无限制类型擦除</p>
+<p>当类定义中的类型参数没有任何限制时，在类型擦除后，会被直接替换为Object。在下面的例子中，<T>中的类型参数T就全被替换为了Object(左侧为编译前的代码，右侧为通过字节码文件反编译得到的代码)：</T></p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20220703122345900.png" alt="image-20220703122345900"></p>
+<p>2、有限制类型擦除</p>
+<p>当类定义中的类型参数存在限制时，在类型擦除中替换为类型参数的上界或者下界。下面的代码中，经过擦除后T被替换成了Integer：</p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20220703122428664.png" alt="image-20220703122428664"></p>
+<h2 id="何为反射"><a href="#何为反射" class="headerlink" title="何为反射"></a>何为反射</h2><blockquote>
+<p>反射之所以被称为框架的灵魂，主要是因为它赋予了我们在运行时分析类以及执行类中方法的能力。通过反射你可以获取任意一个类的所有属性和方法。</p>
+</blockquote>
+<h3 id="反射的应用场景"><a href="#反射的应用场景" class="headerlink" title="反射的应用场景"></a>反射的应用场景</h3><p>日常使用的 Spring中使用很多的反射机制，为什么你使用 Spring 的时候 ，一个<code>@Component</code>注解就声明了一个类为 Spring Bean 呢？为什么你通过一个 <code>@Value</code>注解就读取到配置文件中的值呢？究竟是怎么起作用的呢？这些都是因为你可以基于反射分析类，然后获取到类&#x2F;属性&#x2F;方法&#x2F;方法的参数上的注解。你获取到注解之后，就可以做进一步的处理。</p>
+<h3 id="获取java类字节码的方法"><a href="#获取java类字节码的方法" class="headerlink" title="获取java类字节码的方法"></a>获取java类字节码的方法</h3><p>1、Class.class</p>
+<p>2、object.getClass()</p>
+<p>3、Class.forName(“”)</p>
+<ul>
+<li><strong>JDBC 的数据库的连接</strong></li>
+</ul>
+<p>在JDBC 的操作中，如果要想进行数据库的连接，则必须按照以上的几步完成</p>
+<ol>
+<li>通过Class.forName()加载数据库的驱动程序 （通过反射加载，前提是引入相关了Jar包）</li>
+<li>通过 DriverManager 类进行数据库的连接，连接的时候要输入数据库的连接地址、用户名、密码</li>
+<li>通过Connection 接口接收连接</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">public class ConnectionJDBC &#123;  </span><br><span class="line">  </span><br><span class="line">    /** </span><br><span class="line">     * @param args </span><br><span class="line">     */  </span><br><span class="line">    //驱动程序就是之前在classpath中配置的JDBC的驱动程序的JAR 包中  </span><br><span class="line">    public static final String DBDRIVER = &quot;com.mysql.jdbc.Driver&quot;;  </span><br><span class="line">    //连接地址是由各个数据库生产商单独提供的，所以需要单独记住  </span><br><span class="line">    public static final String DBURL = &quot;jdbc:mysql://localhost:3306/test&quot;;  </span><br><span class="line">    //连接数据库的用户名  </span><br><span class="line">    public static final String DBUSER = &quot;root&quot;;  </span><br><span class="line">    //连接数据库的密码  </span><br><span class="line">    public static final String DBPASS = &quot;&quot;;  </span><br><span class="line">      </span><br><span class="line">      </span><br><span class="line">    public static void main(String[] args) throws Exception &#123;  </span><br><span class="line">        Connection con = null; //表示数据库的连接对象  </span><br><span class="line">        Class.forName(DBDRIVER); //1、使用CLASS 类加载驱动程序 ,反射机制的体现 </span><br><span class="line">        con = DriverManager.getConnection(DBURL,DBUSER,DBPASS); //2、连接数据库  </span><br><span class="line">        System.out.println(con);  </span><br><span class="line">        con.close(); // 3、关闭数据库  </span><br><span class="line">    &#125;  </span><br></pre></td></tr></table></figure>
+
+<h2 id="java线程池"><a href="#java线程池" class="headerlink" title="java线程池"></a>java线程池</h2><p>⚠️注意 ：线程池不允许使用Executors去创建，而是通过ThreadPoolExecutor的方式，这样的处理方式让写的同学</p>
+<p>更加明确线程池的运行规则，规避资源耗尽的风险。<code>摘自阿里编码规约</code>。 说明：Executors各个方法的弊端：</p>
+<p>1）newFixedThreadPool和newSingleThreadExecutor:<br>  主要问题是堆积的请求处理队列可能会耗费非常大的内存，甚至OOM。<br>2）newCachedThreadPool和newScheduledThreadPool:<br>  主要问题是线程数最大数是Integer.MAX_VALUE，可能会创建数量非常多的线程，甚至OOM。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="title function_">ThreadPoolExecutor</span><span class="params">(    <span class="type">int</span> corePoolSize,</span></span><br><span class="line"><span class="params">                              <span class="type">int</span> maximumPoolSize,</span></span><br><span class="line"><span class="params">                              <span class="type">long</span> keepAliveTime,</span></span><br><span class="line"><span class="params">                              TimeUnit unit,</span></span><br><span class="line"><span class="params">                              BlockingQueue&lt;Runnable&gt; workQueue,</span></span><br><span class="line"><span class="params">                              RejectedExecutionHandler handler)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue,</span><br><span class="line">             Executors.defaultThreadFactory(), handler);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>corePoolSize &amp; maximumPoolSize</strong></p>
+<p>核心线程数（corePoolSize）和最大线程数（maximumPoolSize）是线程池中非常重要的两个概念。</p>
+<p>1、当一个新任务被提交到池中，如果当前运行线程小于核心线程数（corePoolSize），即使当前有空闲线程，也会新建一个线程来处理新提交的任务；</p>
+<p>2、如果当前运行线程数大于核心线程数（corePoolSize）并小于最大线程数（maximumPoolSize），只有当等待队列已满的情况下才会新建线程。</p>
+<p><strong>keepAliveTime &amp; unit</strong></p>
+<p>keepAliveTime 为超过 corePoolSize 线程数量的线程最大空闲时间，unit 为时间单位。</p>
+<p><strong>等待队列（workQueue）</strong></p>
+<p>任何阻塞队列（BlockingQueue）都可以用来转移或保存提交的任务，线程池大小和阻塞队列相互约束线程池：</p>
+<p>1、如果运行线程数小于<code>corePoolSize</code>，提交新任务时就会新建一个线程来运行；</p>
+<p>2、如果运行线程数大于或等于<code>corePoolSize</code>，新提交的任务就会入列等待；如果队列已满，并且运行线程数小于<code>maximumPoolSize</code>，也将会新建一个线程来运行；</p>
+<p>3、如果线程数大于<code>maximumPoolSize</code>，新提交的任务将会根据<strong>拒绝策略</strong>来处理。</p>
+<p>下面来看一下三种通用的入队策略：</p>
+<p>1、<strong>直接传递</strong>：通过 SynchronousQueue 直接把任务传递给线程。如果当前没可用线程，尝试入队操作会失败，然后再创建一个新的线程。当处理可能具有内部依赖性的请求时，该策略会避免请求被锁定。直接传递通常需要无界的最大线程数（maximumPoolSize），避免拒绝新提交的任务。当任务持续到达的平均速度超过可处理的速度时，可能导致线程的无限增长。</p>
+<p>2、<strong>无界队列</strong>：使用无界队列（如 LinkedBlockingQueue）作为等待队列，当所有的核心线程都在处理任务时， 新提交的任务都会进入队列等待。因此，不会有大于 corePoolSize 的线程会被创建（maximumPoolSize 也将失去作用）。这种策略适合每个任务都完全独立于其他任务的情况；例如网站服务器。这种类型的等待队列可以使瞬间爆发的高频请求变得平滑。当任务持续到达的平均速度超过可处理速度时，可能导致等待队列无限增长。</p>
+<p>3、<strong>有界队列</strong>：当使用有限的最大线程数时，有界队列（如 ArrayBlockingQueue）可以防止资源耗尽，但是难以调整和控制。队列大小和线程池大小可以相互作用：使用大的队列和小的线程数可以减少CPU使用率、系统资源和上下文切换的开销，但是会导致吞吐量变低，如果任务频繁地阻塞（例如被I&#x2F;O限制），系统就能为更多的线程调度执行时间。使用小的队列通常需要更多的线程数，这样可以最大化CPU使用率，但可能会需要更大的调度开销，从而降低吞吐量。</p>
+<p><strong>拒绝策略</strong></p>
+<p>当线程池已经关闭或达到饱和（最大线程和队列都已满）状态时，新提交的任务将会被拒绝。 ThreadPoolExecutor 定义了四种拒绝策略：</p>
+<p>1、<strong>AbortPolicy</strong>：默认策略，在需要拒绝任务时抛出RejectedExecutionException；</p>
+<p>2、<strong>CallerRunsPolicy</strong>：直接在 execute 方法的调用线程中运行被拒绝的任务，如果线程池已经关闭，任务将被丢弃；</p>
+<p>3、<strong>DiscardPolicy</strong>：直接丢弃任务；</p>
+<p>4、<strong>DiscardOldestPolicy</strong>：丢弃队列中等待时间最长的任务，并执行当前提交的任务，如果线程池已经关闭，任务将被丢弃。</p>
+<p>我们也可以自定义拒绝策略，只需要实现 RejectedExecutionHandler； 需要注意的是，拒绝策略的运行需要指定线程池和队列的容量。</p>
+<h2 id="java注解"><a href="#java注解" class="headerlink" title="java注解"></a>java注解</h2><blockquote>
+<p>Java注解又称Java标注，是在 JDK5 时引入的新特性，注解（也被称为元数据）。</p>
+</blockquote>
+<p>Java注解分类</p>
+<ol>
+<li>标准注解，包括@Override、@Deprecated、@SuppressWarnings等，使用这些注解后编译器就会进行检查。</li>
+<li>元注解，注解是用于定义注解的注解，包括@Retention、@Target、@Inherited、@Documented、@Repeatable 等。元注解也是Java自带的标准注解，只不过用于修饰注解，比较特殊。</li>
+<li>自定义注解，用户可以根据自己的需求定义注解。</li>
+</ol>
+<p><strong>标准注解</strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">注解名称</th>
+<th align="center">功能描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">@Override</td>
+<td align="center">检查该方法是否是重写方法，如果发现其父类，或者是引用的接口中并没有该方法时，会报编译错误</td>
+</tr>
+<tr>
+<td align="center">@Deprecated</td>
+<td align="center">标记过时方法，如果使用该方法，会报编译警告</td>
+</tr>
+<tr>
+<td align="center">@SuppressWarnings</td>
+<td align="center">指示编译器去忽略注释解中声明的警告</td>
+</tr>
+<tr>
+<td align="center">@Functionallnterface</td>
+<td align="center">java8支持，标识一个匿名函数或函数式接口</td>
+</tr>
+</tbody></table>
+<p><strong>元注解</strong></p>
+<p>@Retention用来定义该注解在哪一个级别可用，在源代码中(SOURCE)、类文件中(CLASS)或者运行时(RUNTIME)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Documented</span><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Target(ElementType.ANNOTATION_TYPE)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Retention &#123;</span><br><span class="line">  RetentionPolicy <span class="title function_">value</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> <span class="title class_">RetentionPolicy</span> &#123;</span><br><span class="line">  <span class="comment">//此注解类型的信息只会记录在源文件中，编译时将被编译器丢弃，也就是说</span></span><br><span class="line">  <span class="comment">//不会保存在编译好的类信息中</span></span><br><span class="line">  SOURCE,</span><br><span class="line">  <span class="comment">//编译器将注解记录在类文件中，但不会加载到JVM中。如果一个注解声明没指定范围，则系统</span></span><br><span class="line">  <span class="comment">//默认值就是Class</span></span><br><span class="line">  CLASS,</span><br><span class="line">  <span class="comment">//注解信息会保留在源文件、类文件中，在执行的时也加载到Java的JVM中，因此可以反射性的读取。</span></span><br><span class="line">  RUNTIME</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>@Documented 生成文档信息的时候保留注解，对类作辅助说明</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Target(&#123;ElementType.ANNOTATION_TYPE&#125;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Documented &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>@Target：用于描述注解的使用范围（即：被描述的注解可以用在什么地方）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="meta">@Target(ElementType.ANNOTATION_TYPE)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Target &#123;</span><br><span class="line">    ElementType[] value();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th align="center">Target类型</th>
+<th align="center">作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">TYPE</td>
+<td align="center">应用于类、接口(包括注解类型)、枚举</td>
+</tr>
+<tr>
+<td align="center">FIELD</td>
+<td align="center">应用于字段或属性</td>
+</tr>
+<tr>
+<td align="center">PARAMETER</td>
+<td align="center">应用于方法的参数</td>
+</tr>
+<tr>
+<td align="center">METHOD</td>
+<td align="center">应用于方法</td>
+</tr>
+<tr>
+<td align="center">CONSTRUCTOR</td>
+<td align="center">应用于构造函数</td>
+</tr>
+<tr>
+<td align="center">LOCAL_VARIABLE</td>
+<td align="center">应用于局部变量</td>
+</tr>
+<tr>
+<td align="center">ANNOTATION_TYPE</td>
+<td align="center">应用于一个注解类型</td>
+</tr>
+<tr>
+<td align="center">PACKAGE</td>
+<td align="center">应用于包</td>
+</tr>
+<tr>
+<td align="center">TYPE_PARAMETER</td>
+<td align="center">应用于类型变量</td>
+</tr>
+<tr>
+<td align="center">TYPE_USE</td>
+<td align="center">应用于任何使用类型的语句中</td>
+</tr>
+<tr>
+<td align="center">MODULE</td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<p><img src="/2023/02/13/%E5%85%B6%E4%BB%96/%E9%9D%A2%E8%AF%95%E7%9B%B8%E5%85%B3/java%E5%9F%BA%E7%A1%80%E9%9D%A2%E8%AF%95%E9%A2%98/java-collection-hierarchy.77b66a51.png"></p>
+<h2 id="ArrayList-扩容机制"><a href="#ArrayList-扩容机制" class="headerlink" title="ArrayList 扩容机制"></a>ArrayList 扩容机制</h2><p>先从 ArrayList 的构造函数说起</p>
+<h3 id="JDK8-ArrayList-有三种，构造方法"><a href="#JDK8-ArrayList-有三种，构造方法" class="headerlink" title="(JDK8)ArrayList 有三种，构造方法"></a>(JDK8)ArrayList 有三种，构造方法</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">    * 默认初始容量大小</span><br><span class="line">    */</span><br><span class="line">   private static final int DEFAULT_CAPACITY = 10;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   private static final Object[] DEFAULTCAPACITY_EMPTY_ELEMENTDATA = &#123;&#125;;</span><br><span class="line"></span><br><span class="line">   /**</span><br><span class="line">    *默认构造函数，使用初始容量10构造一个空列表(无参数构造)</span><br><span class="line">    */</span><br><span class="line">   public ArrayList() &#123;</span><br><span class="line">       this.elementData = DEFAULTCAPACITY_EMPTY_ELEMENTDATA;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   /**</span><br><span class="line">    * 带初始容量参数的构造函数。（用户自己指定容量）</span><br><span class="line">    */</span><br><span class="line">   public ArrayList(int initialCapacity) &#123;</span><br><span class="line">       if (initialCapacity &gt; 0) &#123;//初始容量大于0</span><br><span class="line">           //创建initialCapacity大小的数组</span><br><span class="line">           this.elementData = new Object[initialCapacity];</span><br><span class="line">       &#125; else if (initialCapacity == 0) &#123;//初始容量等于0</span><br><span class="line">           //创建空数组</span><br><span class="line">           this.elementData = EMPTY_ELEMENTDATA;</span><br><span class="line">       &#125; else &#123;//初始容量小于0，抛出异常</span><br><span class="line">           throw new IllegalArgumentException(&quot;Illegal Capacity: &quot;+initialCapacity);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">  /**</span><br><span class="line">   *构造包含指定collection元素的列表，这些元素利用该集合的迭代器按顺序返回</span><br><span class="line">   *如果指定的集合为null，throws NullPointerException。</span><br><span class="line">   */</span><br><span class="line">    public ArrayList(Collection&lt;? extends E&gt; c) &#123;</span><br><span class="line">       elementData = c.toArray();</span><br><span class="line">       if ((size = elementData.length) != 0) &#123;</span><br><span class="line">           // c.toArray might (incorrectly) not return Object[] (see 6260652)</span><br><span class="line">           if (elementData.getClass() != Object[].class)</span><br><span class="line">               elementData = Arrays.copyOf(elementData, size, Object[].class);</span><br><span class="line">       &#125; else &#123;</span><br><span class="line">           // replace with empty array.</span><br><span class="line">           this.elementData = EMPTY_ELEMENTDATA;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>以无参数构造方法创建 <code>ArrayList</code> 时，实际上初始化赋值的是一个空数组。当真正对数组进行添加元素操作时，才真正分配容量。即向数组中添加第一个元素时，数组容量扩为 10。</strong></p>
+</blockquote>
+<h3 id="add方法"><a href="#add方法" class="headerlink" title="add方法"></a>add方法</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 将指定的元素追加到此列表的末尾。</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">  <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">add</span><span class="params">(E e)</span> &#123;</span><br><span class="line">      <span class="comment">//添加元素之前，先调用ensureCapacityInternal方法</span></span><br><span class="line">      ensureCapacityInternal(size + <span class="number">1</span>);  <span class="comment">// Increments modCount!!</span></span><br><span class="line">      <span class="comment">//这里看到ArrayList添加元素的实质就相当于为数组赋值</span></span><br><span class="line">      elementData[size++] = e;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="ensureCapacityInternal方法"><a href="#ensureCapacityInternal方法" class="headerlink" title="ensureCapacityInternal方法"></a>ensureCapacityInternal方法</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">//得到最小扩容量</span><br><span class="line">private void ensureCapacityInternal(int minCapacity) &#123;</span><br><span class="line">    if (elementData == DEFAULTCAPACITY_EMPTY_ELEMENTDATA) &#123;</span><br><span class="line">       // 获取默认的容量和传入参数的较大值，第一次进入minCapacity = 10</span><br><span class="line">        minCapacity = Math.max(DEFAULT_CAPACITY, minCapacity);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ensureExplicitCapacity(minCapacity);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>当 要 add 进第 1 个元素时，minCapacity 为 1，在 Math.max()方法比较后，minCapacity 为 10。</strong></p>
+</blockquote>
+<h3 id="ensureExplicitCapacity方法"><a href="#ensureExplicitCapacity方法" class="headerlink" title="ensureExplicitCapacity方法"></a>ensureExplicitCapacity方法</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 判断是否需要扩容</span><br><span class="line">private void ensureExplicitCapacity(int minCapacity) &#123;</span><br><span class="line">    modCount++;</span><br><span class="line">    // overflow-conscious code</span><br><span class="line">    if (minCapacity - elementData.length &gt; 0)</span><br><span class="line">    //   //调用grow方法进行扩容，调用此方法代表已经开始扩容了</span><br><span class="line">        grow(minCapacity);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>当我们要 add 进第 1 个元素到 ArrayList 时，elementData.length 为 0 （因为还是一个空的 list），因为执行了 <code>ensureCapacityInternal()</code> 方法 ，所以 minCapacity 此时为 10。此时，<code>minCapacity - elementData.length &gt; 0</code>成立，所以会进入 <code>grow(minCapacity)</code> 方法。</li>
+<li>当 add 第 2 个元素时，minCapacity 为 2，此时 e lementData.length(容量)在添加第一个元素后扩容成 10 了。此时，<code>minCapacity - elementData.length &gt; 0</code> 不成立，所以不会进入 （执行）<code>grow(minCapacity)</code> 方法。</li>
+<li>添加第 3、4···到第 10 个元素时，依然不会执行 grow 方法，数组容量都为 10。</li>
+</ul>
+<p>直到添加第 11 个元素，minCapacity(为 11)比 elementData.length（为 10）要大。进入 grow 方法进行扩容</p>
+<h3 id="grow扩容方法"><a href="#grow扩容方法" class="headerlink" title="grow扩容方法"></a>grow扩容方法</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">* 要分配的最大数组大小</span><br><span class="line">*/</span><br><span class="line">private static final int MAX_ARRAY_SIZE = Integer.MAX_VALUE - 8;</span><br><span class="line"></span><br><span class="line">private void grow(int minCapacity) &#123;</span><br><span class="line">    // overflow-conscious code</span><br><span class="line">    // 原来的长度</span><br><span class="line">    int oldCapacity = elementData.length;</span><br><span class="line">//将oldCapacity 右移一位，其效果相当于oldCapacity /2，</span><br><span class="line">//我们知道位运算的速度远远快于整除运算，整句运算式的结果就是将新容量更新为旧容量的1.5倍，</span><br><span class="line">    int newCapacity = oldCapacity + (oldCapacity &gt;&gt; 1);</span><br><span class="line">//然后检查新容量是否大于最小需要容量，若还是小于最小需要容量，那么就把最小需要容量当作数组的新容量，</span><br><span class="line">    if (newCapacity - minCapacity &lt; 0)</span><br><span class="line">        newCapacity = minCapacity;</span><br><span class="line">// 如果新容量大于 MAX_ARRAY_SIZE,进入(执行) `hugeCapacity()` 方法来比较 minCapacity 和 MAX_ARRAY_SIZE，</span><br><span class="line">//如果minCapacity大于最大容量，则新容量则为`Integer.MAX_VALUE`，否则，新容量大小则为MAX_ARRAY_SIZE 即为 `Integer.MAX_VALUE - 8`。</span><br><span class="line">    if (newCapacity - MAX_ARRAY_SIZE &gt; 0)</span><br><span class="line">        newCapacity = hugeCapacity(minCapacity);</span><br><span class="line">    // minCapacity is usually close to size, so this is a win:</span><br><span class="line">    elementData = Arrays.copyOf(elementData, newCapacity);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>int newCapacity &#x3D; oldCapacity + (oldCapacity &gt;&gt; 1),所以 ArrayList 每次扩容之后容量都会变为原来的 1.5 倍左右（oldCapacity 为偶数就是 1.5 倍，否则是 1.5 倍左右）！</strong> 奇偶不同，比如 ：10+10&#x2F;2 &#x3D; 15, 33+33&#x2F;2&#x3D;49。如果是奇数的话会丢掉小数.</p>
+<blockquote>
+<p>“&gt;&gt;”（移位运算符）：&gt;&gt;1 右移一位相当于除 2，右移 n 位相当于除以 2 的 n 次方。这里 oldCapacity 明显右移了 1 位所以相当于 oldCapacity &#x2F;2。对于大数据的 2 进制运算,位移运算符比那些普通运算符的运算要快很多,因为程序仅仅移动一下而已,不去计算,这样提高了效率,节省了资源</p>
+</blockquote>
+<ul>
+<li>当 add 第 1 个元素时，oldCapacity 为 0，经比较后第一个 if 判断成立，newCapacity &#x3D; minCapacity(为 10)。但是第二个 if 判断不会成立，即 newCapacity 不比 MAX_ARRAY_SIZE 大，则不会进入 <code>hugeCapacity</code> 方法。数组容量为 10，add 方法中 return true,size 增为 1。</li>
+<li>当 add 第 11 个元素进入 grow 方法时，newCapacity 为 15，比 minCapacity（为 11）大，第一个 if 判断不成立。新容量没有大于数组最大 size，不会进入 hugeCapacity 方法。数组容量扩为 15，add 方法中 return true,size 增为 11。</li>
+</ul>
+<p><strong>这里补充一点比较重要，但是容易被忽视掉的知识点：</strong></p>
+<ul>
+<li>java 中的 <code>length</code>属性是针对数组说的,比如说你声明了一个数组,想知道这个数组的长度则用到了 length 这个属性.</li>
+<li>java 中的 <code>length()</code> 方法是针对字符串说的,如果想看这个字符串的长度则用到 <code>length()</code> 这个方法.</li>
+<li>java 中的 <code>size()</code> 方法是针对泛型集合说的,如果想看这个泛型有多少个元素,就调用此方法来查看</li>
+<li>以此类推······</li>
+</ul>
+<h2 id="ArrayList-与-LinkedList-区别"><a href="#ArrayList-与-LinkedList-区别" class="headerlink" title="ArrayList 与 LinkedList 区别"></a>ArrayList 与 LinkedList 区别</h2><ol>
+<li><p><strong>是否保证线程安全：</strong> <code>ArrayList</code> 和 <code>LinkedList</code> 都是不同步的，也就是不保证线程安全；</p>
+</li>
+<li><p><strong>底层数据结构：</strong> <code>ArrayList</code> 底层使用的是 <strong><code>Object</code> 数组</strong>；<code>LinkedList</code> 底层使用的是 <strong>双向链表</strong> 数据结构（JDK1.6 之前为循环链表，JDK1.7 取消了循环。注意双向链表和双向循环链表的区别，下面有介绍到！）</p>
+</li>
+<li><p>插入和删除是否受元素位置的影响：</p>
+<ul>
+<li><p><code>ArrayList</code> 采用数组存储，所以插入和删除元素的时间复杂度受元素位置的影响。 比如：执行<code>add(E e)</code>方法的时候， <code>ArrayList</code> 会默认在将指定的元素追加到此列表的末尾，这种情况时间复杂度就是 O(1)。但是如果要在指定位置 i 插入和删除元素的话（<code>add(int index, E element)</code>）时间复杂度就为 O(n-i)。因为在进行上述操作的时候集合中第 i 和第 i 个元素之后的(n-i)个元素都要执行向后位&#x2F;向前移一位的操作。</p>
+</li>
+<li><p><code>LinkedList</code> 采用链表存储，所以，如果是在头尾插入或者删除元素不受元素位置的影响（<code>add(E e)</code>、<code>addFirst(E e)</code>、<code>addLast(E e)</code>、<code>removeFirst()</code> 、 <code>removeLast()</code>），时间复杂度为 O(1)，如果是要在指定位置 <code>i</code> 插入和删除元素的话（<code>add(int index, E element)</code>，<code>remove(Object o)</code>）， 时间复杂度为 O(n) ，因为需要先移动到指定位置再插入。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>是否支持快速随机访问：</strong> <code>LinkedList</code> 不支持高效的随机元素访问，而 <code>ArrayList</code> 支持。快速随机访问就是通过元素的序号快速获取元素对象(对应于<code>get(int index)</code>方法)。</p>
+</li>
+<li><p><strong>内存空间占用：</strong> <code>ArrayList</code> 的空 间浪费主要体现在在 list 列表的结尾会预留一定的容量空间，而 LinkedList 的空间花费则体现在它的每一个元素都需要消耗比 ArrayList 更多的空间（因为要存放直接后继和直接前驱以及数据）。</p>
+</li>
+</ol>
+<p>另外，不要下意识地认为 <code>LinkedList</code> 作为链表就最适合元素增删的场景。我在上面也说了，<code>LinkedList</code> 仅仅在头尾插入或者删除元素的时候时间复杂度近似 O(1)，其他情况增删元素的时间复杂度都是 O(n) 。</p>
+<h2 id="HashMap的底层实现"><a href="#HashMap的底层实现" class="headerlink" title="HashMap的底层实现"></a>HashMap的底层实现</h2><p>JDK1.8 之前</p>
+<p>JDK1.8 之前 <code>HashMap</code> 底层是 <strong>数组和链表</strong> 结合在一起使用也就是 <strong>链表散列</strong>，采用头插法。<strong>HashMap 通过 key 的 hashCode 经过扰动函数处理过后得到 hash 值，然后通过 (n - 1) &amp; hash 判断当前元素存放的位置（这里的 n 指的是数组的长度），如果当前位置存在元素的话，就判断该元素与要存入的元素的 hash 值以及 key 是否相同，如果相同的话，直接覆盖，不相同就通过拉链法解决冲突。</strong></p>
+<p><strong>所谓扰动函数指的就是 HashMap 的 hash 方法。使用 hash 方法也就是扰动函数是为了防止一些实现比较差的 hashCode() 方法 换句话说使用扰动函数之后可以减少碰撞。</strong></p>
+<p><strong>JDK 1.8 HashMap 的 hash 方法源码:</strong></p>
+<p>JDK 1.8 的 hash 方法 相比于 JDK 1.7 hash 方法更加简化，但是原理不变。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">  <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="title function_">hash</span><span class="params">(Object key)</span> &#123;</span><br><span class="line">    <span class="type">int</span> h;</span><br><span class="line">    <span class="comment">// key.hashCode()：返回散列值也就是hashcode</span></span><br><span class="line">    <span class="comment">// ^ ：按位异或</span></span><br><span class="line">    <span class="comment">// &gt;&gt;&gt;:无符号右移，忽略符号位，空位都以0补齐</span></span><br><span class="line">    <span class="keyword">return</span> (key == <span class="literal">null</span>) ? <span class="number">0</span> : (h = key.hashCode()) ^ (h &gt;&gt;&gt; <span class="number">16</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对比一下 JDK1.7 的 HashMap 的 hash 方法源码.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="type">int</span> <span class="title function_">hash</span><span class="params">(<span class="type">int</span> h)</span> &#123;</span><br><span class="line">    <span class="comment">// This function ensures that hashCodes that differ only by</span></span><br><span class="line">    <span class="comment">// constant multiples at each bit position have a bounded</span></span><br><span class="line">    <span class="comment">// number of collisions (approximately 8 at default load factor).</span></span><br><span class="line"></span><br><span class="line">    h ^= (h &gt;&gt;&gt; <span class="number">20</span>) ^ (h &gt;&gt;&gt; <span class="number">12</span>);</span><br><span class="line">    <span class="keyword">return</span> h ^ (h &gt;&gt;&gt; <span class="number">7</span>) ^ (h &gt;&gt;&gt; <span class="number">4</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>相比于 JDK1.8 的 hash 方法 ，JDK 1.7 的 hash 方法的性能会稍差一点点，因为毕竟扰动了 4 次。</p>
+<p>所谓 <strong>“拉链法”</strong> 就是：将链表和数组相结合。也就是说创建一个链表数组，数组中每一格就是一个链表。若遇到哈希冲突，则将冲突的值加到链表中即可。</p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/jdk1.7_hashmap.05c0a661.png" alt="jdk1.7_hashmap.05c0a661"></p>
+<p><strong>JDK1.8 之后</strong></p>
+<p>相比于之前的版本， JDK1.8 之后在解决哈希冲突时有了较大的变化，采用尾插法进行插入元素，当链表长度大于阈值（默认为 8）（将链表转换成红黑树前会判断，如果当前数组的长度小于 64，那么会选择先进行数组扩容，而不是转换为红黑树）时，将链表转化为红黑树，以减少搜索时间。</p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/jdk1.8_hashmap.ae1eae18.png" alt="jdk1.8之后的内部结构-HashMap"></p>
+<blockquote>
+<p>TreeMap、TreeSet 以及 JDK1.8 之后的 HashMap 底层都用到了红黑树。红黑树就是为了解决二叉查找树的缺陷，因为二叉查找树在某些情况下会退化成一个线性结构。</p>
+</blockquote>
+<h2 id="HashMap的put方法"><a href="#HashMap的put方法" class="headerlink" title="HashMap的put方法"></a>HashMap的put方法</h2><p><img src="https://gitee.com/studentgitee/note-picture/raw/master/hashmap-put.png" alt="hashmap-put"></p>
+<p>1、put(key, value)中直接调用了内部的putVal方法，并且先对key进行了hash操作；</p>
+<p>2、putVal方法中，先检查HashMap数据结构中的索引数组表是否位空，如果是的话则进行一次resize扩容操作；</p>
+<p>3、以HashMap索引数组表的长度减一与key的hash值进行与运算，得出在数组中的索引，如果索引指定的位置值为空，则新建一个k-v的新节点；</p>
+<p>4、如果不满足的3的条件，说明索引指定的数组位置的已经存在内容，这个时候称之碰撞出现；</p>
+<p>5、在上面判断流程走完之后，计算HashMap全局的modCount值，以便对外部并发的迭代操作提供修改的Fail-fast判断提供依据，于此同时增加map中的记录数，并判断记录数是否触及容量扩充的阈值，触及则进行一轮resize操作；</p>
+<p>6、在步骤4中出现碰撞情况时，从步骤7开始展开新一轮逻辑判断和处理；</p>
+<p>7、判断key索引到的节点（暂且称作被碰撞节点）的hash、key是否和当前待插入节点（新节点）的一致，如果是一致的话，则先保存记录下该节点；如果新旧节点的内容不一致时，则再看被碰撞节点是否是树（TreeNode）类型，如果是树类型的话，则按照树的操作去追加新节点内容；如果被碰撞节点不是树类型，则说明当前发生的碰撞在链表中（此时链表尚未转为红黑树），此时进入一轮循环处理逻辑中；</p>
+<p>8、循环中，先判断被碰撞节点的后继节点是否为空，为空则将新节点作为后继节点，作为后继节点之后并判断当前链表长度是否超过最大允许链表长度8，如果大于的话，需要进行一轮是否转树的操作；如果在一开始后继节点不为空，则先判断后继节点是否与新节点相同，相同的话就记录并跳出循环；如果两个条件判断都满足则继续循环，直至进入某一个条件判断然后跳出循环；</p>
+<p>9、步骤8中转树的操作treeifyBin，如果map的索引表为空或者当前索引表长度还小于64（最大转红黑树的索引数组表长度），那么进行resize操作就行了；否则，如果被碰撞节点不为空，那么就顺着被碰撞节点这条树往后新增该新节点；</p>
+<p>10、最后，回到那个被记住的被碰撞节点，如果它不为空，默认情况下，新节点的值将会替换被碰撞节点的值，同时返回被碰撞节点的值（V）。</p>
+<h2 id="HashMap源码中在计算hash值的时候为什么要右移16位"><a href="#HashMap源码中在计算hash值的时候为什么要右移16位" class="headerlink" title="HashMap源码中在计算hash值的时候为什么要右移16位"></a>HashMap源码中在计算hash值的时候为什么要右移16位</h2><blockquote>
+<p>尽量扰动计算的出来的hash值，减少哈希冲突。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Hash</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt; <span class="number">11</span>; i++) &#123;</span><br><span class="line">            <span class="type">Integer</span> <span class="variable">a</span> <span class="operator">=</span> <span class="number">65536</span> * i + <span class="number">311156</span>;</span><br><span class="line">            System.out.println(hash(a) % <span class="number">16</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="title function_">hash</span><span class="params">(Object key)</span> &#123;</span><br><span class="line">        <span class="type">int</span> h;</span><br><span class="line">        <span class="keyword">return</span> (key == <span class="literal">null</span>) ? <span class="number">0</span> : (h = key.hashCode()) ^ (h &gt;&gt;&gt; <span class="number">16</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>⚠️注意 ： 扰动函数只有在hashCode值大于65536的时候效果才是最显著的，因为需要右移16位，所以hashCode值转换成二进制的位置要大于16位，也就是2的16次方（65536），如果hashCode太小，扰动的效果不大，因为hashCode跟hashCode右移16位进行疑惑时，将会得到它本身。</p>
+<p>补充知识点：</p>
+<table>
+<thead>
+<tr>
+<th align="center">操作符</th>
+<th align="center">描述</th>
+<th align="center">例子</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">＆</td>
+<td align="center">如果相对应位都是1，则结果为1，否则为0</td>
+<td align="center">（A＆B），得到12，即0000 1100</td>
+</tr>
+<tr>
+<td align="center">|</td>
+<td align="center">如果相对应位都是 0，则结果为 0，否则为 1</td>
+<td align="center">（A | B）得到61，即 0011 1101</td>
+</tr>
+<tr>
+<td align="center">^</td>
+<td align="center">如果相对应位值相同，则结果为0，否则为1</td>
+<td align="center">（A ^ B）得到49，即 0011 0001</td>
+</tr>
+<tr>
+<td align="center">〜</td>
+<td align="center">按位取反运算符翻转操作数的每一位，即0变成1，1变成0。</td>
+<td align="center">（〜A）得到-61，即1100 0011</td>
+</tr>
+<tr>
+<td align="center">&lt;&lt;</td>
+<td align="center">按位左移运算符。左操作数按位左移右操作数指定的位数。</td>
+<td align="center">A &lt;&lt; 2得到240，即 1111 0000</td>
+</tr>
+<tr>
+<td align="center">&gt;&gt;</td>
+<td align="center">按位右移运算符。左操作数按位右移右操作数指定的位数。</td>
+<td align="center">A &gt;&gt; 2得到15即 1111</td>
+</tr>
+<tr>
+<td align="center">&gt;&gt;&gt;</td>
+<td align="center">按位右移补零操作符。左操作数的值按右操作数指定的位数右移，移动得到的空位以零填充。</td>
+<td align="center">A&gt;&gt;&gt;2得到15即0000 1111</td>
+</tr>
+</tbody></table>
+<h2 id="HashMap扩容的时候为什么是2的n次幂"><a href="#HashMap扩容的时候为什么是2的n次幂" class="headerlink" title="HashMap扩容的时候为什么是2的n次幂"></a>HashMap扩容的时候为什么是2的n次幂</h2><p>为了能让 HashMap 存取高效，尽量较少碰撞，也就是要尽量把数据分配均匀。我们上面也讲到了过了，Hash 值的范围值-2147483648 到 2147483647，前后加起来大概 40 亿的映射空间，只要哈希函数映射得比较均匀松散，一般应用是很难出现碰撞的。但问题是一个 40 亿长度的数组，内存是放不下的。所以这个散列值是不能直接拿来用的。用之前还要先做对数组的长度取模运算，得到的余数才能用来要存放的位置也就是对应的数组下标。这个数组下标的计算方法是“ <code>(n - 1) &amp; hash</code>”。（n 代表数组长度）。这也就解释了 HashMap 的长度为什么是 2 的幂次方。</p>
+<p><strong>这个算法应该如何设计呢？</strong></p>
+<p>我们首先可能会想到采用%取余的操作来实现。但是，重点来了：<strong>“取余(%)操作中如果除数是 2 的幂次则等价于与其除数减一的与(&amp;)操作（也就是说 hash%length&#x3D;&#x3D;hash&amp;(length-1)的前提是 length 是 2 的 n 次方；）。”</strong> 并且 <strong>采用二进制位操作 &amp;，相对于%能够提高运算效率，这就解释了 HashMap 的长度为什么是 2 的幂次方。</strong></p>
+<h2 id="HashMap线程不安全的原因"><a href="#HashMap线程不安全的原因" class="headerlink" title="HashMap线程不安全的原因"></a>HashMap线程不安全的原因</h2><p>jdk1.8的hashMap</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//实际存储的key-value键值对的个数</span></span><br><span class="line"><span class="keyword">transient</span> <span class="type">int</span> size;</span><br><span class="line"><span class="comment">//阈值，当table == &#123;&#125;时，该值为初始容量（初始容量默认为16）；当table被填充了，也就是为table分配内存空间后，threshold一般为 capacity*loadFactory。HashMap在进行扩容时需要参考threshold，后面会详细谈到</span></span><br><span class="line"><span class="type">int</span> threshold;</span><br><span class="line"><span class="comment">//负载因子，代表了table的填充度有多少，默认是0.75</span></span><br><span class="line"><span class="keyword">final</span> <span class="type">float</span> loadFactor;</span><br><span class="line"><span class="comment">//用于快速失败，由于HashMap非线程安全，在对HashMap进行迭代时，如果期间其他线程的参与导致HashMap的结构发生变化了（比如put，remove等操作），需要抛出异常ConcurrentModificationException</span></span><br><span class="line"><span class="keyword">transient</span> <span class="type">int</span> modCount;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> V <span class="title function_">putVal</span><span class="params">(<span class="type">int</span> hash, K key, V value, <span class="type">boolean</span> onlyIfAbsent,</span></span><br><span class="line"><span class="params">                   <span class="type">boolean</span> evict)</span> &#123;</span><br><span class="line">        Node&lt;K,V&gt;[] tab; Node&lt;K,V&gt; p; <span class="type">int</span> n, i;</span><br><span class="line">        <span class="keyword">if</span> ((tab = table) == <span class="literal">null</span> || (n = tab.length) == <span class="number">0</span>)</span><br><span class="line">            n = (tab = resize()).length;</span><br><span class="line">        <span class="comment">//如果没有hash碰撞则直接插入元素</span></span><br><span class="line">        <span class="keyword">if</span> ((p = tab[i = (n - <span class="number">1</span>) &amp; hash]) == <span class="literal">null</span>) </span><br><span class="line">            tab[i] = newNode(hash, key, value, <span class="literal">null</span>);</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            Node&lt;K,V&gt; e; K k;</span><br><span class="line">            <span class="keyword">if</span> (p.hash == hash &amp;&amp;</span><br><span class="line">                ((k = p.key) == key || (key != <span class="literal">null</span> &amp;&amp; key.equals(k))))</span><br><span class="line">                e = p;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (p <span class="keyword">instanceof</span> TreeNode)</span><br><span class="line">                e = ((TreeNode&lt;K,V&gt;)p).putTreeVal(<span class="built_in">this</span>, tab, hash, key, value);</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">binCount</span> <span class="operator">=</span> <span class="number">0</span>; ; ++binCount) &#123;</span><br><span class="line">                    <span class="keyword">if</span> ((e = p.next) == <span class="literal">null</span>) &#123;</span><br><span class="line">                        p.next = newNode(hash, key, value, <span class="literal">null</span>);</span><br><span class="line">                        <span class="keyword">if</span> (binCount &gt;= TREEIFY_THRESHOLD - <span class="number">1</span>) <span class="comment">// -1 for 1st</span></span><br><span class="line">                            treeifyBin(tab, hash);</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">if</span> (e.hash == hash &amp;&amp;</span><br><span class="line">                        ((k = e.key) == key || (key != <span class="literal">null</span> &amp;&amp; key.equals(k))))</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    p = e;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (e != <span class="literal">null</span>) &#123; <span class="comment">// existing mapping for key</span></span><br><span class="line">                <span class="type">V</span> <span class="variable">oldValue</span> <span class="operator">=</span> e.value;</span><br><span class="line">                <span class="keyword">if</span> (!onlyIfAbsent || oldValue == <span class="literal">null</span>)</span><br><span class="line">                    e.value = value;</span><br><span class="line">                afterNodeAccess(e);</span><br><span class="line">                <span class="keyword">return</span> oldValue;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        ++modCount;</span><br><span class="line">        <span class="comment">// 当size（已存放元素个数） &gt; thrshold（阀值），进行扩容</span></span><br><span class="line">        resize();</span><br><span class="line">        <span class="keyword">if</span> (++size &gt; threshold)</span><br><span class="line">            resize();</span><br><span class="line">        afterNodeInsertion(evict);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>这是jdk1.8中HashMap中put操作的主函数， 注意第6行代码，如果没有hash碰撞则会直接插入元素。如果线程A和线程B同时进行put操作，刚好这两条不同的数据hash值一样，并且该位置数据为null，所以这线程A、B都会进入第6行代码中。</p>
+<p>假设一种情况，线程A进入后还未进行数据插入时挂起，而线程B正常执行，从而正常插入数据，然后线程A获取CPU时间片，此时线程A不用再进行hash判断了，问题出现：线程A会把线程B插入的数据给覆盖，发生线程不安全。</p>
+<h2 id="HashMap-和-Hashtable-的区别"><a href="#HashMap-和-Hashtable-的区别" class="headerlink" title="HashMap 和 Hashtable 的区别"></a>HashMap 和 Hashtable 的区别</h2><ol>
+<li><strong>线程是否安全：</strong> <code>HashMap</code> 是非线程安全的，<code>Hashtable</code> 是线程安全的,因为 <code>Hashtable</code> 内部的方法基本都经过<code>synchronized</code> 修饰。（如果你要保证线程安全的话就使用 <code>ConcurrentHashMap</code> 吧！）；</li>
+<li><strong>效率：</strong> 因为线程安全的问题，<code>HashMap</code> 要比 <code>Hashtable</code> 效率高一点。另外，<code>Hashtable</code> 基本被淘汰，不要在代码中使用它；</li>
+<li><strong>对 Null key 和 Null value 的支持：</strong> <code>HashMap</code> 可以存储 null 的 key 和 value，但 null 作为键只能有一个，null 作为值可以有多个；Hashtable 不允许有 null 键和 null 值，否则会抛出 <code>NullPointerException</code>。</li>
+<li><strong>初始容量大小和每次扩充容量大小的不同 ：</strong> ① 创建时如果不指定容量初始值，<code>Hashtable</code> 默认的初始大小为 11，之后每次扩充，容量变为原来的 2n+1。<code>HashMap</code> 默认的初始化大小为 16。之后每次扩充，容量变为原来的 2 倍。② 创建时如果给定了容量初始值，那么 Hashtable 会直接使用你给定的大小，而 <code>HashMap</code> 会将其扩充为 2 的幂次方大小（<code>HashMap</code> 中的<code>tableSizeFor()</code>方法保证，下面给出了源代码）。也就是说 <code>HashMap</code> 总是使用 2 的幂作为哈希表的大小,后面会介绍到为什么是 2 的幂次方。</li>
+<li><strong>底层数据结构：</strong> JDK1.8 以后的 <code>HashMap</code> 在解决哈希冲突时有了较大的变化，当链表长度大于阈值（默认为 8）（将链表转换成红黑树前会判断，如果当前数组的长度小于 64，那么会选择先进行数组扩容，而不是转换为红黑树）时，将链表转化为红黑树，以减少搜索时间。Hashtable 没有这样的机制。</li>
+</ol>
+<h2 id="HashMap和TreeMap的区别"><a href="#HashMap和TreeMap的区别" class="headerlink" title="HashMap和TreeMap的区别"></a>HashMap和TreeMap的区别</h2><p>1、<code>TreeMap</code> 和<code>HashMap</code> 都继承自<code>AbstractMap</code> ，但是需要注意的是<code>TreeMap</code>它还实现了<code>NavigableMap</code>接口和<code>SortedMap</code> 接口。</p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20220703220032649.png" alt="image-20220703220032649"></p>
+<p>2、HashMap和TreeMap都是线程不安全的</p>
+<p>3、HashMap是通过hash值进行快速查找的；HashMap中的元素是没有顺序的；TreeMap中<br>所有的元素都是有某一固定顺序的，如果需要得到一个有序的结果，就应该使用TreeMap；</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">MrWei</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2023/02/13/%E5%85%B6%E4%BB%96/%E9%9D%A2%E8%AF%95%E7%9B%B8%E5%85%B3/java%E5%9F%BA%E7%A1%80%E9%9D%A2%E8%AF%95%E9%A2%98/">http://example.com/2023/02/13/%E5%85%B6%E4%BB%96/%E9%9D%A2%E8%AF%95%E7%9B%B8%E5%85%B3/java%E5%9F%BA%E7%A1%80%E9%9D%A2%E8%AF%95%E9%A2%98/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">Gping</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/">面试题</a></div><div class="post_share"><div class="social-share" data-image="https://gitee.com/studentgitee/note-picture/raw/master/115.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/02/13/%E5%85%B6%E4%BB%96/%E9%9D%A2%E8%AF%95%E7%9B%B8%E5%85%B3/mybatis%E9%9D%A2%E8%AF%95%E9%A2%98/" title="mybatis面试题"><img class="cover" src="https://gitee.com/studentgitee/note-picture/raw/master/115.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">mybatis面试题</div></div></a></div><div class="next-post pull-right"><a href="/2023/02/13/nginx/nginx%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" title="nginx常用命令"><img class="cover" src="https://gitee.com/studentgitee/note-picture/raw/master/48540923dd54564e717962685c908285d1584f1d.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">nginx常用命令</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/02/13/%E5%85%B6%E4%BB%96/%E9%9D%A2%E8%AF%95%E7%9B%B8%E5%85%B3/mybatis%E9%9D%A2%E8%AF%95%E9%A2%98/" title="mybatis面试题"><img class="cover" src="https://gitee.com/studentgitee/note-picture/raw/master/115.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-13</div><div class="title">mybatis面试题</div></div></a></div><div><a href="/2023/02/13/%E5%85%B6%E4%BB%96/%E9%9D%A2%E8%AF%95%E7%9B%B8%E5%85%B3/mysql%E9%9D%A2%E8%AF%95%E9%A2%98/" title="mysql面试题"><img class="cover" src="https://gitee.com/studentgitee/note-picture/raw/master/115.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-13</div><div class="title">mysql面试题</div></div></a></div><div><a href="/2023/02/13/%E5%85%B6%E4%BB%96/%E9%9D%A2%E8%AF%95%E7%9B%B8%E5%85%B3/spring%E9%9D%A2%E8%AF%95%E9%A2%98/" title="spring面试题"><img class="cover" src="https://gitee.com/studentgitee/note-picture/raw/master/115.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-13</div><div class="title">spring面试题</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://gitee.com/studentgitee/note-picture/raw/master/1676193401851.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">MrWei</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">19</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Java%E6%9C%89%E5%87%A0%E7%A7%8D%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.</span> <span class="toc-text">Java有几种基本数据类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E6%9C%89%E5%8C%85%E8%A3%85%E7%B1%BB%E5%9E%8B"><span class="toc-number">2.</span> <span class="toc-text">为什么要有包装类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B%E5%92%8C%E5%8C%85%E8%A3%85%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">3.</span> <span class="toc-text">基本类型和包装类型的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E4%B8%89%E5%A4%A7%E7%89%B9%E5%BE%81"><span class="toc-number">4.</span> <span class="toc-text">面向对象三大特征</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%92%8C%E9%9D%A2%E5%90%91%E8%BF%87%E7%A8%8B%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">5.</span> <span class="toc-text">面向对象和面向过程的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%87%8D%E8%BD%BD%E4%B8%8E%E9%87%8D%E5%86%99%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">6.</span> <span class="toc-text">重载与重写的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#x3D-x3D-%E5%92%8C-equals%E5%8C%BA%E5%88%AB"><span class="toc-number">7.</span> <span class="toc-text">&#x3D;&#x3D; 和 equals区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#String%E5%92%8CStringBuffer%E5%92%8CStringBuilder%E5%8C%BA%E5%88%AB"><span class="toc-number">8.</span> <span class="toc-text">String和StringBuffer和StringBuilder区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A5%E5%8F%A3%E5%92%8C%E6%8A%BD%E8%B1%A1%E7%B1%BB%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">9.</span> <span class="toc-text">接口和抽象类的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java%E8%AE%BF%E9%97%AE%E4%BF%AE%E9%A5%B0%E7%AC%A6%E6%9C%89%E5%93%AA%E4%BA%9B"><span class="toc-number">10.</span> <span class="toc-text">Java访问修饰符有哪些</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#static%E5%92%8Cfinal%E5%8C%BA%E5%88%AB"><span class="toc-number">11.</span> <span class="toc-text">static和final区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%90%E7%88%B6%E7%B1%BB%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F"><span class="toc-number">12.</span> <span class="toc-text">子父类代码执行顺序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#String-s-x3D-%E2%80%9Chello%E2%80%9D%E5%92%8CString-s-x3D-new-String-%E2%80%9Chello%E2%80%9D-%E5%8C%BA%E5%88%AB"><span class="toc-number">13.</span> <span class="toc-text">String s &#x3D; “hello”和String s &#x3D; new String(“hello”);区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java%E4%B8%AD%E7%9A%84%E6%B7%B1%E6%8B%B7%E8%B4%9D%E5%92%8C%E6%B5%85%E6%8B%B7%E8%B4%9D"><span class="toc-number">14.</span> <span class="toc-text">Java中的深拷贝和浅拷贝</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java%E4%B8%AD%E7%9A%84%E5%BC%82%E5%B8%B8%E4%BD%93%E7%B3%BB"><span class="toc-number">15.</span> <span class="toc-text">Java中的异常体系</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%BD%E9%97%AE1%EF%BC%9A%E5%BC%82%E5%B8%B8%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F%EF%BC%9F"><span class="toc-number">15.1.</span> <span class="toc-text">追问1：异常的处理方式？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%BD%E9%97%AE2%EF%BC%9A-try-catch-finally-%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8"><span class="toc-number">15.2.</span> <span class="toc-text">追问2： try-catch-finally 如何使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%BD%E9%97%AE3%EF%BC%9Afinally-%E4%B8%AD%E7%9A%84%E4%BB%A3%E7%A0%81%E4%B8%80%E5%AE%9A%E4%BC%9A%E6%89%A7%E8%A1%8C%E5%90%97%EF%BC%9F"><span class="toc-number">15.3.</span> <span class="toc-text">追问3：finally 中的代码一定会执行吗？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%B3%9B%E5%9E%8B%EF%BC%9F%E6%9C%89%E4%BB%80%E4%B9%88%E4%BD%9C%E7%94%A8%EF%BC%9F"><span class="toc-number">16.</span> <span class="toc-text">什么是泛型？有什么作用？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%BD%E9%97%AE1%EF%BC%9A%E6%B3%9B%E5%9E%8B%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E5%BC%8F%E6%9C%89%E5%93%AA%E5%87%A0%E7%A7%8D"><span class="toc-number">16.1.</span> <span class="toc-text">追问1：泛型的使用方式有哪几种</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%BD%E9%97%AE2%EF%BC%9A%E6%B3%9B%E5%9E%8B%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">16.2.</span> <span class="toc-text">追问2：泛型应用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%BD%E9%97%AE3%EF%BC%9A%E4%BB%80%E4%B9%88%E6%98%AF%E6%B3%9B%E5%9E%8B%E7%9A%84%E7%B1%BB%E5%9E%8B%E6%93%A6%E9%99%A4"><span class="toc-number">16.3.</span> <span class="toc-text">追问3：什么是泛型的类型擦除</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%BD%E9%97%AE4%EF%BC%9A%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E8%BF%9B%E8%A1%8C%E6%B3%9B%E5%9E%8B%E7%B1%BB%E5%9E%8B%E6%93%A6%E9%99%A4"><span class="toc-number">16.4.</span> <span class="toc-text">追问4：为什么要进行泛型类型擦除</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%95%E4%B8%BA%E5%8F%8D%E5%B0%84"><span class="toc-number">17.</span> <span class="toc-text">何为反射</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8D%E5%B0%84%E7%9A%84%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">17.1.</span> <span class="toc-text">反射的应用场景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96java%E7%B1%BB%E5%AD%97%E8%8A%82%E7%A0%81%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-number">17.2.</span> <span class="toc-text">获取java类字节码的方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#java%E7%BA%BF%E7%A8%8B%E6%B1%A0"><span class="toc-number">18.</span> <span class="toc-text">java线程池</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#java%E6%B3%A8%E8%A7%A3"><span class="toc-number">19.</span> <span class="toc-text">java注解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ArrayList-%E6%89%A9%E5%AE%B9%E6%9C%BA%E5%88%B6"><span class="toc-number">20.</span> <span class="toc-text">ArrayList 扩容机制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#JDK8-ArrayList-%E6%9C%89%E4%B8%89%E7%A7%8D%EF%BC%8C%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95"><span class="toc-number">20.1.</span> <span class="toc-text">(JDK8)ArrayList 有三种，构造方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#add%E6%96%B9%E6%B3%95"><span class="toc-number">20.2.</span> <span class="toc-text">add方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ensureCapacityInternal%E6%96%B9%E6%B3%95"><span class="toc-number">20.3.</span> <span class="toc-text">ensureCapacityInternal方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ensureExplicitCapacity%E6%96%B9%E6%B3%95"><span class="toc-number">20.4.</span> <span class="toc-text">ensureExplicitCapacity方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#grow%E6%89%A9%E5%AE%B9%E6%96%B9%E6%B3%95"><span class="toc-number">20.5.</span> <span class="toc-text">grow扩容方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ArrayList-%E4%B8%8E-LinkedList-%E5%8C%BA%E5%88%AB"><span class="toc-number">21.</span> <span class="toc-text">ArrayList 与 LinkedList 区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HashMap%E7%9A%84%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0"><span class="toc-number">22.</span> <span class="toc-text">HashMap的底层实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HashMap%E7%9A%84put%E6%96%B9%E6%B3%95"><span class="toc-number">23.</span> <span class="toc-text">HashMap的put方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HashMap%E6%BA%90%E7%A0%81%E4%B8%AD%E5%9C%A8%E8%AE%A1%E7%AE%97hash%E5%80%BC%E7%9A%84%E6%97%B6%E5%80%99%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%8F%B3%E7%A7%BB16%E4%BD%8D"><span class="toc-number">24.</span> <span class="toc-text">HashMap源码中在计算hash值的时候为什么要右移16位</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HashMap%E6%89%A9%E5%AE%B9%E7%9A%84%E6%97%B6%E5%80%99%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%AF2%E7%9A%84n%E6%AC%A1%E5%B9%82"><span class="toc-number">25.</span> <span class="toc-text">HashMap扩容的时候为什么是2的n次幂</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HashMap%E7%BA%BF%E7%A8%8B%E4%B8%8D%E5%AE%89%E5%85%A8%E7%9A%84%E5%8E%9F%E5%9B%A0"><span class="toc-number">26.</span> <span class="toc-text">HashMap线程不安全的原因</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HashMap-%E5%92%8C-Hashtable-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">27.</span> <span class="toc-text">HashMap 和 Hashtable 的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HashMap%E5%92%8CTreeMap%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">28.</span> <span class="toc-text">HashMap和TreeMap的区别</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/02/13/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E6%90%AD%E5%BB%BA/" title="mysql主从赋值搭建"><img src="https://gitee.com/studentgitee/note-picture/raw/master/v2-3286aaa6155b7e419c002b536332c519_250x0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="mysql主从赋值搭建"/></a><div class="content"><a class="title" href="/2023/02/13/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E6%90%AD%E5%BB%BA/" title="mysql主从赋值搭建">mysql主从赋值搭建</a><time datetime="2023-02-13T00:43:54.264Z" title="发表于 2023-02-13 08:43:54">2023-02-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/02/13/%E8%99%9A%E6%8B%9F%E6%9C%BA/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" title="Linux常用命令"><img src="https://gitee.com/studentgitee/note-picture/raw/master/147937407959735466.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux常用命令"/></a><div class="content"><a class="title" href="/2023/02/13/%E8%99%9A%E6%8B%9F%E6%9C%BA/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" title="Linux常用命令">Linux常用命令</a><time datetime="2023-02-13T00:43:54.264Z" title="发表于 2023-02-13 08:43:54">2023-02-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/02/13/%E5%B8%B8%E7%94%A8%E6%A1%86%E6%9E%B6/oauth2.0/oauth2.0/" title="oauth2.0"><img src="https://gitee.com/studentgitee/note-picture/raw/master/9e803ed883298d09d964bbaf9d89b9dc.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="oauth2.0"/></a><div class="content"><a class="title" href="/2023/02/13/%E5%B8%B8%E7%94%A8%E6%A1%86%E6%9E%B6/oauth2.0/oauth2.0/" title="oauth2.0">oauth2.0</a><time datetime="2023-02-13T00:43:54.262Z" title="发表于 2023-02-13 08:43:54">2023-02-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/02/13/%E5%B8%B8%E7%94%A8%E6%A1%86%E6%9E%B6/ElasticSearch7/elasticSearch7/" title="elasticSearch7"><img src="https://gitee.com/studentgitee/note-picture/raw/master/c38cf6948b39dd755ac13fc639070fd8af5cd4db.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="elasticSearch7"/></a><div class="content"><a class="title" href="/2023/02/13/%E5%B8%B8%E7%94%A8%E6%A1%86%E6%9E%B6/ElasticSearch7/elasticSearch7/" title="elasticSearch7">elasticSearch7</a><time datetime="2023-02-13T00:43:54.261Z" title="发表于 2023-02-13 08:43:54">2023-02-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/02/13/%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7/git%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/" title="git使用手册"><img src="https://gitee.com/studentgitee/note-picture/raw/master/u=829309475,2841958997&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPG.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="git使用手册"/></a><div class="content"><a class="title" href="/2023/02/13/%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7/git%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/" title="git使用手册">git使用手册</a><time datetime="2023-02-13T00:43:54.260Z" title="发表于 2023-02-13 08:43:54">2023-02-13</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By MrWei</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

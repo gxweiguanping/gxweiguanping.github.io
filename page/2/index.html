@@ -1,0 +1,329 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>Gping - 程序控制，逐条执行</title><meta name="author" content="MrWei"><meta name="copyright" content="MrWei"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="referrer" content="no-referrer"><meta property="og:type" content="website">
+<meta property="og:title" content="Gping">
+<meta property="og:url" content="http://example.com/page/2/index.html">
+<meta property="og:site_name" content="Gping">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/studentgitee/note-picture/raw/master/1676193401851.png">
+<meta property="article:author" content="MrWei">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/studentgitee/note-picture/raw/master/1676193401851.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/page/2/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Gping',
+  isPost: false,
+  isHome: true,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2023-02-13 11:01:27'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = url => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      link.onload = () => resolve()
+      link.onerror = () => reject()
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="./css/background.css"><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://gitee.com/studentgitee/note-picture/raw/master/1676193401851.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">19</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/plan/"><i class="fa-fw fas fa-navicon"></i><span> 计划</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background-image: url('/./img/siteCover.png')"><nav id="nav"><span id="blog-info"><a href="/" title="Gping"><span class="site-name">Gping</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/plan/"><i class="fa-fw fas fa-navicon"></i><span> 计划</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="site-info"><h1 id="site-title">Gping</h1><div id="site-subtitle"><span id="subtitle"></span></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="post_cover left"><a href="/2023/02/13/%E5%85%B6%E4%BB%96/%E9%9D%A2%E8%AF%95%E7%9B%B8%E5%85%B3/spring%E9%9D%A2%E8%AF%95%E9%A2%98/" title="spring面试题"><img class="post-bg" src="https://gitee.com/studentgitee/note-picture/raw/master/115.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="spring面试题"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/02/13/%E5%85%B6%E4%BB%96/%E9%9D%A2%E8%AF%95%E7%9B%B8%E5%85%B3/spring%E9%9D%A2%E8%AF%95%E9%A2%98/" title="spring面试题">spring面试题</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-02-13T00:43:54.204Z" title="发表于 2023-02-13 08:43:54">2023-02-13</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E9%9D%A2%E8%AF%95%E9%A2%98/">面试题</a></span></div><div class="content">你对Spring的理解1、Spring是实现了工厂模式的工厂类（在这里有必要解释清楚什么是工厂模式），这个类名为BeanFactory（实际上是一个接口），在程序中通常BeanFactory的子类ApplicationContext。Spring相当于一个大的工厂类，在其配置文件中通过元素配置用于创建实例对象的类名和实例对象的属性。
+2、Spring提供了对IOC良好支持，IOC是一种编程思想，是一种架构艺术，利用这种思想可以很好地实现模块之间的解耦，IOC也称为DI（Depency Injection）。
+3、Spring提供了对AOP技术的良好封装， AOP称为面向切面编程，就是系统中有很多各不相干的类的方法，在这些众多方法中要加入某种系统功能的代码，例如，加入日志，加入权限判断，加入异常处理，这种应用称为AOP。
+ 4、实现AOP功能采用的是代理技术，客户端程序不再调用目标，而调用代理类，代理类与目标类对外具有相同的方法声明，有两种方式可以实现相同的方法声明，一是实现相同的接口，二是作为目标的子类。
+5、 在JDK中采用Proxy类产生动态代理的方式为某个接口生成实现类，如果要为 ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2023/02/13/%E5%85%B6%E4%BB%96/%E9%9D%A2%E8%AF%95%E7%9B%B8%E5%85%B3/mybatis%E9%9D%A2%E8%AF%95%E9%A2%98/" title="mybatis面试题"><img class="post-bg" src="https://gitee.com/studentgitee/note-picture/raw/master/115.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="mybatis面试题"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/02/13/%E5%85%B6%E4%BB%96/%E9%9D%A2%E8%AF%95%E7%9B%B8%E5%85%B3/mybatis%E9%9D%A2%E8%AF%95%E9%A2%98/" title="mybatis面试题">mybatis面试题</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-02-13T00:43:54.203Z" title="发表于 2023-02-13 08:43:54">2023-02-13</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E9%9D%A2%E8%AF%95%E9%A2%98/">面试题</a></span></div><div class="content">#{}和${}的区别是什么？
+$&#123;&#125;是 Properties 文件中的变量占位符，它可以用于标签属性值和 sql 内部，属于静态文本替换，比如${driver}会被静态替换为com.mysql.jdbc. Driver。
+#&#123;&#125;是 sql 的参数占位符，MyBatis 会将 sql 中的#&#123;&#125;替换为? 号，在 sql 执行前会使用 PreparedStatement 的参数设置方法，按序给 sql 的? 号占位符设置参数值，比如 ps.setInt(0, parameterValue)，#&#123;item.name&#125; 的取值方式为使用反射从参数对象中获取 item 对象的 name 属性值，相当于 param.getItem().getName()。
+
+既然$不安全，为什么还需要$，什么时候会用到它？它可以解决一些特殊情况下的问题。例如，在一些动态表格（根据不同的条件产生不同的动态列）中，我们要传递SQL的列名，根据某些列进行排序，或者传递列名给SQL都是比较常见的场景，这就无法使用预编译的方式了。
+Xml 映射 ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2023/02/13/%E5%85%B6%E4%BB%96/%E9%9D%A2%E8%AF%95%E7%9B%B8%E5%85%B3/java%E5%9F%BA%E7%A1%80%E9%9D%A2%E8%AF%95%E9%A2%98/" title="java基础面试题"><img class="post-bg" src="https://gitee.com/studentgitee/note-picture/raw/master/115.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="java基础面试题"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/02/13/%E5%85%B6%E4%BB%96/%E9%9D%A2%E8%AF%95%E7%9B%B8%E5%85%B3/java%E5%9F%BA%E7%A1%80%E9%9D%A2%E8%AF%95%E9%A2%98/" title="java基础面试题">java基础面试题</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-02-13T00:43:54.203Z" title="发表于 2023-02-13 08:43:54">2023-02-13</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E9%9D%A2%E8%AF%95%E9%A2%98/">面试题</a></span></div><div class="content">Java有几种基本数据类型
+有八种基本数据类型。一个字节等于8个bit位
+
+
+
+
+数据类型
+占用字节
+
+
+
+byte
+1
+
+
+short
+2
+
+
+int
+4
+
+
+long
+8
+
+
+double
+4
+
+
+float
+8
+
+
+char
+2
+
+
+boolean
+4
+
+
+为什么要有包装类型
+术语：让基本类型也具有对象的特征
+为了让基本类型也具有对象的特征，就出现了包装类型（如我们在使用集合类型Collection时就一定要使用包装类型而非基本类型）因为容器都是装object的，这是就需要这些基本类型的包装器类了。
+
+
+
+
+基本类型
+包装类型
+
+
+
+byte
+Byte
+
+
+short
+Short
+
+
+int
+Integer
+
+
+long
+Long
+
+
+double
+Double
+
+
+float
+Float
+
+
+char
+Char
+
+
+boolean
+Boolean
+
+
+12345自动装箱: new Integer(6)底层调用: Integer.valueOf(6)自动拆箱: int i = new Integer(6)底层调用: i.intValue()
+
+基本类型和包装类型的区别
+成员变量包 ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2023/02/13/nginx/nginx%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" title="nginx常用命令"><img class="post-bg" src="https://gitee.com/studentgitee/note-picture/raw/master/48540923dd54564e717962685c908285d1584f1d.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="nginx常用命令"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/02/13/nginx/nginx%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" title="nginx常用命令">nginx常用命令</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-02-13T00:43:54.202Z" title="发表于 2023-02-13 08:43:54">2023-02-13</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/nginx/">nginx</a></span></div><div class="content">
+1、nginx常用命令1234567/usr/local/nginx/sbin/nginx -tc /usr/local/nginx/conf/nginx.conf  #验证配置文件nginx.conf/usr/local/nginx/sbin/nginx -c /usr/local/nginx/conf/nginx.conf #指定配置文件启动nginx/usr/local/nginx/sbin/nginx -s reload -c /usr/local/nginx/conf/nginx.conf #指定配置文件重启nginx注：/usr/local/nginx/ 目录视自己的安装情况而定。配置文件同样根据自己的命名习惯指定
+</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2023/02/13/%E5%85%B6%E4%BB%96/%E9%87%8D%E6%96%B0%E8%AE%A4%E8%AF%86http%E5%8D%8F%E8%AE%AE/" title="重新认识http协议"><img class="post-bg" src="https://gitee.com/studentgitee/note-picture/raw/master/050119e8f37a4d5aa52a4571053f4027_th.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="重新认识http协议"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/02/13/%E5%85%B6%E4%BB%96/%E9%87%8D%E6%96%B0%E8%AE%A4%E8%AF%86http%E5%8D%8F%E8%AE%AE/" title="重新认识http协议">重新认识http协议</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-02-13T00:43:54.202Z" title="发表于 2023-02-13 08:43:54">2023-02-13</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%85%B6%E4%BB%96/">其他</a></span></div><div class="content">
+从问题入手从浏览器输入url，会发生什么？
+https的加密过程</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2023/02/13/java/lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%AF%AD%E6%B3%95%E7%B3%96/" title="lambda表达式语法糖"><img class="post-bg" src="https://gitee.com/studentgitee/note-picture/raw/master/b8014a90f603738d4a50b23f67037457f819ecb1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="lambda表达式语法糖"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/02/13/java/lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%AF%AD%E6%B3%95%E7%B3%96/" title="lambda表达式语法糖">lambda表达式语法糖</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-02-13T00:43:54.195Z" title="发表于 2023-02-13 08:43:54">2023-02-13</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/java/">java</a></span></div><div class="content">
+Java 8 新特性Stream流
+Java 8 API添加了一个新的抽象称为流Stream，可以让你以一种声明的方式处理数据。
+
+Stream 使用一种类似用 SQL 语句从数据库查询数据的直观方式来提供一种对 Java 集合运算和表达的高阶抽象。
+
+Stream API可以极大提高Java程序员的生产力，让程序员写出高效率、干净、简洁的代码。
+
+这种风格将要处理的元素集合看作一种流， 流在管道中传输， 并且可以在管道的节点上进行处理， 比如筛选， 排序，聚合等。
+
+元素流在管道中经过中间操作（intermediate operation）的处理，最后由最终操作(terminal operation)得到前面处理的结果。
+
+
+以上的流程转换为 Java 代码为：
+1234List&lt;Integer&gt; transactionsIds = widgets.stream().filter(b -&gt; b.getColor() == RED).sorted((x,y) -&gt; x.getWeight() - y.getWeight()).mapToInt(Widget:: ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2023/02/12/java/java%E5%9F%BA%E7%A1%80/" title="java基础"><img class="post-bg" src="https://gitee.com/studentgitee/note-picture/raw/master/917121c7d8615458f6c6039069fc6255.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="java基础"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/02/12/java/java%E5%9F%BA%E7%A1%80/" title="java基础">java基础</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-02-12T15:33:02.000Z" title="发表于 2023-02-12 23:33:02">2023-02-12</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/java/">java</a></span></div><div class="content">
+反射什么是反射？
+主要是指程序可以访问、检测和修改它本身状态或行为的一种能力
+
+反射机制流程
+反射能干什么？
+在运行时判断任意一个对象所属的类
+在运行时构造任意一个类的对象
+在运行时得到任意一个类所具有的成员变量和方法
+在运行时调用任意一个对象的成员变量和方法
+生成动态代理
+
+获取Class的实例(三种)12345Class clazz = 类名.classClass clazz = Class.forName(&quot;类的全限定类名&quot;);Class clazz = 对象.getClass();
+
+获取Field(四个方法)12345678//该方法只能通过属性名获取public的属性Field field = c.getField(&quot;属性名&quot;);　　　//获取所有的public属性数组Field[] field = c.getFields();　　//获取类的属性，包括protected/privateField field = c.getDeclaredField(&quot;属性名&quot;); 
+
+设置可访问性123//默认为false只能 ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2023/02/12/%E5%BE%AE%E6%9C%8D%E5%8A%A1/springcloud/" title="springcloud"><img class="post-bg" src="https://gitee.com/studentgitee/note-picture/raw/master/u=4096551373,629120265&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="springcloud"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/02/12/%E5%BE%AE%E6%9C%8D%E5%8A%A1/springcloud/" title="springcloud">springcloud</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-02-12T15:33:02.000Z" title="发表于 2023-02-12 23:33:02">2023-02-12</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">微服务</a></span></div><div class="content">
+1.微服务介绍1.1系统架构演变随着互联网的发展，网站应用的规模也在不断的扩大，进而导致系统架构也在不断的进行变化。从互联网早起到现在，系统架构大体经历了下面几个过程: 单体应用架构—&gt;垂直应用架构—&gt;分布式架构—&gt;SOA架构—&gt;微服务架构，当然还有悄然兴起的Service Mesh(服务网格化)。
+1.1.1 单体应用架构互联网早期，一般的网站应用流量较小，只需一个应用，将所有功能代码都部署在一起就可以，这样可以减少开发、部署和维护的成本。比如说一个电商系统，里面会包含很多用户管理，商品管理，订单管理，物流管理等等很多模块，我们会把它们做成一个web项目，然后部署到一台tomcat服务器上。
+
+优点：项目架构简单，小型项目的话， 开发成本低项目部署在一个节点上， 维护方便缺点：全部功能集成在一个工程中，对于大型项目来讲不易开发和维护项目模块之间紧密耦合，单点容错率低无法针对不同模块进行针对性优化和水平扩展
+1.1.2 垂直应用架构随着访问量的逐渐增大，单一应用只能依靠增加节点来应对，但是这时候会发现并不是所有的模块都会有比较大的访问量，还是以上面的电商为例子 ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2023/02/12/%E5%B8%B8%E7%94%A8%E6%A1%86%E6%9E%B6/mybatis/mybatis/" title="mybatis"><img class="post-bg" src="https://gitee.com/studentgitee/note-picture/raw/master/ca099f708e25d28ee7acab1af024f99c.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="mybatis"></a></div><div class="recent-post-info"><a class="article-title" href="/2023/02/12/%E5%B8%B8%E7%94%A8%E6%A1%86%E6%9E%B6/mybatis/mybatis/" title="mybatis">mybatis</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-02-12T15:33:02.000Z" title="发表于 2023-02-12 23:33:02">2023-02-12</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%B8%B8%E7%94%A8%E6%A1%86%E6%9E%B6/">常用框架</a></span></div><div class="content">
+mybatis是什么？mybatis的工作原理？</div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://gitee.com/studentgitee/note-picture/raw/master/1676193401851.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">MrWei</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">19</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/02/13/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E6%90%AD%E5%BB%BA/" title="mysql主从赋值搭建"><img src="https://gitee.com/studentgitee/note-picture/raw/master/v2-3286aaa6155b7e419c002b536332c519_250x0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="mysql主从赋值搭建"/></a><div class="content"><a class="title" href="/2023/02/13/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E6%90%AD%E5%BB%BA/" title="mysql主从赋值搭建">mysql主从赋值搭建</a><time datetime="2023-02-13T00:43:54.264Z" title="发表于 2023-02-13 08:43:54">2023-02-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/02/13/%E8%99%9A%E6%8B%9F%E6%9C%BA/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" title="Linux常用命令"><img src="https://gitee.com/studentgitee/note-picture/raw/master/147937407959735466.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux常用命令"/></a><div class="content"><a class="title" href="/2023/02/13/%E8%99%9A%E6%8B%9F%E6%9C%BA/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" title="Linux常用命令">Linux常用命令</a><time datetime="2023-02-13T00:43:54.264Z" title="发表于 2023-02-13 08:43:54">2023-02-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/02/13/%E5%B8%B8%E7%94%A8%E6%A1%86%E6%9E%B6/oauth2.0/oauth2.0/" title="oauth2.0"><img src="https://gitee.com/studentgitee/note-picture/raw/master/9e803ed883298d09d964bbaf9d89b9dc.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="oauth2.0"/></a><div class="content"><a class="title" href="/2023/02/13/%E5%B8%B8%E7%94%A8%E6%A1%86%E6%9E%B6/oauth2.0/oauth2.0/" title="oauth2.0">oauth2.0</a><time datetime="2023-02-13T00:43:54.262Z" title="发表于 2023-02-13 08:43:54">2023-02-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/02/13/%E5%B8%B8%E7%94%A8%E6%A1%86%E6%9E%B6/ElasticSearch7/elasticSearch7/" title="elasticSearch7"><img src="https://gitee.com/studentgitee/note-picture/raw/master/c38cf6948b39dd755ac13fc639070fd8af5cd4db.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="elasticSearch7"/></a><div class="content"><a class="title" href="/2023/02/13/%E5%B8%B8%E7%94%A8%E6%A1%86%E6%9E%B6/ElasticSearch7/elasticSearch7/" title="elasticSearch7">elasticSearch7</a><time datetime="2023-02-13T00:43:54.261Z" title="发表于 2023-02-13 08:43:54">2023-02-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/02/13/%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7/git%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/" title="git使用手册"><img src="https://gitee.com/studentgitee/note-picture/raw/master/u=829309475,2841958997&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPG.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="git使用手册"/></a><div class="content"><a class="title" href="/2023/02/13/%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7/git%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/" title="git使用手册">git使用手册</a><time datetime="2023-02-13T00:43:54.260Z" title="发表于 2023-02-13 08:43:54">2023-02-13</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>分类</span>
+            <a class="card-more-btn" href="/categories/" title="查看更多">
+    <i class="fas fa-angle-right"></i></a>
+            </div>
+            <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/java/"><span class="card-category-list-name">java</span><span class="card-category-list-count">2</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/nginx/"><span class="card-category-list-name">nginx</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%85%B6%E4%BB%96/"><span class="card-category-list-name">其他</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%AE%B9%E5%99%A8%E9%83%A8%E7%BD%B2/"><span class="card-category-list-name">容器部署</span><span class="card-category-list-count">2</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%B7%A5%E4%BD%9C%E6%B5%81/"><span class="card-category-list-name">工作流</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7/"><span class="card-category-list-name">常用工具</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%B8%B8%E7%94%A8%E6%A1%86%E6%9E%B6/"><span class="card-category-list-name">常用框架</span><span class="card-category-list-count">4</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/"><span class="card-category-list-name">微服务</span><span class="card-category-list-count">1</span></a></li>
+            </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/java/" style="font-size: 1.3em; color: #99a1ac">java</a> <a href="/tags/nginx/" style="font-size: 1.1em; color: #999">nginx</a> <a href="/tags/%E5%85%B6%E4%BB%96/" style="font-size: 1.1em; color: #999">其他</a> <a href="/tags/%E5%AE%B9%E5%99%A8%E9%83%A8%E7%BD%B2/" style="font-size: 1.3em; color: #99a1ac">容器部署</a> <a href="/tags/%E5%B7%A5%E4%BD%9C%E6%B5%81/" style="font-size: 1.1em; color: #999">工作流</a> <a href="/tags/%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7/" style="font-size: 1.1em; color: #999">常用工具</a> <a href="/tags/%E5%B8%B8%E7%94%A8%E6%A1%86%E6%9E%B6/" style="font-size: 1.5em; color: #99a9bf">常用框架</a> <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" style="font-size: 1.1em; color: #999">微服务</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 1.1em; color: #999">数据库</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/" style="font-size: 1.1em; color: #999">虚拟机</a> <a href="/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/" style="font-size: 1.5em; color: #99a9bf">面试题</a></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/02/"><span class="card-archive-list-date">二月 2023</span><span class="card-archive-list-count">19</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">19</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2023-02-13T03:01:26.750Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By MrWei</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>window.typedJSFn = {
+  init: (str) => {
+    window.typed = new Typed('#subtitle', Object.assign({
+      strings: str,
+      startDelay: 300,
+      typeSpeed: 150,
+      loop: true,
+      backSpeed: 50,
+    }, null))
+  },
+  run: (subtitleType) => {
+    if (true) {
+      if (typeof Typed === 'function') {
+        subtitleType()
+      } else {
+        getScript('https://cdn.jsdelivr.net/npm/typed.js/lib/typed.min.js').then(subtitleType)
+      }
+    } else {
+      subtitleType()
+    }
+  }
+}
+</script><script>function subtitleType () {
+  if (true) {
+    typedJSFn.init(["程序控制，逐条执行"])
+  } else {
+    document.getElementById("subtitle").innerHTML = '程序控制，逐条执行'
+  }
+}
+typedJSFn.run(subtitleType)</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

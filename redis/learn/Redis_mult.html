@@ -1,0 +1,334 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>Gping | Gping</title><meta name="author" content="MrWei"><meta name="copyright" content="MrWei"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="referrer" content="no-referrer"><meta name="description" content="多服务哨兵基本概念  主从复制问题Redis的主从复制模式可以将主节点的数据改变同步给从节点，这样从节点就可以起到两个作用： 第一，作为主节点的一个备份，一旦主节点出了故障不可达的情况，从节点可以作为后备“顶”上来，并且保证数据尽量不丢失（主从复制是最终一致性）。 第二，从节点可以扩展主节点的读能力，一旦主节点不能支撑住大并发量的读操作，从节点可以在一定程度上帮助主节点分担读压力。问题：  ·一旦">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Gping">
+<meta property="og:url" content="http://example.com/redis/learn/Redis_mult.html">
+<meta property="og:site_name" content="Gping">
+<meta property="og:description" content="多服务哨兵基本概念  主从复制问题Redis的主从复制模式可以将主节点的数据改变同步给从节点，这样从节点就可以起到两个作用： 第一，作为主节点的一个备份，一旦主节点出了故障不可达的情况，从节点可以作为后备“顶”上来，并且保证数据尽量不丢失（主从复制是最终一致性）。 第二，从节点可以扩展主节点的读能力，一旦主节点不能支撑住大并发量的读操作，从节点可以在一定程度上帮助主节点分担读压力。问题：  ·一旦">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/studentgitee/note-picture/raw/master/1676193401851.png">
+<meta property="article:published_time" content="2023-02-13T00:43:55.046Z">
+<meta property="article:modified_time" content="2023-02-13T00:43:55.046Z">
+<meta property="article:author" content="MrWei">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/studentgitee/note-picture/raw/master/1676193401851.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/redis/learn/Redis_mult.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Gping',
+  isPost: false,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2023-02-13 08:43:55'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = url => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      link.onload = () => resolve()
+      link.onerror = () => reject()
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="./css/background.css"><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://gitee.com/studentgitee/note-picture/raw/master/1676193401851.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">19</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/plan/"><i class="fa-fw fas fa-navicon"></i><span> 计划</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="not-home-page" id="page-header" style="background-image: url('/./img/siteCover.png')"><nav id="nav"><span id="blog-info"><a href="/" title="Gping"><span class="site-name">Gping</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/plan/"><i class="fa-fw fas fa-navicon"></i><span> 计划</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="page-site-info"><h1 id="site-title">Gping</h1></div></header><main class="layout" id="content-inner"><div id="page"><div id="article-container"><h1 id="多服务"><a href="#多服务" class="headerlink" title="多服务"></a>多服务</h1><h2 id="哨兵"><a href="#哨兵" class="headerlink" title="哨兵"></a>哨兵</h2><h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p><img src="/redis/learn/Redis_mult.htm/image-20220128162914479.png" alt="image-20220128162914479"></p>
+<p><img src="/redis/learn/Redis_mult.htm/image-20220128162922931.png" alt="image-20220128162922931"></p>
+<h4 id="主从复制问题"><a href="#主从复制问题" class="headerlink" title="主从复制问题"></a>主从复制问题</h4><p>Redis的主从复制模式可以将主节点的数据改变同步给从节点，这样从节点就可以起到两个作用：</p>
+<p>第一，作为主节点的一个备份，一旦主节点出了故障不可达的情况，从节点可以作为后备“顶”上来，并且保证数据尽量不丢失（主从复制是最终一致性）。</p>
+<p>第二，从节点可以扩展主节点的读能力，一旦主节点不能支撑住大并发量的读操作，从节点可以在一定程度上帮助主节点分担读压力。<br><strong>问题：</strong></p>
+<ul>
+<li>·一旦主节点出现故障，需要手动将一个从节点晋升为主节点，同时需要修改应用方的主节点地址，还需要命令其他从节点去复制新的主节点，整个过程都需要人工干预。</li>
+<li>主节点的写能力受到单机的限制。（）</li>
+<li>主节点的存储能力受到单机的限制。</li>
+</ul>
+<h4 id="高可用"><a href="#高可用" class="headerlink" title="高可用"></a>高可用</h4><p>主节点挂了，需要手动修改从节点做故障转移。手动处理的架构不是高可用的，所以引出了 <strong>哨兵模式</strong></p>
+<h4 id="Redis-Sentinel-的高可用性"><a href="#Redis-Sentinel-的高可用性" class="headerlink" title="Redis Sentinel 的高可用性"></a>Redis Sentinel 的高可用性</h4><p>当主节点出现故障时，Redis Sentinel能<strong>自动完成故障发现和故障转移</strong>，并通知应用方，从而实现真正的高可用。</p>
+<p> Redis Sentinel是一个分布式架构，其中包含若干个Sentinel节点和Redis数据节点，每个Sentinel节点会对<strong>数据节点</strong>和<strong>其余Sentinel</strong>节点进行监控，当它发现节点不可达时，会对节点做下线标识。如果被标识的是主节点，它还会和其他Sentinel节点进行“协商”，当大多数Sentinel节点都认为主节点不可达时，它们会选举出一个Sentinel节点来完成自动故障转移的工作，同时会将这个变化实时通知给Redis应用方。整个过程完全是自动的，不需要人工来介入，所以这套方案很有效地解决了Redis的高可用问题。<br>  <strong>注意</strong><br> 这里的分布式是指：Redis数据节点、Sentinel节点集合、客户端分布在多个物理节点的架构，不要Redis Cluster分布式混淆。<br> 如图9-6所示，Redis Sentinel与Redis主从复制模式只是多了若干Sentinel节点，所以Redis Sentinel并没有针对Redis节点做了特殊处理，这里是很多开发和运维人员容易混淆的。</p>
+<p><img src="/redis/learn/Redis_mult.htm/image-20220128163958525.png" alt="image-20220128163958525"></p>
+<p>故障转移处理步骤：</p>
+<ol>
+<li><p>发现故障。多个Sentinel 对主节点的故障达成一致。</p>
+</li>
+<li><p>选举出一个Sentinel 来做故障转移</p>
+</li>
+<li><p>Sentinel 节点处理故障</p>
+<p><img src="/redis/learn/Redis_mult.htm/image-20220128164547649.png" alt="image-20220128164547649"></p>
+<ol start="4">
+<li>通知应用</li>
+</ol>
+</li>
+</ol>
+<h3 id="安装部署"><a href="#安装部署" class="headerlink" title="安装部署"></a>安装部署</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">port 26379 </span><br><span class="line"><span class="comment"># 守护进程开启</span></span><br><span class="line">daemonize <span class="built_in">yes</span>   </span><br><span class="line">logfile <span class="string">&quot;sentinel_26379.log&quot;</span>   </span><br><span class="line"><span class="built_in">dir</span> /root/redis   </span><br><span class="line">sentinel monitor mymaster 127.0.0.1 6379 2   </span><br><span class="line"><span class="comment"># 下线30秒 为不可达</span></span><br><span class="line">sentinel down-after-milliseconds mymaster 30000   </span><br><span class="line"><span class="comment"># 同步机子个数</span></span><br><span class="line">sentinel parallel-syncs mymaster 1   </span><br><span class="line"><span class="comment"># 故障转移失败时间</span></span><br><span class="line">sentinel failover-timeout mymaster 180000  </span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="API"><a href="#API" class="headerlink" title="API"></a>API</h3><h3 id="客户端链接"><a href="#客户端链接" class="headerlink" title="客户端链接"></a>客户端链接</h3><h3 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h3><p>一套合理的监控机制是Sentinel节点判定节点不可达的重要保证，Redis Sentinel通过三个定时监控任务完成对各个节点发现和监控</p>
+<h4 id="三个定时任务-1）每隔10秒，每个Sentinel节点会向主节点和从节点发送info命令获取最新的拓扑结构，如图9-26所示"><a href="#三个定时任务-1）每隔10秒，每个Sentinel节点会向主节点和从节点发送info命令获取最新的拓扑结构，如图9-26所示" class="headerlink" title="三个定时任务 1）每隔10秒，每个Sentinel节点会向主节点和从节点发送info命令获取最新的拓扑结构，如图9-26所示"></a>三个定时任务 1）每隔10秒，每个Sentinel节点会向主节点和从节点发送info命令获取最新的拓扑结构，如图9-26所示</h4><p><img src="/redis/learn/Redis_mult.htm/image-20220128175429746.png" alt="image-20220128175429746"></p>
+<p>例如下面就是在一个主节点上执行info replication的结果片段：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Replication </span></span><br><span class="line">role:master</span><br><span class="line">connected_slaves:2</span><br><span class="line">slave0:ip=127.0.0.1,port=6380,state=online,offset=4917,lag=1 slave1:ip=127.0.0.1,port=6381,state=online,offset=4917,lag=1</span><br></pre></td></tr></table></figure>
+
+<p> Sentinel节点通过对上述结果进行解析就可以找到相应的从节点。<br> 这个定时任务的<strong>作用</strong>具体可以表现在三个方面：</p>
+<ul>
+<li>通过向主节点执行info命令，获取从节点的信息，这也是为什么Sentinel节点不需要显式配置监控从节点。</li>
+<li>当有新的从节点加入时都可以立刻感知出来。</li>
+<li>节点不可达或者故障转移后，可以通过info命令实时更新节点拓扑信息。</li>
+</ul>
+<p>2）每隔2秒，每个Sentinel节点会向Redis数据节点的__sentinel__：hello频道上发送该Sentinel节点对于主节点的判断以及当前Sentinel节点的信息（如图9-27所示），同时每个Sentinel节点也会订阅该频道，来了解其他Sentinel节点以及它们对主节点的判断</p>
+<p>作用：</p>
+<ul>
+<li>发现新的Sentinel节点：通过订阅主节点的__sentinel__：hello了解其他的Sentinel节点信息，如果是新加入的Sentinel节点，将该Sentinel节点信息保存起来，并与该Sentinel节点创建连接。</li>
+<li>Sentinel节点之间交换主节点的状态，作为后面客观下线以及领导者选举的依据。</li>
+</ul>
+<p><img src="/redis/learn/Redis_mult.htm/image-20220128180440810.png" alt="image-20220128180440810"></p>
+<p>3）每隔1秒，每个Sentinel节点会向主节点、从节点、其余Sentinel节点发送一条ping命令做一次心跳检测，来确认这些节点当前是否可达。如图9-28所示。通过上面的定时任务，Sentinel节点对主节点、从节点、其余Sentinel节点都建立起连接，实现了对每个节点的监控，<strong>这个定时任务是节点失败判定的重要依据</strong>。</p>
+<p><img src="/redis/learn/Redis_mult.htm/image-20220128180553249.png" alt="image-20220128180553249"></p>
+<h4 id="主管下线和客观下线"><a href="#主管下线和客观下线" class="headerlink" title="主管下线和客观下线"></a>主管下线和客观下线</h4><p><strong>1.主观下线</strong><br> 上一小节介绍的第三个定时任务，每个Sentinel节点会每隔1秒对主节点、从节点、其他Sentinel节点发送ping命令做心跳检测，当这些节点超过down-after-milliseconds没有进行有效回复，Sentinel节点就会对该节点做失败判定，这个行为叫做主观下线。从字面意思也可以很容易看出主观下线是当前Sentinel节点的一家之言，存在误判的可能，如图9-29所示。</p>
+<p><img src="/redis/learn/Redis_mult.htm/image-20220128180827681.png" alt="image-20220128180827681"></p>
+<p><strong>2、客观下线</strong></p>
+<p>当Sentinel主观下线的节点是主节点时，该Sentinel节点会通过sentinel is-master-down-by-addr命令向其他Sentinel节点询问对主节点的判断，当超过<code>&lt;quorum&gt;</code>个数，Sentinel节点认为主节点确实有问题，这时该Sentinel节点会做出客观下线的决定，这样客观下线的含义是比较明显了，也就是大部分Sentinel节点都对主节点的下线做了同意的判定，那么这个判定就是客观的，如图9-30所示。<br>  <strong>注意</strong><br> 从节点、Sentinel节点在主观下线后，没有后续的故障转移操作。</p>
+<p> 这里有必要对sentinel is-master-down-by-addr命令做一个介绍，它的使用方法如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sentinel is-master-down-by-addr &lt;ip&gt; &lt;port&gt; &lt;current_epoch&gt; &lt;runid&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>ip：主节点IP。</li>
+<li>port：主节点端口。</li>
+<li>current_epoch：当前配置纪元。</li>
+<li>runid：此参数有两种类型，不同类型决定了此API作用的不同。<ul>
+<li>当runid等于“*”时，作用是Sentinel节点直接交换对主节点下线的判定。</li>
+<li>当runid等于当前Sentinel节点的runid时，作用是当前Sentinel节点希望目标Sentinel节点同意自己成为领导者的请求，有关Sentinel领导者选举，后面会进行介绍。</li>
+</ul>
+</li>
+</ul>
+<p><img src="/redis/learn/Redis_mult.htm/image-20220128181251521.png" alt="image-20220128181251521"></p>
+<p>例如sentinel-1节点对主节点做主观下线后，会向其余Sentinel节点（假设sentinel-2和sentinel-3节点）发送该命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sentinel is-master-down-by-addr 127.0.0.1 6379 0 *</span><br></pre></td></tr></table></figure>
+
+<p> 返回结果包含三个参数，如下所示：</p>
+<ul>
+<li>down_state：目标Sentinel节点对于主节点的下线判断，1是下线，0是在线。</li>
+<li>leader_runid：当leader_runid等于“*”时，代表返回结果是用来做主节点是否不可达，当leader_runid等于具体的runid，代表目标节点同意runid成为领导者。</li>
+<li>leader_epoch：领导者纪元。</li>
+</ul>
+<h4 id="Sentinel-领导者选举"><a href="#Sentinel-领导者选举" class="headerlink" title="Sentinel 领导者选举"></a>Sentinel 领导者选举</h4><p>通过Raft算法实现选举</p>
+<p>大致思路：</p>
+<ul>
+<li><p>1）每个在线的Sentinel节点都有资格成为领导者，当它确认主节点主观下线时候，会向其他Sentinel节点发送sentinel is-master-down-by-addr命令，要求将自己设置为领导者。</p>
+</li>
+<li><p>2）收到命令的Sentinel节点，如果没有同意过其他Sentinel节点的sentinel is-master-down-by-addr命令，将同意该请求，否则拒绝。</p>
+</li>
+<li><p>3）如果该Sentinel节点发现自己的票数已经大于等于max（quorum，num（sentinels）&#x2F;2+1），那么它将成为领导者。</p>
+</li>
+<li><p>4）如果此过程没有选举出领导者，将进入下一次选举。</p>
+</li>
+</ul>
+<p> 图9-31展示了一次领导者选举的大致过程：</p>
+<ul>
+<li>1）s1（sentinel-1）最先完成了客观下线，它会向s2（sentinel-2）和s3（sentinel-3）发送sentinel is-master-down-by-addr命令，s2和s3同意选其为领导者。</li>
+<li>2）s1此时已经拿到2张投票，满足了大于等于max（quorum，num（sentinels）&#x2F;2+1）&#x3D;2的条件，所以此时s1成为领导者。</li>
+</ul>
+<p><img src="/redis/learn/Redis_mult.htm/image-20220128182847723.png" alt="image-20220128182847723"></p>
+<h4 id="故障转移"><a href="#故障转移" class="headerlink" title="故障转移"></a>故障转移</h4><p>领导者选举出的Sentinel节点负责故障转移，具体步骤如下：</p>
+<ul>
+<li><p>1）在从节点列表中选出一个节点作为新的主节点，选择方法如下：</p>
+</li>
+<li><p>a）过滤：“不健康”（主观下线、断线）、5秒内没有回复过Sentinel节点ping响应、与主节点失联超过down-after-milliseconds*10秒。</p>
+</li>
+<li><p>b）选择slave-priority（从节点优先级）最高的从节点列表，如果存在则返回，不存在则继续。</p>
+</li>
+<li><p>c）选择复制偏移量最大的从节点（复制的最完整），如果存在则返回，不存在则继续。</p>
+</li>
+<li><p>d）选择runid最小的从节点。</p>
+</li>
+</ul>
+<p> 整个过程如图9-34所示。</p>
+<p><img src="/redis/learn/Redis_mult.htm/image-20220128183213134.png" alt="image-20220128183213134"></p>
+<ul>
+<li>2）Sentinel领导者节点会对第一步选出来的从节点执行slaveof no one命令让其成为主节点。</li>
+<li>3）Sentinel领导者节点会向剩余的从节点发送命令，让它们成为新主节点的从节点，复制规则和parallel-syncs参数有关。</li>
+<li>4）Sentinel节点集合会将原来的主节点更新为从节点，并保持着对其关注，当其恢复后命令它去复制新的主节点。</li>
+</ul>
+<h3 id="本章重点"><a href="#本章重点" class="headerlink" title="本章重点"></a>本章重点</h3><ul>
+<li>1）Redis Sentinel是Redis的高可用实现方案：故障发现、故障自动转移、配置中心、客户端通知。</li>
+<li>2）Redis Sentinel从Redis2.8版本开始才正式生产可用，之前版本生产不可用。</li>
+<li>3）尽可能在不同物理机上部署Redis Sentinel所有节点。</li>
+<li>4）Redis Sentinel中的Sentinel节点个数应该为大于等于3且最好为奇数。</li>
+<li>5）Redis Sentinel中的数据节点与普通数据节点没有区别。</li>
+<li>6）客户端初始化时连接的是Sentinel节点集合，不再是具体的Redis节点，但Sentinel只是配置中心不是代理。</li>
+<li>7）Redis Sentinel通过三个定时任务实现了Sentinel节点对于主节点、从节点、其余Sentinel节点的监控。</li>
+<li>8）Redis Sentinel在对节点做失败判定时分为主观下线和客观下线。</li>
+<li>9）看懂Redis Sentinel故障转移日志对于Redis Sentnel以及问题排查非常有帮助。</li>
+<li>10）Redis Sentinel实现读写分离高可用可以依赖Sentinel节点的消息通知，获取Redis数据节点的状态变化。</li>
+</ul>
+<h2 id="集群"><a href="#集群" class="headerlink" title="集群"></a>集群</h2><h3 id="数据分布"><a href="#数据分布" class="headerlink" title="数据分布"></a>数据分布</h3><h4 id="数据分布理论"><a href="#数据分布理论" class="headerlink" title="数据分布理论"></a>数据分布理论</h4><p>分布式数据库首先要解决把整个数据集按照分区规则映射到多个节点的问题，即把数据集划分到多个节点上，每个节点负责整体数据的一个子集。如图10-1所示。</p>
+<p> 需要重点关注的是数据分区规则。常见的分区规则有哈希分区和顺序分区两种，表10-1对这两种分区规则进行了对比。</p>
+<p><img src="/redis/learn/Redis_mult.htm/image-20220128232811426.png" alt="image-20220128232811426"></p>
+<p>由于Redis Cluster采用哈希分区规则，这里我们重点讨论哈希分区，常见的<strong>哈希分区规则</strong>有几种，下面分别介绍。</p>
+<p><img src="/redis/learn/Redis_mult.htm/image-20220128232910527.png" alt="image-20220128232910527"></p>
+<p> <strong>1.节点取余分区</strong></p>
+<p> 使用特定的数据，如Redis的键或用户ID，再根据节点数量N使用公式：hash（key）%N计算出哈希值，用来决定数据映射到哪一个节点上。这种方案存在一个问题：当节点数量变化时，如扩容或收缩节点，数据节点映射关系需要重新计算，会导致数据的重新迁移。<br> 这种方式的突出优点是简单性，常用于数据库的分库分表规则，一般采用预分区的方式，提前根据数据量规划好分区数，比如划分为512或1024张表，保证可支撑未来一段时间的数据量，再根据负载情况将表迁移到其他数据库中。扩容时通常采用翻倍扩容，避免数据映射全部被打乱导致全量迁移的情况，如图10-2所示。</p>
+<p><img src="/redis/learn/Redis_mult.htm/image-20220128233010964.png" alt="image-20220128233010964"></p>
+<p> <strong>2.一致性哈希分区</strong></p>
+<p>节点指的是一台redis 服务器</p>
+<p> 一致性哈希分区（Distributed Hash Table）实现思路是为系统中每个节点分配一个token，范围一般在0~232，这些token构成一个哈希环。数据读写执行节点查找操作时，先根据key计算hash值，然后顺时针找到第一个大于等于该哈希值的token节点，如图10-3所示。</p>
+<blockquote>
+<p>意思是没个redis 节点分配一个token。。。在根据token 放到哈希环上。。。。。数据hash 根据哈希环顺时针找就是要存储的redis节点</p>
+</blockquote>
+<p><img src="/redis/learn/Redis_mult.htm/image-20220128233114004.png" alt="image-20220128233114004"></p>
+<p>这种方式相比节点取余最大的好处在于加入和删除节点只影响哈希环中相邻的节点，对其他节点无影响。但一致性哈希分区存在几个<strong>问题：</strong></p>
+<ul>
+<li>加减节点会造成哈希环中部分数据无法命中，需要手动处理或者忽略这部分数据，因此一致性哈希常用于缓存场景。</li>
+<li>当使用少量节点时，节点变化将大范围影响哈希环中数据映射，因此这种方式不适合少量数据节点的分布式方案。</li>
+<li>普通的一致性哈希分区在增减节点时需要增加一倍或减去一半节点才能保证数据和负载的均衡。</li>
+</ul>
+<p> 正因为一致性哈希分区的这些缺点，一些分布式系统采用虚拟槽对一致性哈希进行改进，比如Dynamo系统。</p>
+<p> <strong>3.虚拟槽分区</strong></p>
+<p> 虚拟槽分区巧妙地使用了哈希空间，使用分散度良好的哈希函数把所有数据映射到一个固定范围的整数集合中，整数定义为槽（slot）。这个范围一般远远大于节点数，比如Redis Cluster槽范围是0~16383。槽是集群内数据管理和迁移的基本单位。采用大范围槽的主要目的是为了方便数据拆分和集群扩展。每个节点会负责一定数量的槽，如图10-4所示。</p>
+<p><img src="/redis/learn/Redis_mult.htm/image-20220128233701403.png" alt="image-20220128233701403"> 当前集群有5个节点，每个节点平均大约负责3276个槽。由于采用高质量的哈希算法，每个槽所映射的数据通常比较均匀，将数据平均划分到5个节点进行数据分区。Redis Cluster就是采用虚拟槽分区，下面就介绍Redis数据分区方法。</p>
+<h4 id="Redis-数据分区"><a href="#Redis-数据分区" class="headerlink" title="Redis 数据分区"></a>Redis 数据分区</h4><p>Redis Cluser采用虚拟槽分区，所有的键根据哈希函数映射到0~16383整数槽内，计算公式：slot&#x3D;CRC16（key）&amp;16383。每一个节点负责维护一部分槽以及槽所映射的键值数据，如图10-5所示。</p>
+<p><img src="/redis/learn/Redis_mult.htm/image-20220128233848102.png" alt="image-20220128233848102"></p>
+<p><strong>Redis虚拟槽分区的特点：</strong></p>
+<ul>
+<li>解耦数据和节点之间的关系，简化了节点扩容和收缩难度。</li>
+<li>节点自身维护槽的映射关系，不需要客户端或者代理服务维护槽分区元数据。</li>
+<li>支持节点、槽、键之间的映射查询，用于数据路由、在线伸缩等场景。</li>
+</ul>
+<p> 数据分区是分布式存储的核心，理解和灵活运用数据分区规则对于掌握Redis Cluster非常有帮助。</p>
+<h4 id="集群功能限制"><a href="#集群功能限制" class="headerlink" title="集群功能限制"></a>集群功能限制</h4><ul>
+<li>1）key批量操作支持有限。如mset、mget，目前只支持具有相同slot值的key执行批量操作。对于映射为不同slot值的key由于执行mget、mget等操作可能存在于多个节点上因此不被支持。</li>
+<li>2）key事务操作支持有限。同理只支持多key在同一节点上的事务操作，当多个key分布在不同的节点上时无法使用事务功能。</li>
+<li>3）key作为数据分区的最小粒度，因此不能将一个大的键值对象如hash、list等映射到不同的节点。</li>
+<li>4）不支持多数据库空间。单机下的Redis可以支持16个数据库，集群模式下只能使用一个数据库空间，即db0。</li>
+<li>5）复制结构只支持一层，从节点只能复制主节点，不支持嵌套树状复制结构。</li>
+</ul>
+<h3 id="集群搭建"><a href="#集群搭建" class="headerlink" title="集群搭建"></a>集群搭建</h3><h3 id="节点通信"><a href="#节点通信" class="headerlink" title="节点通信"></a>节点通信</h3><h3 id="集群伸缩"><a href="#集群伸缩" class="headerlink" title="集群伸缩"></a>集群伸缩</h3><h3 id="请求路由"><a href="#请求路由" class="headerlink" title="请求路由"></a>请求路由</h3><h3 id="故障转移-1"><a href="#故障转移-1" class="headerlink" title="故障转移"></a>故障转移</h3></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://gitee.com/studentgitee/note-picture/raw/master/1676193401851.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">MrWei</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">19</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/02/13/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E6%90%AD%E5%BB%BA/" title="mysql主从赋值搭建"><img src="https://gitee.com/studentgitee/note-picture/raw/master/v2-3286aaa6155b7e419c002b536332c519_250x0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="mysql主从赋值搭建"/></a><div class="content"><a class="title" href="/2023/02/13/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E6%90%AD%E5%BB%BA/" title="mysql主从赋值搭建">mysql主从赋值搭建</a><time datetime="2023-02-13T00:43:54.264Z" title="发表于 2023-02-13 08:43:54">2023-02-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/02/13/%E8%99%9A%E6%8B%9F%E6%9C%BA/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" title="Linux常用命令"><img src="https://gitee.com/studentgitee/note-picture/raw/master/147937407959735466.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux常用命令"/></a><div class="content"><a class="title" href="/2023/02/13/%E8%99%9A%E6%8B%9F%E6%9C%BA/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" title="Linux常用命令">Linux常用命令</a><time datetime="2023-02-13T00:43:54.264Z" title="发表于 2023-02-13 08:43:54">2023-02-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/02/13/%E5%B8%B8%E7%94%A8%E6%A1%86%E6%9E%B6/oauth2.0/oauth2.0/" title="oauth2.0"><img src="https://gitee.com/studentgitee/note-picture/raw/master/9e803ed883298d09d964bbaf9d89b9dc.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="oauth2.0"/></a><div class="content"><a class="title" href="/2023/02/13/%E5%B8%B8%E7%94%A8%E6%A1%86%E6%9E%B6/oauth2.0/oauth2.0/" title="oauth2.0">oauth2.0</a><time datetime="2023-02-13T00:43:54.262Z" title="发表于 2023-02-13 08:43:54">2023-02-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/02/13/%E5%B8%B8%E7%94%A8%E6%A1%86%E6%9E%B6/ElasticSearch7/elasticSearch7/" title="elasticSearch7"><img src="https://gitee.com/studentgitee/note-picture/raw/master/c38cf6948b39dd755ac13fc639070fd8af5cd4db.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="elasticSearch7"/></a><div class="content"><a class="title" href="/2023/02/13/%E5%B8%B8%E7%94%A8%E6%A1%86%E6%9E%B6/ElasticSearch7/elasticSearch7/" title="elasticSearch7">elasticSearch7</a><time datetime="2023-02-13T00:43:54.261Z" title="发表于 2023-02-13 08:43:54">2023-02-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/02/13/%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7/git%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/" title="git使用手册"><img src="https://gitee.com/studentgitee/note-picture/raw/master/u=829309475,2841958997&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPG.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="git使用手册"/></a><div class="content"><a class="title" href="/2023/02/13/%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7/git%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/" title="git使用手册">git使用手册</a><time datetime="2023-02-13T00:43:54.260Z" title="发表于 2023-02-13 08:43:54">2023-02-13</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>分类</span>
+            <a class="card-more-btn" href="/categories/" title="查看更多">
+    <i class="fas fa-angle-right"></i></a>
+            </div>
+            <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/java/"><span class="card-category-list-name">java</span><span class="card-category-list-count">2</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/nginx/"><span class="card-category-list-name">nginx</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%85%B6%E4%BB%96/"><span class="card-category-list-name">其他</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%AE%B9%E5%99%A8%E9%83%A8%E7%BD%B2/"><span class="card-category-list-name">容器部署</span><span class="card-category-list-count">2</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%B7%A5%E4%BD%9C%E6%B5%81/"><span class="card-category-list-name">工作流</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7/"><span class="card-category-list-name">常用工具</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%B8%B8%E7%94%A8%E6%A1%86%E6%9E%B6/"><span class="card-category-list-name">常用框架</span><span class="card-category-list-count">4</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/"><span class="card-category-list-name">微服务</span><span class="card-category-list-count">1</span></a></li>
+            </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/java/" style="font-size: 1.3em; color: #99a1ac">java</a> <a href="/tags/nginx/" style="font-size: 1.1em; color: #999">nginx</a> <a href="/tags/%E5%85%B6%E4%BB%96/" style="font-size: 1.1em; color: #999">其他</a> <a href="/tags/%E5%AE%B9%E5%99%A8%E9%83%A8%E7%BD%B2/" style="font-size: 1.3em; color: #99a1ac">容器部署</a> <a href="/tags/%E5%B7%A5%E4%BD%9C%E6%B5%81/" style="font-size: 1.1em; color: #999">工作流</a> <a href="/tags/%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7/" style="font-size: 1.1em; color: #999">常用工具</a> <a href="/tags/%E5%B8%B8%E7%94%A8%E6%A1%86%E6%9E%B6/" style="font-size: 1.5em; color: #99a9bf">常用框架</a> <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" style="font-size: 1.1em; color: #999">微服务</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 1.1em; color: #999">数据库</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/" style="font-size: 1.1em; color: #999">虚拟机</a> <a href="/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/" style="font-size: 1.5em; color: #99a9bf">面试题</a></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/02/"><span class="card-archive-list-date">二月 2023</span><span class="card-archive-list-count">19</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">19</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2023-02-13T03:01:26.750Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By MrWei</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

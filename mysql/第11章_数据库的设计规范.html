@@ -1,0 +1,586 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>Gping | Gping</title><meta name="author" content="MrWei"><meta name="copyright" content="MrWei"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="referrer" content="no-referrer"><meta name="description" content="第11章_数据库的设计规范范式2.3键和相关属性的概念范式的定义会使用到主键和候选键，数据库中的键(Key)由一个或者多个属性组成。数据表中常用的几种键和属性的定义:  超键︰能唯─标识元组的属性集叫做超键。 候选键︰如果超键不包括多余的属性，那么这个超键就是候选键。·主键:用户可以从候选键中选择一个作为主键。 外键∶如果数据表R1中的某属性集不是R1的主键，而是另一个数据表R2的主键，那么这个属">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Gping">
+<meta property="og:url" content="http://example.com/mysql/%E7%AC%AC11%E7%AB%A0_%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E8%AE%BE%E8%AE%A1%E8%A7%84%E8%8C%83.html">
+<meta property="og:site_name" content="Gping">
+<meta property="og:description" content="第11章_数据库的设计规范范式2.3键和相关属性的概念范式的定义会使用到主键和候选键，数据库中的键(Key)由一个或者多个属性组成。数据表中常用的几种键和属性的定义:  超键︰能唯─标识元组的属性集叫做超键。 候选键︰如果超键不包括多余的属性，那么这个超键就是候选键。·主键:用户可以从候选键中选择一个作为主键。 外键∶如果数据表R1中的某属性集不是R1的主键，而是另一个数据表R2的主键，那么这个属">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/studentgitee/note-picture/raw/master/1676193401851.png">
+<meta property="article:published_time" content="2023-02-13T00:43:54.604Z">
+<meta property="article:modified_time" content="2023-02-13T00:43:54.604Z">
+<meta property="article:author" content="MrWei">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/studentgitee/note-picture/raw/master/1676193401851.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/mysql/%E7%AC%AC11%E7%AB%A0_%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E8%AE%BE%E8%AE%A1%E8%A7%84%E8%8C%83.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Gping',
+  isPost: false,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2023-02-13 08:43:54'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = url => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      link.onload = () => resolve()
+      link.onerror = () => reject()
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="./css/background.css"><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://gitee.com/studentgitee/note-picture/raw/master/1676193401851.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">19</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/plan/"><i class="fa-fw fas fa-navicon"></i><span> 计划</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="not-home-page" id="page-header" style="background-image: url('/./img/siteCover.png')"><nav id="nav"><span id="blog-info"><a href="/" title="Gping"><span class="site-name">Gping</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/plan/"><i class="fa-fw fas fa-navicon"></i><span> 计划</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="page-site-info"><h1 id="site-title">Gping</h1></div></header><main class="layout" id="content-inner"><div id="page"><div id="article-container"><h1 id="第11章-数据库的设计规范"><a href="#第11章-数据库的设计规范" class="headerlink" title="第11章_数据库的设计规范"></a>第11章_数据库的设计规范</h1><h2 id="范式"><a href="#范式" class="headerlink" title="范式"></a>范式</h2><h3 id="2-3键和相关属性的概念"><a href="#2-3键和相关属性的概念" class="headerlink" title="2.3键和相关属性的概念"></a>2.3键和相关属性的概念</h3><p>范式的定义会使用到主键和候选键，数据库中的键(Key)由一个或者多个属性组成。数据表中常用的几种键和属性的定义:</p>
+<ul>
+<li><code>超键</code>︰能唯─标识元组的属性集叫做超键。</li>
+<li><code>候选键</code>︰如果超键不包括多余的属性，那么这个超键就是候选键。·主键:用户可以从候选键中选择一个作为主键。</li>
+<li><code>外键</code>∶如果数据表R1中的某属性集不是R1的主键，而是另一个数据表R2的主键，那么这个属性集就是数据表R1的外键。</li>
+<li><code>主属性</code>:包含在任一候选键中的属性称为主属性。</li>
+<li><code>非主属</code>性:与主属性相对，指的是不包含在任何一个候选键中的属性。</li>
+</ul>
+<p>通常，我们也将候选键称之为“<code>码</code>”，把主键也称为“<code>主码</code>”。因为键可能是由多个属性组成的，针对单个属性，我们还可以用主属性和非主属性来进行区分。<br>举例:</p>
+<h3 id="2-4第一范式"><a href="#2-4第一范式" class="headerlink" title="2.4第一范式"></a>2.4第一范式</h3><p>第一范式主要是确保数据表中每个字段的值必须具有<code>原子性</code>，也就是说数据表中每个字段的值为<code>不可再次拆分</code>的最小数据单元。</p>
+<p>我们在设计某个字段的时候，对于字段×来说，不能把字段×拆分成字段X-1和字段X-2。事实上，任何的DBMS都会满足第一范式的要求，不会将字段进行拆分。</p>
+<p><strong>举例1:</strong></p>
+<p>假设一家公司要存储员工的姓名和联系方式。它创建一个如下表:</p>
+<p><img src="/mysql/%E7%AC%AC11%E7%AB%A0_%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E8%AE%BE%E8%AE%A1%E8%A7%84%E8%8C%83.htm/image-20220328095515382.png" alt="image-20220328095515382"></p>
+<p>该表不符合1NF，因为规则说“表的每个属性必须具有原子(单个）值”lisi和zhaoliu员工的emp_mobile值违反了该规则(有两个电话)。为了使表符合1NF，我们应该有如下表数据:</p>
+<p><img src="/mysql/%E7%AC%AC11%E7%AB%A0_%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E8%AE%BE%E8%AE%A1%E8%A7%84%E8%8C%83.htm/image-20220328095522609.png" alt="image-20220328095522609"></p>
+<p><strong>举例2：</strong></p>
+<table>
+<thead>
+<tr>
+<th>字段名称</th>
+<th>字段类型</th>
+<th>是否是主键</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>INT</td>
+<td>是</td>
+<td>主键id</td>
+</tr>
+<tr>
+<td>username</td>
+<td>VARCHAR(30)</td>
+<td>否</td>
+<td>用户名</td>
+</tr>
+<tr>
+<td>password</td>
+<td>VARCHAR(50)</td>
+<td>否</td>
+<td>密码</td>
+</tr>
+<tr>
+<td>user_info</td>
+<td>VARCHAR(255)</td>
+<td>否</td>
+<td>用户信息 (包含真实姓名、电话、住址)</td>
+</tr>
+</tbody></table>
+<p>其中，user_info字段为用户信息，可以进一步拆分成更小粒度的字段,不符合数据库设计对第一范式的要求。将<br>user_info拆分后如下:</p>
+<table>
+<thead>
+<tr>
+<th>字段名称</th>
+<th>字段类型</th>
+<th>是否是主键</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>INT</td>
+<td>是</td>
+<td>主键id</td>
+</tr>
+<tr>
+<td>username</td>
+<td>VARCHAR(30)</td>
+<td>否</td>
+<td>用户名</td>
+</tr>
+<tr>
+<td>password</td>
+<td>VARCHAR(50)</td>
+<td>否</td>
+<td>密码</td>
+</tr>
+<tr>
+<td>real_name</td>
+<td>VARCHAR(30)</td>
+<td>否</td>
+<td>真实姓名</td>
+</tr>
+<tr>
+<td>phone</td>
+<td>VARCHAR(12)</td>
+<td>否</td>
+<td>联系电话</td>
+</tr>
+<tr>
+<td>address</td>
+<td>VARCHAR(100)</td>
+<td>否</td>
+<td>家庭住址</td>
+</tr>
+</tbody></table>
+<p><strong>举例3：</strong></p>
+<p>属性的原子性是 <code>主观的</code> 。例如，Employees关系中雇员姓名应当使用1个（fullname）、2个（firstname和lastname）还是3个（firstname、middlename和lastname）属性表示呢？答案取决于应用程序。如果应用程序需要分别处理雇员的姓名部分（如：用于搜索目的），则有必要把它们分开。否则，不需要。</p>
+<p>表1：  </p>
+<table>
+<thead>
+<tr>
+<th>姓名</th>
+<th>年龄</th>
+<th>地址</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>张三</td>
+<td>20</td>
+<td>广东省广州市三元里78号</td>
+</tr>
+<tr>
+<td>李四</td>
+<td>24</td>
+<td>广东省深圳市龙华新区</td>
+</tr>
+</tbody></table>
+<p>表2：</p>
+<table>
+<thead>
+<tr>
+<th>姓名</th>
+<th>年龄</th>
+<th>省</th>
+<th>市</th>
+<th>地址</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>张三</td>
+<td>20</td>
+<td>广东</td>
+<td>广州</td>
+<td>三元里78号</td>
+</tr>
+<tr>
+<td>李四</td>
+<td>24</td>
+<td>广东</td>
+<td>深圳</td>
+<td>龙华新区</td>
+</tr>
+</tbody></table>
+<h3 id="2-5-第二范式-2nd-NF"><a href="#2-5-第二范式-2nd-NF" class="headerlink" title="2.5 第二范式(2nd NF)"></a>2.5 第二范式(2nd NF)</h3><p>第二范式要求，在满足第一范式的基础上，还要<font color="red">满足数据表里的每一条数据记录，都是可唯一标识的。而且所有非主键字段，都必须完全依赖主键，不能只依赖主键的一部分</font>。如果知道主键的所有属性的值，就可以检索到任何元组(行)的任何属性的任何值。(要求中的主键，其实可以拓展替换为候选键)。</p>
+<p><strong>举例1：</strong></p>
+<p><code>成绩表</code> （学号，课程号，成绩）关系中，（学号，课程号）可以决定成绩，但是学号不能决定成绩，课<br>程号也不能决定成绩，所以“（学号，课程号）→成绩”就是 <code>完全依赖关系</code> 。</p>
+<p><strong>举例2：</strong></p>
+<p><code>比赛表 player_game</code> ，里面包含球员编号、姓名、年龄、比赛编号、比赛时间和比赛场地等属性，这<br>里候选键和主键都为（球员编号，比赛编号），我们可以通过候选键（或主键）来决定如下的关系：  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(球员编号, 比赛编号) → (姓名, 年龄, 比赛时间, 比赛场地，得分)</span><br></pre></td></tr></table></figure>
+
+<p>但是这个数据表不满足第二范式，因为数据表中的字段之间还存在着如下的对应关系：  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 姓名和年龄部分依赖球员编号。</span><br><span class="line">(球员编号) → (姓名，年龄)</span><br><span class="line"></span><br><span class="line"># 比赛时间, 比赛场地部分依赖(球员编号, 比赛编号)。</span><br><span class="line">(比赛编号) → (比赛时间, 比赛场地)</span><br></pre></td></tr></table></figure>
+
+
+
+<p>对于非主属性来说，并非完全依赖候选键。这样会产生怎样的问题呢？  </p>
+<p><strong>1. 数据冗余 ：</strong>如果一个球员可以参加 m 场比赛，那么球员的姓名和年龄就重复了 m-1 次。一个比赛<br>也可能会有 n 个球员参加，比赛的时间和地点就重复了 n-1 次。</p>
+<p><strong>2. 插入异常 ：</strong>如果我们想要添加一场新的比赛，但是这时还没有确定参加的球员都有谁，那么就没<br>法插入。</p>
+<p><strong>3. 删除异常 ：</strong>如果我要删除某个球员编号，如果没有单独保存比赛表的话，就会同时把比赛信息删<br>除掉。</p>
+<p><strong>4. 更新异常 ：</strong>如果我们调整了某个比赛的时间，那么数据表中所有这个比赛的时间都需要进行调<br>整，否则就会出现一场比赛时间不同的情况。</p>
+<p>为了避免出现上述的情况，我们可以把球员比赛表设计为下面的三张表。  </p>
+<table>
+<thead>
+<tr>
+<th>表名</th>
+<th>属性（字段）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>球员 player 表</td>
+<td>球员编号、姓名和年龄等属性</td>
+</tr>
+<tr>
+<td>比赛 game 表</td>
+<td>比赛编号、比赛时间和比赛场地等属性</td>
+</tr>
+<tr>
+<td>球员比赛关系 player_game 表</td>
+<td>球员编号、比赛编号和得分等属性</td>
+</tr>
+</tbody></table>
+<p>这样的话，每张数据表都符合第二范式，也就避免了异常情况的发生。</p>
+<blockquote>
+<p>1NF 告诉我们字段属性需要是原子性的，而 2NF 告诉我们一张表就是一个独立的对象，一张表只表达一个意思  </p>
+</blockquote>
+<p><strong>举例3：</strong></p>
+<p>定义了一个名为 Orders 的关系，表示订单和订单行的信息：</p>
+<p><img src="/mysql/%E7%AC%AC11%E7%AB%A0_%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E8%AE%BE%E8%AE%A1%E8%A7%84%E8%8C%83.htm/image-20220328101954268.png" alt="image-20220328101954268"></p>
+<p>违反了第二范式，因为有非主键属性仅依赖于候选键（或主键）的一部分。例如，可以仅通过orderid找到订单的 orderdate，以及 customerid 和 companyname，而没有必要再去使用productid。</p>
+<p>修改：</p>
+<p>Orders表和OrderDetails表如下，此时符合第二范式  </p>
+<p><img src="/mysql/%E7%AC%AC11%E7%AB%A0_%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E8%AE%BE%E8%AE%A1%E8%A7%84%E8%8C%83.htm/image-20220328102007725.png" alt="image-20220328102007725"></p>
+<blockquote>
+<p>小结: 第二范式(2NF）要求实体的属性完全依赖主关键字。如果存在不完全依赖，那么这个属性和主关键字的这一部分应该分离出来形成一个新的实体，新实体与元实体之间是一对多的关系。</p>
+</blockquote>
+<h3 id="2-6-第三范式-3rd-NF"><a href="#2-6-第三范式-3rd-NF" class="headerlink" title="2.6 第三范式(3rd NF)"></a>2.6 第三范式(3rd NF)</h3><p>第三范式是在第二范式的基础上，确保数据表中的每一个非主键字段都和主键字段直接相关，也就是说，<strong>要求数</strong><br><strong>据表中的所有非主键字段不能依赖于其他非主键字段</strong>。(即，不能存在非主属性A依赖于非王属性B，非士属任B依赖于主键C的情况，即存在“A→B一C””的决定关系）通俗地讲，该规则的意思是所有<code>非主键属性</code>之间不能有依<br>赖关系，必须<code>相互独立</code>。</p>
+<p>这里的主键可以拓展为候选键。</p>
+<p><strong>举例1：</strong></p>
+<p><code>部门信息表</code> ：每个部门有部门编号（dept_id）、部门名称、部门简介等信息。</p>
+<p><code>员工信息表</code> ：每个员工有员工编号、姓名、部门编号。列出部门编号后就不能再将部门名称、部门简介等与部门有关的信息再加入员工信息表中。</p>
+<p>如果不存在部门信息表，则根据第三范式（3NF）也应该构建它，否则就会有大量的数据冗余。</p>
+<p><strong>举例2：</strong>  </p>
+<table>
+<thead>
+<tr>
+<th>字段名称</th>
+<th>字段类型</th>
+<th>是否是主键</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>INT</td>
+<td>是</td>
+<td>商品主键id （主键）</td>
+</tr>
+<tr>
+<td>category_id</td>
+<td>INT</td>
+<td>否</td>
+<td><code>商品类别id</code></td>
+</tr>
+<tr>
+<td>category_name</td>
+<td>VARCHAR(30)</td>
+<td>否</td>
+<td><code>商品类别名称</code></td>
+</tr>
+<tr>
+<td>goods_name</td>
+<td>VARCHAR(30)</td>
+<td>否</td>
+<td>商品名称</td>
+</tr>
+<tr>
+<td>price</td>
+<td>DECIMAL(10,2)</td>
+<td>否</td>
+<td>商品价格</td>
+</tr>
+</tbody></table>
+<p>商品类别名称依赖于商品类别编号，不符合第三范式。</p>
+<p><strong>修改：</strong></p>
+<p>表1：符合第三范式的 商品类别表 的设计  </p>
+<table>
+<thead>
+<tr>
+<th>字段名称</th>
+<th>字段类型</th>
+<th>是否是主键</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>INT</td>
+<td>是</td>
+<td>商品类别主键id</td>
+</tr>
+<tr>
+<td>category_name</td>
+<td>VARCHAR(30)</td>
+<td>否</td>
+<td>商品类别名称</td>
+</tr>
+</tbody></table>
+<p>表2：符合第三范式的 商品表 的设计  </p>
+<table>
+<thead>
+<tr>
+<th>字段名称</th>
+<th>字段类型</th>
+<th>是否是主键</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>INT</td>
+<td>是</td>
+<td>商品主键id</td>
+</tr>
+<tr>
+<td>category_id</td>
+<td>VARCHAR(30)</td>
+<td>否</td>
+<td>商品类别id</td>
+</tr>
+<tr>
+<td>goods_name</td>
+<td>VARCHAR(30)</td>
+<td>否</td>
+<td>商品名称</td>
+</tr>
+<tr>
+<td>price</td>
+<td>DECIMAL(10,2)</td>
+<td>否</td>
+<td>商品价格</td>
+</tr>
+</tbody></table>
+<p>商品表goods通过商品类别id字段（category_id）与商品类别表goods_category进行关联。</p>
+<p><strong>举例3：</strong></p>
+<p><code>球员player表</code> ：球员编号、姓名、球队名称和球队主教练。现在，我们把属性之间的依赖关系画出<br>来，如下图所示：  </p>
+<p><img src="/mysql/%E7%AC%AC11%E7%AB%A0_%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E8%AE%BE%E8%AE%A1%E8%A7%84%E8%8C%83.htm/image-20220328102411308.png" alt="image-20220328102411308"></p>
+<p>你能看到球员编号决定了球队名称，同时球队名称决定了球队主教练，非主属性球队主教练就会传递依<br>赖于球员编号，因此不符合 3NF 的要求。</p>
+<p>如果要达到 3NF 的要求，需要把数据表拆成下面这样：  </p>
+<table>
+<thead>
+<tr>
+<th>表名</th>
+<th>属性（字段）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>球员表</td>
+<td>球员编号、姓名和球队名称</td>
+</tr>
+<tr>
+<td>球队表</td>
+<td>球队名称、球队主教练</td>
+</tr>
+</tbody></table>
+<p><strong>举例4：</strong></p>
+<p>修改第二范式中的举例3。</p>
+<p>此时的Orders关系包含 orderid、orderdate、customerid 和 companyname 属性，主键定义为 orderid。customerid 和companyname均依赖于主键——orderid。例如，你需要通过orderid主键来查找代表订单中客户的customerid，同样，你需要通过 orderid 主键查找订单中客户的公司名称（companyname）。然而， customerid和companyname也是互相依靠的。为满足第三范式，可以改写如下：  </p>
+<p><img src="/mysql/%E7%AC%AC11%E7%AB%A0_%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E8%AE%BE%E8%AE%A1%E8%A7%84%E8%8C%83.htm/image-20220328102401313.png" alt="image-20220328102401313"></p>
+<blockquote>
+<p>符合3NF后的数据模型通俗地讲，2NF和3NF通常以这句话概括：“每个非键属性依赖于键，依赖于整个键，并且除了键别无他物”。  </p>
+</blockquote>
+<h3 id="2-7小结"><a href="#2-7小结" class="headerlink" title="2.7小结"></a>2.7小结</h3><p>关于数据表的设计，有三个范式要遵循。</p>
+<p>(1）第一范式(1NF)，确保每列保持<code>原子性</code></p>
+<p>​		数据库的每一列都是不可分割的原子数据项，不可再分的最小数据单元，而不能是集合、数组、记录等非原子数据项。</p>
+<p>(2）第二范式(2NF)，确保每列都和主键<code>完全依赖</code></p>
+<p>​		尤其在复合主键的情况下，非主键部分不应该依赖于部分主键。</p>
+<p>(3）第三范式(3NF）确保每列都和主键列<code>直接相关</code>，而不是间接相关</p>
+<p><strong>范式的优点:</strong> 数据的标准化有助于消除数据库中的<code>数据冗余</code>，第三范式(3NF）通常被认为在性能、扩展性和数据完整性方面达到了最好的平衡。</p>
+<p>**范式的缺点: **范式的使用，可能<code>降低查询的效率</code>。因为范式等级越高，设计出来的数据表就越多、越精细，数据的冗余度就越低，进行数据查询的时候就可能需要<code>关联多张表</code>，这不但代价昂贵，也可能使一些索<code>引策略无效</code>。</p>
+<p>范式只是提出了设计的标准，实际上设计数据表时，未必一定要符合这些标准。开发中，我们会出现为了性能和读取效率违反范式化的原则，通过<code>增加少量的冗余</code>或重复的数据来提高数据库的<code>读性能</code>，减少关联查询,join表的次数，实现空间换取时间的目的。因此在实际的设计过程中要理论结合实际，灵活运用。</p>
+<blockquote>
+<p>范式本身没有优劣之分，只有适用场景不同。没有完美的设计，只有合适的设计，我们在数据表的设计中，还需要根据需求将范式和反范式混合使用。</p>
+</blockquote>
+<h2 id="3-反范式化"><a href="#3-反范式化" class="headerlink" title="3. 反范式化"></a>3. 反范式化</h2><p>3.1 概述<br>规范化 vs 性能<br>\1. 为满足某种商业目标 , 数据库性能比规范化数据库更重要<br>\2. 在数据规范化的同时 , 要综合考虑数据库的性能<br>\3. 通过在给定的表中添加额外的字段，以大量减少需要从中搜索信息所需的时间<br>\4. 通过在给定的表中插入计算列，以方便查询<br>3.2 应用举例<br>举例1：<br>员工的信息存储在 employees 表 中，部门信息存储在 departments 表 中。通过 employees 表中的<br>department_id字段与 departments 表建立关联关系。如果要查询一个员工所在部门的名称：  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select employee_id,department_name</span><br><span class="line">from employees e join departments d</span><br><span class="line">on e.department_id = d.department_id;</span><br></pre></td></tr></table></figure>
+
+<p>如果经常需要进行这个操作，连接查询就会浪费很多时间。可以在 employees 表中增加一个冗余字段<br>department_name，这样就不用每次都进行连接操作了。<br>举例2：<br>反范式化的 goods商品信息表 设计如下：  </p>
+<table>
+<thead>
+<tr>
+<th>字段名称</th>
+<th>字段类型</th>
+<th>是否是主键</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>id</td>
+<td>INT</td>
+<td>是</td>
+<td>商品id （主键）</td>
+</tr>
+<tr>
+<td>category_id</td>
+<td>VARCHAR(30)A</td>
+<td>否</td>
+<td>商品类别id</td>
+</tr>
+<tr>
+<td>category_name</td>
+<td>VARCHAR(30)</td>
+<td>否</td>
+<td>商品类别名称</td>
+</tr>
+<tr>
+<td>goods_name</td>
+<td>VARCHAR(30)</td>
+<td>否</td>
+<td>商品名称</td>
+</tr>
+<tr>
+<td>price</td>
+<td>DECIMAL(10,2)</td>
+<td>否</td>
+<td>商品价格</td>
+</tr>
+</tbody></table>
+<p>举例3： 我们有 2 个表，分别是 商品流水表（atguigu.trans ）和 商品信息表<br>（atguigu.goodsinfo） 。商品流水表里有 400 万条流水记录，商品信息表里有 2000 条商品记录。<br>商品流水表：  </p>
+<p><img src="/mysql/%E7%AC%AC11%E7%AB%A0_%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E8%AE%BE%E8%AE%A1%E8%A7%84%E8%8C%83.htm/image-20220328102856949.png" alt="image-20220328102856949"></p>
+<p>商品信息表：  </p>
+<p><img src="/mysql/%E7%AC%AC11%E7%AB%A0_%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E8%AE%BE%E8%AE%A1%E8%A7%84%E8%8C%83.htm/image-20220328102906913.png" alt="image-20220328102906913"></p>
+<p>新的商品流水表如下所示：</p>
+<p><img src="/mysql/%E7%AC%AC11%E7%AB%A0_%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E8%AE%BE%E8%AE%A1%E8%A7%84%E8%8C%83.htm/image-20220328102921528.png" alt="image-20220328102921528"></p>
+<p>举例4：<br>课程评论表 class_comment ，对应的字段名称及含义如下：</p>
+<p><img src="/mysql/%E7%AC%AC11%E7%AB%A0_%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E8%AE%BE%E8%AE%A1%E8%A7%84%E8%8C%83.htm/image-20220328102934457.png" alt="image-20220328102934457"></p>
+<p>学生表 student ，对应的字段名称及含义如下：</p>
+<p><img src="/mysql/%E7%AC%AC11%E7%AB%A0_%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E8%AE%BE%E8%AE%A1%E8%A7%84%E8%8C%83.htm/image-20220328102948234.png" alt="image-20220328102948234"></p>
+<p>在实际应用中，我们在显示课程评论的时候，通常会显示这个学生的昵称，而不是学生 ID，因此当我们想要查询某个课程的前 1000 条评论时，需要关联 class_comment 和 student这两张表来进行查询。</p>
+<p><strong>实验数据：模拟两张百万量级的数据表</strong></p>
+<p>为了更好地进行 SQL 优化实验，我们需要给学生表和课程评论表随机模拟出百万量级的数据。我们可以<br>通过存储过程来实现模拟数据。</p>
+<p><strong>反范式优化实验对比</strong><br>如果我们想要查询课程 ID 为 10001 的前 1000 条评论，需要写成下面这样：  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SELECT p.comment_text, p.comment_time, stu.stu_name</span><br><span class="line">FROM class_comment AS p LEFT JOIN student AS stu</span><br><span class="line">ON p.stu_id = stu.stu_id</span><br><span class="line">WHERE p.class_id = 10001</span><br><span class="line">ORDER BY p.comment_id DESC</span><br><span class="line">LIMIT 1000;</span><br></pre></td></tr></table></figure>
+
+<p>运行结果（1000 条数据行）  </p>
+<p><img src="/mysql/%E7%AC%AC11%E7%AB%A0_%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E8%AE%BE%E8%AE%A1%E8%A7%84%E8%8C%83.htm/image-20220328102757397.png" alt="image-20220328102757397"></p>
+<p>运行时长为 <code>0.395</code> 秒，对于网站的响应来说，这已经很慢了，用户体验会非常差。</p>
+<p>如果我们想要提升查询的效率，可以允许适当的数据冗余，也就是在商品评论表中增加用户昵称字段，<br>在 class_comment 数据表的基础上增加 stu_name 字段，就得到了 class_comment2 数据表。</p>
+<p>这样一来，只需单表查询就可以得到数据集结果：  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SELECT comment_text, comment_time, stu_name</span><br><span class="line">FROM class_comment2</span><br><span class="line">WHERE class_id = 10001</span><br><span class="line">ORDER BY class_id DESC LIMIT 1000;</span><br></pre></td></tr></table></figure>
+
+<p>运行结果（1000 条数据）：  </p>
+<p><img src="/mysql/%E7%AC%AC11%E7%AB%A0_%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E8%AE%BE%E8%AE%A1%E8%A7%84%E8%8C%83.htm/image-20220328102757397.png" alt="image-20220328102757397"></p>
+<p>优化之后只需要扫描一次聚集索引即可，运行时间为 <code>0.039</code> 秒，查询时间是之前的 1&#x2F;10。 你能看到，<br>在数据量大的情况下，查询效率会有显著的提升。</p>
+<h3 id="3-3-反范式的新问题"><a href="#3-3-反范式的新问题" class="headerlink" title="3.3 反范式的新问题"></a>3.3 反范式的新问题</h3><p>存储 空间变大 了</p>
+<p>一个表中字段做了修改，另一个表中冗余的字段也需要做同步修改，否则 数据不一致</p>
+<p>若采用存储过程来支持数据的更新、删除等额外操作，如果更新频繁，会非常 消耗系统资源</p>
+<p>在 数据量小 的情况下，反范式不能体现性能的优势，可能还会让数据库的设计更加 复杂  </p>
+<h3 id="3-4-反范式的适用场景"><a href="#3-4-反范式的适用场景" class="headerlink" title="3.4 反范式的适用场景"></a>3.4 反范式的适用场景</h3><p>当冗余信息有价值或者能 大幅度提高查询效率 的时候，我们才会采取反范式的优化。<br>\1. 增加冗余字段的建议<br>\2. 历史快照、历史数据的需要<br>在现实生活中，我们经常需要一些冗余信息，比如订单中的收货人信息，包括姓名、电话和地址等。每<br>次发生的 订单收货信息 都属于 历史快照 ，需要进行保存，但用户可以随时修改自己的信息，这时保存这<br>些冗余信息是非常有必要的。<br>反范式优化也常用在 数据仓库 的设计中，因为数据仓库通常 存储历史数据 ，对增删改的实时性要求不<br>强，对历史数据的分析需求强。这时适当允许数据的冗余度，更方便进行数据分析。  </p>
+</div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://gitee.com/studentgitee/note-picture/raw/master/1676193401851.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">MrWei</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">19</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/02/13/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E6%90%AD%E5%BB%BA/" title="mysql主从赋值搭建"><img src="https://gitee.com/studentgitee/note-picture/raw/master/v2-3286aaa6155b7e419c002b536332c519_250x0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="mysql主从赋值搭建"/></a><div class="content"><a class="title" href="/2023/02/13/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E6%90%AD%E5%BB%BA/" title="mysql主从赋值搭建">mysql主从赋值搭建</a><time datetime="2023-02-13T00:43:54.264Z" title="发表于 2023-02-13 08:43:54">2023-02-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/02/13/%E8%99%9A%E6%8B%9F%E6%9C%BA/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" title="Linux常用命令"><img src="https://gitee.com/studentgitee/note-picture/raw/master/147937407959735466.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux常用命令"/></a><div class="content"><a class="title" href="/2023/02/13/%E8%99%9A%E6%8B%9F%E6%9C%BA/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" title="Linux常用命令">Linux常用命令</a><time datetime="2023-02-13T00:43:54.264Z" title="发表于 2023-02-13 08:43:54">2023-02-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/02/13/%E5%B8%B8%E7%94%A8%E6%A1%86%E6%9E%B6/oauth2.0/oauth2.0/" title="oauth2.0"><img src="https://gitee.com/studentgitee/note-picture/raw/master/9e803ed883298d09d964bbaf9d89b9dc.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="oauth2.0"/></a><div class="content"><a class="title" href="/2023/02/13/%E5%B8%B8%E7%94%A8%E6%A1%86%E6%9E%B6/oauth2.0/oauth2.0/" title="oauth2.0">oauth2.0</a><time datetime="2023-02-13T00:43:54.262Z" title="发表于 2023-02-13 08:43:54">2023-02-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/02/13/%E5%B8%B8%E7%94%A8%E6%A1%86%E6%9E%B6/ElasticSearch7/elasticSearch7/" title="elasticSearch7"><img src="https://gitee.com/studentgitee/note-picture/raw/master/c38cf6948b39dd755ac13fc639070fd8af5cd4db.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="elasticSearch7"/></a><div class="content"><a class="title" href="/2023/02/13/%E5%B8%B8%E7%94%A8%E6%A1%86%E6%9E%B6/ElasticSearch7/elasticSearch7/" title="elasticSearch7">elasticSearch7</a><time datetime="2023-02-13T00:43:54.261Z" title="发表于 2023-02-13 08:43:54">2023-02-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/02/13/%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7/git%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/" title="git使用手册"><img src="https://gitee.com/studentgitee/note-picture/raw/master/u=829309475,2841958997&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPG.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="git使用手册"/></a><div class="content"><a class="title" href="/2023/02/13/%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7/git%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/" title="git使用手册">git使用手册</a><time datetime="2023-02-13T00:43:54.260Z" title="发表于 2023-02-13 08:43:54">2023-02-13</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>分类</span>
+            <a class="card-more-btn" href="/categories/" title="查看更多">
+    <i class="fas fa-angle-right"></i></a>
+            </div>
+            <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/java/"><span class="card-category-list-name">java</span><span class="card-category-list-count">2</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/nginx/"><span class="card-category-list-name">nginx</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%85%B6%E4%BB%96/"><span class="card-category-list-name">其他</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%AE%B9%E5%99%A8%E9%83%A8%E7%BD%B2/"><span class="card-category-list-name">容器部署</span><span class="card-category-list-count">2</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%B7%A5%E4%BD%9C%E6%B5%81/"><span class="card-category-list-name">工作流</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7/"><span class="card-category-list-name">常用工具</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%B8%B8%E7%94%A8%E6%A1%86%E6%9E%B6/"><span class="card-category-list-name">常用框架</span><span class="card-category-list-count">4</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/"><span class="card-category-list-name">微服务</span><span class="card-category-list-count">1</span></a></li>
+            </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/java/" style="font-size: 1.3em; color: #99a1ac">java</a> <a href="/tags/nginx/" style="font-size: 1.1em; color: #999">nginx</a> <a href="/tags/%E5%85%B6%E4%BB%96/" style="font-size: 1.1em; color: #999">其他</a> <a href="/tags/%E5%AE%B9%E5%99%A8%E9%83%A8%E7%BD%B2/" style="font-size: 1.3em; color: #99a1ac">容器部署</a> <a href="/tags/%E5%B7%A5%E4%BD%9C%E6%B5%81/" style="font-size: 1.1em; color: #999">工作流</a> <a href="/tags/%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7/" style="font-size: 1.1em; color: #999">常用工具</a> <a href="/tags/%E5%B8%B8%E7%94%A8%E6%A1%86%E6%9E%B6/" style="font-size: 1.5em; color: #99a9bf">常用框架</a> <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" style="font-size: 1.1em; color: #999">微服务</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 1.1em; color: #999">数据库</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/" style="font-size: 1.1em; color: #999">虚拟机</a> <a href="/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/" style="font-size: 1.5em; color: #99a9bf">面试题</a></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/02/"><span class="card-archive-list-date">二月 2023</span><span class="card-archive-list-count">19</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">19</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2023-02-13T03:01:26.750Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By MrWei</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

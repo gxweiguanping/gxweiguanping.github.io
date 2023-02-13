@@ -1,0 +1,829 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>springcloud | Gping</title><meta name="author" content="MrWei"><meta name="copyright" content="MrWei"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="referrer" content="no-referrer"><meta name="description" content="1.微服务介绍1.1系统架构演变随着互联网的发展，网站应用的规模也在不断的扩大，进而导致系统架构也在不断的进行变化。从互联网早起到现在，系统架构大体经历了下面几个过程: 单体应用架构—&gt;垂直应用架构—&gt;分布式架构—&gt;SOA架构—&gt;微服务架构，当然还有悄然兴起的Service Mesh(服务网格化)。 1.1.1 单体应用架构互联网早期，一般的网站应用流量较小，只需一个应用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="springcloud">
+<meta property="og:url" content="http://example.com/2023/02/12/%E5%BE%AE%E6%9C%8D%E5%8A%A1/springcloud/index.html">
+<meta property="og:site_name" content="Gping">
+<meta property="og:description" content="1.微服务介绍1.1系统架构演变随着互联网的发展，网站应用的规模也在不断的扩大，进而导致系统架构也在不断的进行变化。从互联网早起到现在，系统架构大体经历了下面几个过程: 单体应用架构—&gt;垂直应用架构—&gt;分布式架构—&gt;SOA架构—&gt;微服务架构，当然还有悄然兴起的Service Mesh(服务网格化)。 1.1.1 单体应用架构互联网早期，一般的网站应用流量较小，只需一个应用">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/studentgitee/note-picture/raw/master/u=4096551373,629120265&fm=253&fmt=auto&app=138&f=JPEG.webp">
+<meta property="article:published_time" content="2023-02-12T15:33:02.000Z">
+<meta property="article:modified_time" content="2023-02-13T02:28:59.667Z">
+<meta property="article:author" content="MrWei">
+<meta property="article:tag" content="微服务">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/studentgitee/note-picture/raw/master/u=4096551373,629120265&fm=253&fmt=auto&app=138&f=JPEG.webp"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2023/02/12/%E5%BE%AE%E6%9C%8D%E5%8A%A1/springcloud/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'springcloud',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-02-13 10:28:59'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = url => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      link.onload = () => resolve()
+      link.onerror = () => reject()
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="./css/background.css"><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://gitee.com/studentgitee/note-picture/raw/master/1676193401851.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">19</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/plan/"><i class="fa-fw fas fa-navicon"></i><span> 计划</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://gitee.com/studentgitee/note-picture/raw/master/u=4096551373,629120265&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG.webp')"><nav id="nav"><span id="blog-info"><a href="/" title="Gping"><span class="site-name">Gping</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/plan/"><i class="fa-fw fas fa-navicon"></i><span> 计划</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">springcloud</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-02-12T15:33:02.000Z" title="发表于 2023-02-12 23:33:02">2023-02-12</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-02-13T02:28:59.667Z" title="更新于 2023-02-13 10:28:59">2023-02-13</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">微服务</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="springcloud"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20230210143018927.png" alt="image-20230210143018927"></p>
+<h2 id="1-微服务介绍"><a href="#1-微服务介绍" class="headerlink" title="1.微服务介绍"></a>1.微服务介绍</h2><h3 id="1-1系统架构演变"><a href="#1-1系统架构演变" class="headerlink" title="1.1系统架构演变"></a>1.1系统架构演变</h3><p>随着互联网的发展，网站应用的规模也在不断的扩大，进而导致系统架构也在不断的进行变化。从互联网早起到现在，系统架构大体经历了下面几个过程: 单体应用架构—&gt;垂直应用架构—&gt;分布式架构—&gt;SOA架构—&gt;微服务架构，当然还有悄然兴起的Service Mesh(服务网格化)。</p>
+<h4 id="1-1-1-单体应用架构"><a href="#1-1-1-单体应用架构" class="headerlink" title="1.1.1 单体应用架构"></a>1.1.1 单体应用架构</h4><p>互联网早期，一般的网站应用流量较小，只需一个应用，将所有功能代码都部署在一起就可以，这样可以减少开发、部署和维护的成本。<br>比如说一个电商系统，里面会包含很多用户管理，商品管理，订单管理，物流管理等等很多模块，我们会把它们做成一个web项目，然后部署到一台tomcat服务器上。</p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210923145216353.png" alt="image-20210923145216353"></p>
+<p><strong>优点：</strong><br>项目架构简单，小型项目的话， 开发成本低<br>项目部署在一个节点上， 维护方便<br><strong>缺点：</strong><br>全部功能集成在一个工程中，对于大型项目来讲不易开发和维护<br>项目模块之间紧密耦合，单点容错率低<br>无法针对不同模块进行针对性优化和水平扩展</p>
+<h4 id="1-1-2-垂直应用架构"><a href="#1-1-2-垂直应用架构" class="headerlink" title="1.1.2 垂直应用架构"></a>1.1.2 垂直应用架构</h4><p>随着访问量的逐渐增大，单一应用只能依靠增加节点来应对，但是这时候会发现并不是所有的模块都会有比较大的访问量，还是以上面的电商为例子， 用户访问量的增加可能影响的只是用户和订单模块， 但是对消息模块的影响就比较小. 那么此时我们希望只多增加几个订单模块， 而不增加消息模块. 此时单体应用就做不到了， 垂直应用就应运而生了.</p>
+<p>所谓的垂直应用架构，就是将原来的一个应用拆成互不相干的几个应用，以提升效率。比如我们可以将上面电商的单体<br>应用拆分成:<br>电商系统(用户管理 商品管理 订单管理)<br>后台系统(用户管理 订单管理 客户管理)<br>CMS系统(广告管理 营销管理)<br>这样拆分完毕之后，一旦用户访问量变大，只需要增加电商系统的节点就可以了，而无需增加后台和CMS的节点。</p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210923145409503.png" alt="image-20210923145409503"></p>
+<p><strong>优点：</strong><br>系统拆分实现了流量分担，解决了并发问题，而且可以针对不同模块进行优化和水扩展一个系统的问题不会影响到其他系统，提高容错率<br><strong>缺点：</strong><br>系统之间相互独立， 无法进行相互调用<br>系统之间相互独立， 会有重复的开发任务</p>
+<h4 id="1-1-3-分布式架构"><a href="#1-1-3-分布式架构" class="headerlink" title="1.1.3 分布式架构"></a>1.1.3 分布式架构</h4><p>当垂直应用越来越多，重复的业务代码就会越来越多。这时候，我们就思考可不可以将重复的代码抽取出来，做成统一的业务层作为独立的服务，然后由前端控制层调用不同的业务层服务呢？这就产生了新的分布式系统架构。它将把工程拆分成表现层和服务层两个部分，服务层中包含业务逻辑。表现层只需要处理和页面的交互，业务逻辑都是调用服务层的服务来实现。</p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210923145435964.png" alt="image-20210923145435964"></p>
+<p><strong>优点：</strong><br>抽取公共的功能为服务层，提高代码复用性<br><strong>缺点：</strong><br>系统间耦合度变高，调用关系错综复杂，难以维护</p>
+<h4 id="1-1-4-SOA架构"><a href="#1-1-4-SOA架构" class="headerlink" title="1.1.4 SOA架构"></a>1.1.4 SOA架构</h4><p>在分布式架构下，当服务越来越多，容量的评估，小服务资源的浪费等问题逐渐显现，此时需增加一个调度中心对集群进行实时管理。此时，用于资源调度和治理中心(SOA Service OrientedArchitecture)是关键。</p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210923145454206.png" alt="image-20210923145454206"></p>
+<p><strong>优点:</strong><br>使用治理中心（ESB\dubbo）解决了服务间调用关系的自动调节<br><strong>缺点:</strong><br>服务间会有依赖关系，一旦某个环节出错会影响较大( 服务雪崩 )<br>服务关系复杂，运维、测试部署困难</p>
+<h4 id="1-1-5-微服务架构"><a href="#1-1-5-微服务架构" class="headerlink" title="1.1.5 微服务架构"></a>1.1.5 微服务架构</h4><p>微服务架构在某种程度上是面向服务的架构SOA继续发展的下一步，它更加强调服务的”彻底拆分”。</p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210923145512582.png" alt="image-20210923145512582"></p>
+<p><strong>微服务架构与SOA架构的不同：</strong></p>
+<p>1、微服务架构比 SOA架构粒度会更加精细，让专业的人去做专业的事情（专注），目的提高效率，每个服务于服务之间互不影响，微服务架构中，每个服务必须独立部署，微服务架构更加轻巧，轻量级。</p>
+<p>2、SOA 架构中可能数据库存储会发生共享，微服务强调独每个服务都是单独数据库，保证每个服务于服务之间互不影响。项目体现特征微服务架构比 SOA 架构更加适合与互联网公司敏捷开发、快速迭代版本，因为粒度非常精细。<br><strong>优点：</strong><br>服务原子化拆分，独立打包、部署和升级，保证每个微服务清晰的任务划分，利于扩展<br>微服务之间采用Restful等轻量级http协议相互调用<br><strong>缺点：</strong><br>分布式系统开发的技术成本高（容错、分布式事务等）<br>复杂性更高。各个微服务进行分布式独立部署，当进行模块调用的时候，分布式将会变得更加麻烦。</p>
+<h3 id="1-2微服务架构介绍"><a href="#1-2微服务架构介绍" class="headerlink" title="1.2微服务架构介绍"></a>1.2微服务架构介绍</h3><h4 id="1-2-1微服务中文网址"><a href="#1-2-1微服务中文网址" class="headerlink" title="1.2.1微服务中文网址"></a>1.2.1微服务中文网址</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://blog.cuicc.com/blog/2015/07/22/microservices</span><br></pre></td></tr></table></figure>
+
+<h4 id="1-2-2-微服务架构的常见问题"><a href="#1-2-2-微服务架构的常见问题" class="headerlink" title="1.2.2 微服务架构的常见问题"></a>1.2.2 微服务架构的常见问题</h4><ul>
+<li>一旦采用微服务系统架构，就势必会遇到这样几个问题：</li>
+<li>这么多小服务，如何管理他们？(服务治理 注册中心[服务注册 发现 剔除])    eureka、 nacos</li>
+<li>这么多小服务，他们之间如何通讯？(restful rpc dubbo feign)    httpclient(“url”,参数)，  springBootrestTemplate(“url”,参数) ,feign</li>
+<li>这么多小服务，一旦出现问题了，应该如何自处理？(容错)     sentinel</li>
+<li>这么多小服务，客户端怎么访问他们？(网关)     zuul、gateway</li>
+<li>这么多小服务，一旦出现问题了，应该如何排错? (链路追踪)  sleuth+zipkin</li>
+<li>对于上面的问题，是任何一个微服务设计者都不能绕过去的，因此大部分的微服务产品都针对每一个问题提供了相应的组件来解决它们。</li>
+</ul>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210923150451194.png" alt="image-20210923150451194"></p>
+<h4 id="1-2-3-常见微服务架构"><a href="#1-2-3-常见微服务架构" class="headerlink" title="1.2.3 常见微服务架构"></a>1.2.3 常见微服务架构</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">1.dubbo: zookeeper +dubbo + SpringMVC/SpringBoot</span><br><span class="line">配套 通信方式：rpc</span><br><span class="line">注册中心：zookeeper / redis</span><br><span class="line">配置中心：diamond</span><br><span class="line"></span><br><span class="line">2.SpringCloud：全家桶+轻松嵌入第三方组件(Netflix)</span><br><span class="line">配套 通信方式：http restful</span><br><span class="line">注册中心：eruka / consul</span><br><span class="line">配置中心：config</span><br><span class="line">断 路 器：hystrix</span><br><span class="line">网关：zuul</span><br><span class="line">分布式追踪系统：sleuth + zipkin</span><br><span class="line"></span><br><span class="line">3.SpringCloud Alibaba</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-springCloud搭建"><a href="#2-springCloud搭建" class="headerlink" title="2.springCloud搭建"></a>2.springCloud搭建</h2><p>官网地址：<a target="_blank" rel="noopener" href="https://spring.io/projects/spring-cloud">https://spring.io/projects/spring-cloud</a></p>
+<p>包括了诸如下列功能：</p>
+<ul>
+<li>服务注册发现Eureka</li>
+<li>统一配置中心 SpringCloudConfig</li>
+<li>服务网关 Zuul</li>
+<li>服务降级容错 Hystrix</li>
+<li>服务调用跟踪</li>
+</ul>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210926093528808.png" alt="image-20210926093528808"></p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/v2-25915a395592b4a88a3a35dff89ab969_r.jpg" alt="v2-25915a395592b4a88a3a35dff89ab969_r"></p>
+<h3 id="2-1版本要求"><a href="#2-1版本要求" class="headerlink" title="2.1版本要求"></a>2.1版本要求</h3><blockquote>
+<p>Spring Cloud 的版本号并不是我们通常见的数字版本号，而是一些很奇怪的单词。这些单词均为英国伦敦地铁站的站名。同时根据字母表的顺序来对应版本时间顺序，比如：最早 的 Release 版本 Angel，第二个 Release 版本 Brixton（英国地名），然后是 Camden、 Dalston、Edgware、Finchley、Greenwich(格林威治)、Hoxton。</p>
+</blockquote>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210925114602935.png" alt="image-20210925114602935"></p>
+<p>我用的版本如下：</p>
+<ul>
+<li>spring-boot 2.1.6.RELEASE</li>
+<li>spring-cloud Greenwich.RELEASE</li>
+</ul>
+<h3 id="2-2创建父工程"><a href="#2-2创建父工程" class="headerlink" title="2.2创建父工程"></a>2.2创建父工程</h3><p>1、创建父工程</p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210925115847392.png" alt="image-20210925115847392"></p>
+<p>2、选择Maven POM</p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210925115752951.png" alt="image-20210925115752951"></p>
+<p>3、引入依赖</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">         xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;</span><br><span class="line">    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;</span><br><span class="line">    &lt;packaging&gt;pom&lt;/packaging&gt;</span><br><span class="line">    &lt;modules&gt;</span><br><span class="line">        &lt;module&gt;eureka-server&lt;/module&gt;</span><br><span class="line">    &lt;/modules&gt;</span><br><span class="line">    &lt;parent&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;</span><br><span class="line">        &lt;version&gt;2.1.6.RELEASE&lt;/version&gt;</span><br><span class="line">        &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;</span><br><span class="line">    &lt;/parent&gt;</span><br><span class="line">    &lt;groupId&gt;com.wgp&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;springcloud&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;</span><br><span class="line">    &lt;name&gt;springcloud&lt;/name&gt;</span><br><span class="line">    &lt;description&gt;Demo project for Spring Boot&lt;/description&gt;</span><br><span class="line">    &lt;properties&gt;</span><br><span class="line">        &lt;java.version&gt;1.8&lt;/java.version&gt;</span><br><span class="line">        &lt;spring.cloud-version&gt;Greenwich.RELEASE&lt;/spring.cloud-version&gt;</span><br><span class="line">    &lt;/properties&gt;</span><br><span class="line">    &lt;dependencies&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;</span><br><span class="line">            &lt;scope&gt;test&lt;/scope&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">    &lt;/dependencies&gt;</span><br><span class="line">    &lt;dependencyManagement&gt;</span><br><span class="line">        &lt;dependencies&gt;</span><br><span class="line">        &lt;!-- springcloud版本管理--&gt;</span><br><span class="line">            &lt;dependency&gt;</span><br><span class="line">                &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">                &lt;artifactId&gt;spring-cloud-dependencies&lt;/artifactId&gt;</span><br><span class="line">                &lt;version&gt;$&#123;spring.cloud-version&#125;&lt;/version&gt;</span><br><span class="line">                &lt;type&gt;pom&lt;/type&gt;</span><br><span class="line">                &lt;scope&gt;import&lt;/scope&gt;</span><br><span class="line">            &lt;/dependency&gt;</span><br><span class="line">        &lt;/dependencies&gt;</span><br><span class="line">    &lt;/dependencyManagement&gt;</span><br><span class="line">    &lt;build&gt;</span><br><span class="line">        &lt;plugins&gt;</span><br><span class="line">            &lt;plugin&gt;</span><br><span class="line">                &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">                &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;</span><br><span class="line">            &lt;/plugin&gt;</span><br><span class="line">        &lt;/plugins&gt;</span><br><span class="line">    &lt;/build&gt;</span><br><span class="line"></span><br><span class="line">&lt;/project&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="3-服务注册中心"><a href="#3-服务注册中心" class="headerlink" title="3.服务注册中心"></a>3.服务注册中心</h2><h3 id="3-1什么是服务注册中心"><a href="#3-1什么是服务注册中心" class="headerlink" title="3.1什么是服务注册中心"></a>3.1什么是服务注册中心</h3><blockquote>
+<p>所谓服务注册中心就是在整个的微服务架构中单独提出一个服务, 这个服务不完成系统的任何的业务功能,仅仅用来完成对整个微服务系统的服务注册和服务发现,以及对服务健康状态的监控和管理功能。</p>
+</blockquote>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20211008112843035.png" alt="image-20211008112843035"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 1.服务注册中心</span><br><span class="line">一  可以对所有的微服务的信息进行存储，如微服务的名称、IP、 端口等</span><br><span class="line">一  可以在进行服务调用时通过服务发现查询可用的微服务列表及网络地址进行服务调用</span><br><span class="line">一  可以对所有的微服务进行心跳检测，如发现某实例长时间无法访问，就会从服务注册表移除该实例。</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="3-2eureka"><a href="#3-2eureka" class="headerlink" title="3.2eureka"></a>3.2eureka</h3><h4 id="eureka服务端"><a href="#eureka服务端" class="headerlink" title="eureka服务端"></a><strong>eureka服务端</strong></h4><p>eureka官网地址：</p>
+<p><a target="_blank" rel="noopener" href="https://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/2.2.1.RELEASE/reference/html/#service-discovery-eureka-clients">https://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/2.2.1.RELEASE/reference/html/#service-discovery-eureka-clients</a></p>
+<blockquote>
+<p>eureka包含eureka-server和eureka-client</p>
+</blockquote>
+<p>a、创建Maven子工程后引入依赖</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">  &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">  &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-server&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot;</span><br><span class="line">         xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">         xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;</span><br><span class="line">    &lt;parent&gt;</span><br><span class="line">        &lt;artifactId&gt;springcloud&lt;/artifactId&gt;</span><br><span class="line">        &lt;groupId&gt;com.wgp&lt;/groupId&gt;</span><br><span class="line">        &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;</span><br><span class="line">    &lt;/parent&gt;</span><br><span class="line">    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;</span><br><span class="line"></span><br><span class="line">    &lt;artifactId&gt;eureka-server&lt;/artifactId&gt;</span><br><span class="line"></span><br><span class="line">    &lt;dependencies&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;!--  eureka--&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-server&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">    &lt;/dependencies&gt;</span><br><span class="line">&lt;/project&gt;</span><br></pre></td></tr></table></figure>
+
+<p>b、编写配置文件application.yml</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">server:</span><br><span class="line">  port: 10001</span><br><span class="line">spring:</span><br><span class="line">  application:</span><br><span class="line">    name: eureka-server</span><br><span class="line">eureka:</span><br><span class="line">  client:</span><br><span class="line">    service-url:</span><br><span class="line">      defaultZone: http://localhost:10001/eureka  #eureka访问地址http://localhost:10001</span><br><span class="line">    fetch-registry: false #启动完成后再进行注册</span><br><span class="line">    register-with-eureka: false #eureka当做服务注册中心使用，自身不进行注册</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>c、编写启动类加上注解</p>
+<p><strong>@EnableEurekaServer</strong>和 @SpringBootApplication</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@SpringBootApplication</span><br><span class="line">@EnableEurekaServer</span><br><span class="line">public class EurekaWgpApplication &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        SpringApplication.run(EurekaWgpApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>d、服务注册中心搞定，启动成功后访问[<a href="http://localhost:10001，可以看到注册中心页面：">http://localhost:10001，可以看到注册中心页面：</a></p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210925115641029.png" alt="image-20210925115641029"></p>
+<h4 id="eureka客户端"><a href="#eureka客户端" class="headerlink" title="eureka客户端"></a><strong>eureka客户端</strong></h4><p>a、引入依赖</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--  eurekaclient--&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">  &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">  &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-client&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<p>b、编写配置文件application.yml指定eureka</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">server:</span><br><span class="line">  port: 端口号</span><br><span class="line">spring:</span><br><span class="line">  application:</span><br><span class="line">    name: 服务名称</span><br><span class="line">eureka:</span><br><span class="line">  client:</span><br><span class="line">    service-url:</span><br><span class="line">      defaultZone: http://localhost:10001/eureka  #eureka访问地址http://localhost:10001</span><br></pre></td></tr></table></figure>
+
+<p>c、编写启动类加上注解</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@EnableFeignClients和 @SpringBootApplication</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="eureka自我保护机制"><a href="#eureka自我保护机制" class="headerlink" title="eureka自我保护机制"></a>eureka自我保护机制</h4><p>官方解释：<a target="_blank" rel="noopener" href="https://github.com/Netflix/eureka/wiki/Understanding-Eureka-Peer-to-Peer-Communication">https://github.com/Netflix/eureka/wiki/Understanding-Eureka-Peer-to-Peer-Communication</a></p>
+<blockquote>
+<p>Eureka Server 在运行期间会去统计心跳失败比例在 15 分钟之内是否低于 85%，如果低于 85%，Eureka Server 会将这些实例保护起来，让这些实例不会过期，但是在保护期内如果服务刚好这个服务提供者非正常下线了，此时服务消费者就会拿到一个无效的服务实例，此时会调用失败，对于这个问题需要服务消费者端要有一些容错机制，如重试，断路器等。</p>
+</blockquote>
+<p>Eureka Server自动进入自我保护机制，此时会出现以下几种情况：</p>
+<ul>
+<li>Eureka Server不再从注册列表中移除因为长时间没收到心跳而应该过期的服务。</li>
+<li>Eureka Server仍然能够接受新服务的注册和查询请求，但是不会被同步到其它节点上，保证当前节点依然可用。</li>
+<li>当网络稳定时，当前Eureka Server新的注册信息会被同步到其它节点中。</li>
+</ul>
+<p>1、 注册中心关闭自我保护机制，修改检查失效服务的时间。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">eureka:</span><br><span class="line">  server: </span><br><span class="line">    enable-self-preservation: false</span><br><span class="line">    eviction-interval-timer-in-ms: 3000</span><br></pre></td></tr></table></figure>
+
+<p>2、 微服务修改减短服务心跳的时间。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 默认90秒</span><br><span class="line">lease-expiration-duration-in-seconds: 10</span><br><span class="line"># 默认30秒</span><br><span class="line">lease-renewal-interval-in-seconds: 3</span><br></pre></td></tr></table></figure>
+
+<p>3、以上配置建议在生产环境使用。</p>
+<h2 id="4-服务间的通讯"><a href="#4-服务间的通讯" class="headerlink" title="4.服务间的通讯"></a>4.服务间的通讯</h2><p>java 项目中如何实现接口调用？</p>
+<p><strong>1）Httpclient</strong><br>HttpClient 是 Apache Jakarta Common 下的子项目，用来提供高效的、最新的、功能丰富的支持 Http 协议的客户端编程工具包，并且</p>
+<p>它支持 HTTP 协议最新版本和建议。HttpClient相比传统 JDK 自带的 URLConnection，提升了易用性和灵活性，使客户端发送 HTTP 请求</p>
+<p>变得容易，提高了开发的效率。</p>
+<p><strong>2）Okhttp</strong><br>一个处理网络请求的开源项目，是安卓端最火的轻量级框架，由 Square 公司贡献，用于替代HttpUrlConnection 和 Apache </p>
+<p>HttpClient。OkHttp 拥有简洁的 API、高效的性能，并支持多种协议（HTTP&#x2F;2 和 SPDY）。</p>
+<p><strong>3）HttpURLConnection</strong></p>
+<p>HttpURLConnection 是 Java 的标准类，它继承自 URLConnection，可用于向指定网站发送GET 请求、POST 请求。</p>
+<p>HttpURLConnection 使用比较复杂，不像 HttpClient 那样容易使用。</p>
+<p><strong>4）RestTemplate    WebClient</strong></p>
+<p>RestTemplate 是 Spring 提供的用于访问 Rest 服务的客户端，RestTemplate 提供了多种便捷访问远程 HTTP 服务的方法，能够大大提</p>
+<p>高客户端的编写效率。</p>
+<h3 id="4-1基于RestTemplate服务调用"><a href="#4-1基于RestTemplate服务调用" class="headerlink" title="4.1基于RestTemplate服务调用"></a>4.1基于RestTemplate服务调用</h3><p><strong>简介</strong></p>
+<blockquote>
+<p>RestTemplate 是从 Spring3.0 开始支持的一个 HTTP 请求工具，它提供了常见的REST请求方案的模版，例如 GET 请求、POST 请求、PUT 请求、DELETE 请求以及一些通用的请求执行方法 exchange 以及 execute。RestTemplate 继承自InterceptingHttpAccessor 并且实现了 RestOperations 接口，其中 RestOperations 接口定义了基本的 RESTful 操作，这些操作在 RestTemplate 中都得到了实现。接下来我们就来看看这些操作方法的使用。</p>
+</blockquote>
+<p><strong>实例</strong></p>
+<p><strong>1、编写两个服务 user-server 和order-server</strong></p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210925132430566.png" alt="image-20210925132430566"></p>
+<p><strong>2、order-server服务的搭建</strong></p>
+<p><strong>引入依赖</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot;</span><br><span class="line">         xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">         xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;</span><br><span class="line">    &lt;parent&gt;</span><br><span class="line">        &lt;artifactId&gt;springcloud&lt;/artifactId&gt;</span><br><span class="line">        &lt;groupId&gt;com.wgp&lt;/groupId&gt;</span><br><span class="line">        &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;</span><br><span class="line">    &lt;/parent&gt;</span><br><span class="line">    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;</span><br><span class="line"></span><br><span class="line">    &lt;artifactId&gt;order-server&lt;/artifactId&gt;</span><br><span class="line"></span><br><span class="line">&lt;dependencies&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter&lt;/artifactId&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">    &lt;!--  eureka--&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-client&lt;/artifactId&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">&lt;/dependencies&gt;</span><br><span class="line">&lt;/project&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>编写配置文件application.yml</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">server:</span><br><span class="line">  port: 8002</span><br><span class="line">spring:</span><br><span class="line">  application:</span><br><span class="line">    name: order-server</span><br><span class="line">eureka:</span><br><span class="line">  client:</span><br><span class="line">    service-url:</span><br><span class="line">      defaultZone: http://localhost:10001/eureka  #eureka地址     访问地址http://localhost:10001</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>编写启动类</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@SpringBootApplication</span><br><span class="line">@EnableEurekaClient </span><br><span class="line">public class OrderApplication &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        SpringApplication.run(OrderApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>编写Controller</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">@RestController</span><br><span class="line">public class OrderController &#123;</span><br><span class="line"></span><br><span class="line">    @Value(&quot;$&#123;server.port&#125;&quot;)</span><br><span class="line">    private String port;</span><br><span class="line"></span><br><span class="line">    @GetMapping</span><br><span class="line">    public String test()&#123;</span><br><span class="line">        return &quot;order is ok,调用的端口为：&quot;+port;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>3、user-server服务的搭建</strong></p>
+<p><strong>引入依赖</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot;</span><br><span class="line">         xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">         xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;</span><br><span class="line">    &lt;parent&gt;</span><br><span class="line">        &lt;artifactId&gt;springcloud&lt;/artifactId&gt;</span><br><span class="line">        &lt;groupId&gt;com.wgp&lt;/groupId&gt;</span><br><span class="line">        &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;</span><br><span class="line">    &lt;/parent&gt;</span><br><span class="line">    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;</span><br><span class="line"></span><br><span class="line">    &lt;artifactId&gt;user-server&lt;/artifactId&gt;</span><br><span class="line">&lt;dependencies&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">    &lt;!--  eureka--&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-client&lt;/artifactId&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">&lt;/dependencies&gt;</span><br><span class="line"></span><br><span class="line">&lt;/project&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>编写配置文件application.yml</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">server:</span><br><span class="line">  port: 8001</span><br><span class="line">spring:</span><br><span class="line">  application:</span><br><span class="line">    name: user-server</span><br><span class="line">eureka:</span><br><span class="line">  client:</span><br><span class="line">    service-url:</span><br><span class="line">      defaultZone: http://localhost:10001/eureka  #eureka地址     访问地址http://localhost:10001</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>编写启动类</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@SpringBootApplication</span><br><span class="line">@EnableEurekaClient</span><br><span class="line">public class UserApplication &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        SpringApplication.run(UserApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>编写Controller</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">@RestController</span><br><span class="line">public class UserController &#123;</span><br><span class="line"></span><br><span class="line">    @GetMapping(&quot;/user&quot;)</span><br><span class="line">    public String invokeTest()&#123;</span><br><span class="line">        // 使用RestTemplate调用order服务</span><br><span class="line">        RestTemplate restTemplate = new RestTemplate();</span><br><span class="line">        String invoke = restTemplate.getForObject(&quot;http://localhost:8002&quot;, String.class);</span><br><span class="line">        return &quot;user调用服务成功，返回值为:&quot;+invoke;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>4、访问发现调用成功</strong></p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210925133234304.png" alt="image-20210925133234304"></p>
+<p><strong>5、存在的问题</strong></p>
+<ul>
+<li>调用的地址写死</li>
+<li>当服务是集群的时候，不能实现负载均衡</li>
+</ul>
+<h3 id="4-2基于Ribbon的负载均衡"><a href="#4-2基于Ribbon的负载均衡" class="headerlink" title="4.2基于Ribbon的负载均衡"></a>4.2基于Ribbon的负载均衡</h3><p>官网地址：<a target="_blank" rel="noopener" href="https://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/2.2.1.RELEASE/reference/html/#spring-cloud-ribbon">https://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/2.2.1.RELEASE/reference/html/#spring-cloud-ribbon</a></p>
+<h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a><strong>简介</strong></h4><p>Spring Cloud Ribbon是一个基于HTTP和TCP的<strong>客户端</strong>负载均衡工具，它基于Netflix Ribbon实现。通过Spring Cloud的封装，可以让我</p>
+<p>们轻松地将面向服务的REST模版请求自动转换成客户端负载均衡的服务调用。</p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210924094050229.png" alt="image-20210924094050229"></p>
+<p><strong>服务器端负载均衡</strong></p>
+<p>例如Nginx，通过Nginx进行负载均衡，先发送请求，然后通过负载均衡算法，在多个服务器之间选择一个进行访问；即在服务器端再进</p>
+<p>行负载均衡算法分配。</p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210924094125748.png" alt="image-20210924094125748"></p>
+<h4 id="使用Riobbin"><a href="#使用Riobbin" class="headerlink" title="使用Riobbin"></a>使用Riobbin</h4><p><strong>！！！如果是使用了eureka,那么就不需要引入Riobbin依赖</strong></p>
+<p>1、编写配置类，创建一个RestTemplate</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">package com.wgp.config;</span><br><span class="line"></span><br><span class="line">import org.springframework.cloud.client.loadbalancer.LoadBalanced;</span><br><span class="line">import org.springframework.context.annotation.Bean;</span><br><span class="line">import org.springframework.context.annotation.Configuration;</span><br><span class="line">import org.springframework.web.client.RestTemplate;</span><br><span class="line"></span><br><span class="line">@Configuration</span><br><span class="line">public class BeanConfig &#123;</span><br><span class="line"></span><br><span class="line">    @Bean</span><br><span class="line">    @LoadBalanced</span><br><span class="line">    public RestTemplate restTemplate() &#123;</span><br><span class="line">        return new RestTemplate();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>2、使用Ribbon实现负载均衡 三种方式DiscoveryClient、LoadBalancerClient、LoadBalanced</p>
+<p>a、DiscoveryClient  </p>
+<ul>
+<li>服务发现客户端对象，根据服务id去服务注册中心获取对应服务列表到本地中</li>
+<li>缺点：没有负载均衡，需要自己实现</li>
+</ul>
+<p>b、LoadBalancerClient</p>
+<ul>
+<li>负载均衡客户端对象，根据服务id去服务注册中心获取对应服务列表到本地中,根据默认负载均衡策略选择列表中的一台机器进行返回</li>
+<li>缺点：使用时每次都要根据服务id去获取一个负载均衡机器之后再通过restTemplate调用服务</li>
+</ul>
+<p>c、LoadBalanced注解</p>
+<ul>
+<li>作用：让当前对象具有ribbon负载均衡特性</li>
+<li><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210925153117802.png" alt="image-20210925153117802"></li>
+</ul>
+<p>d、以上3中方法虽然解决了负载均衡问题，但是还是不能解决路径写死的问题，不利于我们进行维护</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 路径写死问题</span><br><span class="line">String invoke = restTemplate.getForObject(&quot;http://&quot;+&quot;order-server&quot; + &quot;/order&quot;, String.class);</span><br></pre></td></tr></table></figure>
+
+<p>e、代码实现</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">package com.wgp.controller;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.cloud.client.ServiceInstance;</span><br><span class="line">import org.springframework.cloud.client.discovery.DiscoveryClient;</span><br><span class="line">import org.springframework.cloud.client.loadbalancer.LoadBalanced;</span><br><span class="line">import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;</span><br><span class="line">import org.springframework.web.bind.annotation.GetMapping;</span><br><span class="line">import org.springframework.web.bind.annotation.RestController;</span><br><span class="line">import org.springframework.web.client.RestTemplate;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@RestController</span><br><span class="line">public class UserController &#123;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    private RestTemplate restTemplate;</span><br><span class="line">    @Autowired</span><br><span class="line">    private DiscoveryClient discoveryClient;</span><br><span class="line">    @Autowired</span><br><span class="line">    private LoadBalancerClient loadBalancerClient;</span><br><span class="line"></span><br><span class="line">    @GetMapping(&quot;/user&quot;)</span><br><span class="line">    public String invokeTest() &#123;</span><br><span class="line">        RestTemplate restTemplate = new RestTemplate();</span><br><span class="line">        String invoke = restTemplate.getForObject(&quot;http://localhost:8002/order&quot;, String.class);</span><br><span class="line">        return &quot;user调用服务成功，返回值为:&quot; + invoke;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @GetMapping(&quot;/ribbon&quot;)</span><br><span class="line">    public String invokeDemo() &#123;</span><br><span class="line">        // 实现负载均衡 DiscoveryClient、LoadBalancerClient、LoadBalanced</span><br><span class="line">        // DiscoveryClient 方式 需要手动实现负载均衡</span><br><span class="line">//        List&lt;ServiceInstance&gt; instances = discoveryClient.getInstances(&quot;order-server&quot;);</span><br><span class="line">//        String invoke = restTemplate.getForObject(instances.get(0).getUri()+&quot;/order&quot;, String.class);</span><br><span class="line"></span><br><span class="line">        // LoadBalancerClient 方式</span><br><span class="line">//        ServiceInstance choose = loadBalancerClient.choose(&quot;order-server&quot;);</span><br><span class="line">//        String invoke = restTemplate.getForObject(choose.getUri() + &quot;/order&quot;, String.class);</span><br><span class="line"></span><br><span class="line">        // LoadBalanced 方式，需要在配置类里面加上 @LoadBalanced</span><br><span class="line">        String invoke = restTemplate.getForObject(&quot;http://&quot;+&quot;order-server&quot; + &quot;/order&quot;, String.class);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        return &quot;user调用服务成功，返回值为:&quot; + invoke;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="源码解析"><a href="#源码解析" class="headerlink" title="源码解析"></a>源码解析</h4><p>a、我们可以通过choose作为入口进行分析</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ServiceInstance choose = loadBalancerClient.choose(&quot;order-server&quot;);</span><br></pre></td></tr></table></figure>
+
+<p>b、我们可以发现ServiceInstanceChooser是LoadBalancerClient父接口</p>
+<p>c、查看RibbonLoadBalancerClient<img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210925155530537.png" alt="image-20210925155530537"></p>
+<p>d、在RibbonLoadBalancerClient有一个choose方法带有两个参数这里面进行负载均衡实现</p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210925155708382.png" alt="image-20210925155708382"></p>
+<p>e、查看getServer方法</p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210925155828682.png" alt="image-20210925155828682"></p>
+<p>f、通过源码可以知道IRule是底层负载均衡接口</p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210925155332008.png" alt="image-20210925155332008"></p>
+<h4 id="常见负载均衡算法"><a href="#常见负载均衡算法" class="headerlink" title="常见负载均衡算法"></a>常见负载均衡算法</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"># 1.ribbon负载均衡算法</span><br><span class="line"></span><br><span class="line">- RoundRobinRule   轮训策略按顺序循环选择Server</span><br><span class="line"></span><br><span class="line">- RandomRule    随机策略随机选择server</span><br><span class="line"></span><br><span class="line">- AvailabilityFilteringRule  可用过滤策略会先过滤由于多次访问故障而处于断路器跳闸状态的服务，还有并发的连接数量超过阈值的服务，然后对剩余的服务列表按照轮询策略进行访问</span><br><span class="line"></span><br><span class="line">- weightedResponseTimeRule  响应时间加权策略，根据平均响应的时间计算所有服务的权重，响应时间越快服务权重越大被选中的概率越高，刚启动时如果统计信息不足，则使用</span><br><span class="line"></span><br><span class="line">- RoundRobinRule  策略,等统计信息足够会切换到</span><br><span class="line"></span><br><span class="line">- RetryRule   重试策略先按照RoundRobinRule的策略获取服务，如果获取失败则在制定时间内进行重试，获取可用的服务。</span><br><span class="line"></span><br><span class="line">- BestAviabTeRule    最低并发策略会先过滤掉由于多次访问故障而处于断路器跳闸状态的服务，然后选择一个并发量最小的服务</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="修改默认负载均衡策略"><a href="#修改默认负载均衡策略" class="headerlink" title="修改默认负载均衡策略"></a>修改默认负载均衡策略</h4><p>！！！需要在调用方的配置文件里面写</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">properties写法：</span><br><span class="line">服务id.ribbon.NFLoadBalancerRuleClassName=com.netflix.loadbalancer.RandomRule</span><br><span class="line"></span><br><span class="line">yaml写法</span><br><span class="line">服务id:</span><br><span class="line">  ribbon:</span><br><span class="line">    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="5-OpenFeign组件"><a href="#5-OpenFeign组件" class="headerlink" title="5.OpenFeign组件"></a>5.OpenFeign组件</h2><h3 id="5-1什么是Feign"><a href="#5-1什么是Feign" class="headerlink" title="5.1什么是Feign"></a>5.1什么是Feign</h3><ul>
+<li>Feign是Netflix开发的声明式、模板化的HTTP客户端，其灵感来自Retrofit、JAXRS-2.0以及WebSocket。Feign可帮助我们更加便捷、优雅地调用HTTP API。Feign支持多种注解，例如Feign自带的注解或者JAX-RS注解等。</li>
+<li>Spring Cloud  openfeign 对Feign进行了增强，使其支持Spring MVC注解，另外还整合了Ribbon和Nacos，从而使得Feign的使用更加方便</li>
+<li>它是一个伪http，实质是对RestTemplate进行再封装，解决RestTemplate的问题</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">物理层</th>
+<th align="center">数据链路层</th>
+<th align="center">网络层</th>
+<th align="center">传输层</th>
+<th align="center">会话层</th>
+<th align="center">表示层</th>
+<th align="center">应用层</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">RPC</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">http</td>
+</tr>
+</tbody></table>
+<p><strong>优势</strong></p>
+<p>Feign可以做到使用 HTTP 请求远程服务时就像调用本地方法一样的体验，开发者完全感知不到这是远程方法，更感知不到这是个 HTTP </p>
+<p>请求。它像 Dubbo 一样，consumer 直接调用接口方法调用 provider，而不需要通过常规的 Http Client 构造请求再解析返回数据。它</p>
+<p>解决了让开发者调用远程接口就跟调用本地方法一样，无需关注与远程的交互细节，更无需关注分布式环境开发。</p>
+<h3 id="5-2快速使用OpenFeign"><a href="#5-2快速使用OpenFeign" class="headerlink" title="5.2快速使用OpenFeign"></a>5.2快速使用OpenFeign</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openfeign的负载均衡可以看 FeignRibbonClientAutoConfiguration</span><br></pre></td></tr></table></figure>
+
+<p>1、调用端引入依赖</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- openfeign--&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">  &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">  &lt;artifactId&gt;spring-cloud-starter-openfeign&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>2、调用端编写调用接口+@FeignClient注解</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@FeignClient(value = &quot;cms-user-service&quot;, path = &quot;/wgp&quot;)  #value 被调用端的服务名称   #path  调用的路径</span><br><span class="line">public interface CmsUserFeignClient &#123;</span><br><span class="line">    @GetMapping(&quot;/test&quot;)</span><br><span class="line">    String test(@RequestParam(&quot;name&quot;)String name);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>3、调用端在启动类上添加@EnableFeignClients注解</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@SpringBootApplication</span><br><span class="line">@EnableFeignClients</span><br><span class="line">public class WgpOpenfeignApplication &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        SpringApplication.run(WgpOpenfeignApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>4、发起调用，像调用本地方式一样调用远程服务</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@RestController</span><br><span class="line">@RequestMapping(&quot;/openfeign&quot;)</span><br><span class="line">public class UsreController &#123;</span><br><span class="line">    @Autowired</span><br><span class="line">    private CmsUserFeignClient cmsUserFeignClient;</span><br><span class="line"></span><br><span class="line">    @GetMapping(&quot;/test&quot;)</span><br><span class="line">    public String test(@RequestParam(&quot;name&quot;)String name) &#123;</span><br><span class="line">        return cmsUserFeignClient.test(name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-3Openfeign超时处理"><a href="#5-3Openfeign超时处理" class="headerlink" title="5.3Openfeign超时处理"></a>5.3Openfeign超时处理</h3><p>在使用 openFeign  进行服务间调用时，由于业务代码复杂可能导致响应时间会比较久，提示 read timeout，解决方案如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#配置指定服务设置超时时间</span><br><span class="line">feign:</span><br><span class="line">  client:</span><br><span class="line">    config:</span><br><span class="line">      order-server:</span><br><span class="line">        connectTimeout: 5000   #连接时间</span><br><span class="line">        readTimeout: 6000 #等待时间       </span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#配置所有服务设置超时时间</span><br><span class="line">feign:</span><br><span class="line">  client:</span><br><span class="line">    config:</span><br><span class="line">      default:</span><br><span class="line">        connectTimeout: 5000   #连接时间</span><br><span class="line">        readTimeout: 6000 #等待时间</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="6-微服务网关"><a href="#6-微服务网关" class="headerlink" title="6.微服务网关"></a>6.微服务网关</h2><h3 id="6-1微服务存在的问题"><a href="#6-1微服务存在的问题" class="headerlink" title="6.1微服务存在的问题"></a>6.1微服务存在的问题</h3><p>每个业务都会需要鉴权、限流、权限校验、跨域等逻辑，如果每个业务都各自为战，自己造轮子实现一遍，会很麻烦，完全可以抽出来，</p>
+<p>放到一个统一的地方去做。如果业务量比较简单的话，这种方式前期不会有什么问题，但随着业务越来越复杂，比如淘宝、亚马逊打开一</p>
+<p>个页面可能会涉及到数百个微服务协同工作，如果每一个微服务都分配一个域名的话，一方面客户端代码会很难维护，涉及到数百个域</p>
+<p>名，另一方面是连接数的瓶颈，想象一下你打开一个APP，通过抓包发现涉及到了数百个远程调用，这在移动端下会显得非常低效。</p>
+<p>后期如果需要对微服务进行重构的话，也会变的非常麻烦，需要客户端配合你一起进行改造，比如商品服务，随着业务变的越来越复杂，</p>
+<p>后期需要进行拆分成多个微服务，这个时候对外提供的服务也需要拆分成多个，同时需要客户端配合你进行改造，非常麻烦。</p>
+<h3 id="6-2为什么使用网关？"><a href="#6-2为什么使用网关？" class="headerlink" title="6.2为什么使用网关？"></a>6.2为什么使用网关？</h3><ul>
+<li>单体应用:浏览器发起请求到单体应用所在的机器，应用从数据库查询数据原路返回给浏览器,对于单体应用来说是不需要网关的。</li>
+<li>微服务:微服务的应用可能部署在不同机房,不同地区，不同域名下.此时客户端(浏览器&#x2F;手机&#x2F;软件工具)想要请求对应的服务,都需要知道机器的具体IP或者域名URL，当微服务实例众多时，这是非常难以记忆的，对于客户端来说也太复杂难以维护。此时就有了网关，客户端相关的请求直接发送到网关，由网关根据请求标识解析判断出具体的微服务地址，再把请求转发到微服务实例。这其中的记忆功能就全部交由网关来操作了。</li>
+</ul>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210926094539562.png" alt="image-20210926094539562"></p>
+<h3 id="6-3zuul网关"><a href="#6-3zuul网关" class="headerlink" title="6.3zuul网关"></a>6.3zuul网关</h3><h4 id="简介-1"><a href="#简介-1" class="headerlink" title="简介"></a>简介</h4><p>官网地址：<a target="_blank" rel="noopener" href="https://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/2.2.1.RELEASE/reference/html/#router-and-filter-zuul">https://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/2.2.1.RELEASE/reference/html/#router-and-filter-zuul</a></p>
+<p>Zuul是从设备和网站到应用程序后端的所有请求的前门。作为边缘服务应用程序，Zuul 旨在实现动态路由，监视，弹性和安<br>全性。Zuul 包含了对请求的路由和过滤两个最主要的功能。</p>
+<p>Zuul是Netlix开源的微服务网关，它可以和Eureka. Ribbon. Hystrix 等组件配合使用。Zuul 的核心是一系列的过滤器， 这些</p>
+<p>过滤器可以完成以下功能:</p>
+<p>●身份认证与安全:识别每个资源的验证要求，并拒绝那些与要求不符的请求</p>
+<p>●审查与监控:在边缘位置追踪有意义的数据和统计结果，从而带来精确的生产试图</p>
+<p>●动态路由:动态地将请求路由到不同的后端集群</p>
+<p>●压力测试:逐渐增加只想集群的流量，以了解性能</p>
+<p>●负载分配:为每一种负载类型分配对应容量，并弃用超出限定值的请求</p>
+<p>●静态响应处理:在边缘位置直接建立部份响应，从而避免其转发到内部集群</p>
+<p>●多区域弹性:跨越AWS Region进行请求路由,旨在实现ELB (Elastic Load Balancing) 使用的多样化,以及让系统的边缘更贴近系统的使用者</p>
+<h4 id="使用Zuul"><a href="#使用Zuul" class="headerlink" title="使用Zuul"></a>使用Zuul</h4><p><strong>我们在使用zuul的同时，一般跟eureka一起整合使用，另外zuul本身已经实现了负载均衡的功能，默认是轮训方式</strong></p>
+<p>a、引入依赖</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">   &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">   &lt;artifactId&gt;spring-cloud-starter-netflix-zuul&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<p>b、编写启动类</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">import org.springframework.boot.SpringApplication;</span><br><span class="line">import org.springframework.boot.autoconfigure.SpringBootApplication;</span><br><span class="line">import org.springframework.cloud.netflix.eureka.EnableEurekaClient;</span><br><span class="line">import org.springframework.cloud.netflix.zuul.EnableZuulProxy;</span><br><span class="line"></span><br><span class="line">@SpringBootApplication</span><br><span class="line">@EnableEurekaClient</span><br><span class="line">@EnableZuulProxy</span><br><span class="line">public class ZullServerApplication &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        SpringApplication.run(ZullServerApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>c、编写配置文件application.yml</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">zuul:</span><br><span class="line">  routes:</span><br><span class="line">    order-server:  # 服务名称</span><br><span class="line">      path: /order/** # 匹配路径</span><br><span class="line">      serviceId: order-server # 服务名称</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="路由排除"><a href="#路由排除" class="headerlink" title="路由排除"></a>路由排除</h4><h5 id="url排除"><a href="#url排除" class="headerlink" title="url排除"></a>url排除</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">zuul:</span><br><span class="line">  ignored-patterns: /**/order/**</span><br></pre></td></tr></table></figure>
+
+<h5 id="服务名称排除"><a href="#服务名称排除" class="headerlink" title="服务名称排除"></a>服务名称排除</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">zuul:</span><br><span class="line">  ignored-services: order-server  #服务名称，多用服务需要时候逗号隔开</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="路由前缀"><a href="#路由前缀" class="headerlink" title="路由前缀"></a>路由前缀</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">zuul:</span><br><span class="line">  prefix: /api  #路由前缀,访问时要加上此前缀</span><br><span class="line">  stripPrefix: true #代理前缀默认会从请求路径中移除，通过该设置关闭移除功能， </span><br><span class="line"></span><br><span class="line">#比如 http://127.0.0.1:9999/api/order-server/order</span><br><span class="line">当stripPrefix: true      请求路径为：http://127.0.0.1:9999/order-server/order    api会移除</span><br><span class="line">当stripPrefix: false     请求路径为：http://127.0.0.1:9999/api/order-server/order   api不会移除</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h4 id="网关过滤器"><a href="#网关过滤器" class="headerlink" title="网关过滤器"></a>网关过滤器</h4><p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210926104843817.png" alt="image-20210926104843817"></p>
+<h5 id="关键名词"><a href="#关键名词" class="headerlink" title="关键名词"></a>关键名词</h5><ul>
+<li>类型：定义路由流程中应用过滤器的阶段。共pre、 routing、post、error4个类型。</li>
+<li>执行顺序：在同类型中，定义过滤器执行的顺序。比如多个pre类型的执行顺序。</li>
+<li>条件：执行过滤器所需的条件。true开启，false关闭。</li>
+<li>动作：如果符合条件，将执行的动作。具体操作。</li>
+</ul>
+<h5 id="过滤器类型"><a href="#过滤器类型" class="headerlink" title="过滤器类型"></a>过滤器类型</h5><ul>
+<li>pre：请求被路由到源服务器之前执行的过滤器</li>
+</ul>
+<ol>
+<li>身份认证</li>
+<li>选路由</li>
+<li>请求日志</li>
+</ol>
+<ul>
+<li>routing：处理将请求发送到源服务器的过滤器</li>
+<li>post：响应从源服务器返回时执行的过滤器</li>
+</ul>
+<ol>
+<li>对响应增加HTTP头</li>
+<li>收集统计和度量指标</li>
+<li>将响应以流的方式发送回客户端</li>
+</ol>
+<ul>
+<li>error：上述阶段中出现错误时执行的过滤器</li>
+</ul>
+<h3 id><a href="#" class="headerlink" title></a></h3><h3 id="6-4Gateway网关"><a href="#6-4Gateway网关" class="headerlink" title="6.4Gateway网关"></a>6.4Gateway网关</h3><h4 id="简介-2"><a href="#简介-2" class="headerlink" title="简介"></a>简介</h4><ul>
+<li><p>网关作为流量的入口，常用的功能包括路由转发，权限校验，限流等。</p>
+</li>
+<li><p>Spring Cloud Gateway 是Spring Cloud官方推出的第二代网关框架，定位于取代 Netflix Zuul1.0。相比 Zuul 来说，Spring Cloud</p>
+<p>Gateway 提供更优秀的性能，更强大的有功能。</p>
+</li>
+<li><p>Spring Cloud Gateway 是由 WebFlux + Netty + Reactor 实现的响应式的 API 网关。它不能在传统的 servlet 容器中工作，也不能构</p>
+<p>建成 war 包。</p>
+</li>
+<li><p>Spring Cloud Gateway 旨在为微服务架构提供一种简单且有效的 API 路由的管理方式，并基于 Filter 的方式提供网关的基本功能，</p>
+<p>例如说安全认证、监控、限流等等。</p>
+</li>
+<li><p>其他的网关组件：</p>
+<p>在SpringCloud微服务体系中，有个很重要的组件就是网关，在1.x版本中都是采用的Zuul网关；但在2.x版本中，zuul的升级一直跳</p>
+<p>票，SpringCloud最后自己研发了一个网关替代Zuul，那就是SpringCloud Gateway</p>
+</li>
+</ul>
+<h4 id="Gateway功能特征"><a href="#Gateway功能特征" class="headerlink" title="Gateway功能特征"></a>Gateway功能特征</h4><ul>
+<li>基于Spring Framework 5, Project Reactor 和 Spring Boot 2.0 进行构建；</li>
+<li>动态路由：能够匹配任何请求属性；</li>
+<li>支持路径重写;</li>
+<li>集成 Spring Cloud 服务发现功能（Nacos、Eruka）；</li>
+<li>可集成流控降级功能（Sentinel、Hystrix）；</li>
+<li>可以对路由指定易于编写的 Predicate（断言）和 Filter（过滤器）；</li>
+</ul>
+<h4 id="核心概念"><a href="#核心概念" class="headerlink" title="核心概念"></a>核心概念</h4><p><strong>路由（route)</strong></p>
+<p>路由是网关中最基础的部分，路由信息包括一个ID、一个目的URI、一组断言工厂、一组Filter组成。如果断言为真，则说明请求的URL和</p>
+<p>配置的路由匹配。</p>
+<p><strong>断言(predicates)</strong></p>
+<p>Java8中的断言函数，SpringCloud Gateway中的断言函数类型是Spring5.0框架中的ServerWebExchange。断言函数允许开发者去定义</p>
+<p>匹配Http request中的任何信息，比如请求头和参数等。</p>
+<p><strong>过滤器（Filter)</strong></p>
+<p>SpringCloud Gateway中的filter分为Gateway FilIer和Global Filter。Filter可以对请求和响应进行处理。</p>
+<h4 id="集成gateway网关"><a href="#集成gateway网关" class="headerlink" title="集成gateway网关"></a>集成gateway网关</h4><p>1、引入依赖</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- spring-cloud网关--&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line"> &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line"> &lt;artifactId&gt;spring-cloud-starter-gateway&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>2、bootstrap.yml文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">server:</span><br><span class="line">  port: 8888</span><br><span class="line">spring:</span><br><span class="line">  application:</span><br><span class="line">    name: api-gateway</span><br><span class="line">  cloud:</span><br><span class="line">    gateway:</span><br><span class="line">      globalcors:   # 跨域配置</span><br><span class="line">        cors-configurations:</span><br><span class="line">          &#x27;[/**]&#x27;:   # 允许跨域访问的资源</span><br><span class="line">            allowedOrigins: &quot;*&quot;   #跨域允许来源</span><br><span class="line">            allowedMethods:</span><br><span class="line">              - GET</span><br><span class="line">              - POST</span><br><span class="line">      routes:</span><br><span class="line">        - id: cms-user-service  # 路由的唯一标识，路由到order</span><br><span class="line">          uri: lb://cms-user-service     #需要转发的地址   lb: 使用nacos中的本地负载均衡策略cms-user-service服务名</span><br><span class="line">          predicates:    #断言规则 用于路由规则的匹配</span><br><span class="line">            - Path=/wgp/**</span><br><span class="line">        - id: wgp-openfeign</span><br><span class="line">          uri: lb://wgp-openfeign</span><br><span class="line">          predicates:</span><br><span class="line">            - Path=/openfeign/**</span><br><span class="line">    nacos:</span><br><span class="line">#      config:</span><br><span class="line">#        file-extension: yaml   #配置文件后缀</span><br><span class="line">#        group: DEFAULT_GROUP   #组</span><br><span class="line">#        server-addr: $&#123;spring.cloud.nacos.server-addr&#125;</span><br><span class="line">      discovery:</span><br><span class="line">        server-addr: 192.168.1.28:8848</span><br><span class="line">      server-addr: 192.168.1.28:8848</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="7-Hystrix断路器"><a href="#7-Hystrix断路器" class="headerlink" title="7.Hystrix断路器"></a>7.Hystrix断路器</h2><p>官方网址：<a target="_blank" rel="noopener" href="https://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/2.2.1.RELEASE/reference/html/#circuit-breaker-hystrix-clients">https://cloud.spring.io/spring-cloud-static/spring-cloud-netflix/2.2.1.RELEASE/reference/html/#circuit-breaker-hystrix-clients</a></p>
+<h3 id="7-1服务雪崩"><a href="#7-1服务雪崩" class="headerlink" title="7.1服务雪崩"></a>7.1服务雪崩</h3><p><strong>在微服务之间进行服务调用是由于某一个服务故障， 导致级联服务故障的现象，称为雪崩效应。雪崩效应描述的是提供方不可用，导致</strong></p>
+<p><strong>消费方不可用并将不可用逐渐放大的过程。</strong></p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210926112033190.png" alt="image-20210926112033190"></p>
+<h3 id="7-2服务熔断"><a href="#7-2服务熔断" class="headerlink" title="7.2服务熔断"></a>7.2服务熔断</h3><p>“熔断器”本身是一种开关装置，当某个服务单元发生故障之后，通过断路器(hystrix)的故障监控， 某个异常条件被触发，直接熔断整个服</p>
+<p>务。向调用方法返回一个符合预期的、可处理的备选响应，而不是长时间的等待或者抛出调用方法无法处理的异常，就保证了服务调用方</p>
+<p>的线程不会被长时间占法返回一个符合预期的、可处理的备选响应，而不是长时间的等待或者抛出调用方法无法处理的异常，就保证了服</p>
+<p>务调用方的线程不会被长时间占用，避免故障在分布式系统中蔓延，乃至雪崩。如果目标服务情况好转则恢复调用。服务熔断是解决服务</p>
+<p>雪崩的重要手段。<strong>（熔断器相当于保险丝，相对于被调用端来说是服务熔断）</strong></p>
+<p><strong>熔断条件：</strong></p>
+<p>1、当对特定服务的10s内20次请求失败</p>
+<p>2、10s内超过50%的请求失败</p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210926113616477.png" alt="image-20210926113616477"></p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210927172522562.png" alt="image-20210927172522562"></p>
+<h3 id="7-3服务降级"><a href="#7-3服务降级" class="headerlink" title="7.3服务降级"></a>7.3服务降级</h3><p>服务压力剧增的时候根据当前的业务情况及流量对一些服务和页面有策略的降级，以此缓解服务器的压力，以保证核心任务的进行。同时</p>
+<p>保证部分甚至大部分任务客户能得到正确的响应。也就是当前的请求处理不了或者出错了，给一个默认的返回。**(相对于调用端来说是服务降级)**</p>
+<h3 id="7-4整合Hystrix"><a href="#7-4整合Hystrix" class="headerlink" title="7.4整合Hystrix"></a>7.4整合Hystrix</h3><p>a、引入依赖</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- hystrix依赖 --&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">     &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">     &lt;artifactId&gt;spring-cloud-starter-netflix-hystrix&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<p>b、在启动类上添加@EnableCircuitBreaker注解，代表开启服务熔断</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@SpringBootApplication</span><br><span class="line">@EnableCircuitBreaker</span><br><span class="line">@EnableEurekaClient</span><br><span class="line">public class HystrixServerApplication &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        SpringApplication.run(HystrixServerApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>c、分两种方式实现服务熔断，第一种是自定义返回错误提示，第二种是默认返回错误提示</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">package com.wgp.controller;</span><br><span class="line"></span><br><span class="line">import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;</span><br><span class="line">import org.springframework.web.bind.annotation.GetMapping;</span><br><span class="line">import org.springframework.web.bind.annotation.RestController;</span><br><span class="line"></span><br><span class="line">@RestController</span><br><span class="line">public class HystrixController &#123;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 第一种：指定返回方法，返回方式参数列表和返回值需要和开启服务熔断的方法保持一致</span><br><span class="line">     * @param id</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    @GetMapping(&quot;/hystrix&quot;)</span><br><span class="line">    @HystrixCommand(fallbackMethod = &quot;hystrixFallbackMethod&quot;)</span><br><span class="line">    public String hystrix(Integer id)&#123;</span><br><span class="line">       if(id&lt;0)&#123;</span><br><span class="line">           throw new RuntimeException(&quot;id值小于0&quot;);</span><br><span class="line">       &#125;</span><br><span class="line">       return &quot;success：&quot;+id;</span><br><span class="line">    &#125;</span><br><span class="line">    public String hystrixFallbackMethod(Integer id)&#123;</span><br><span class="line">      return &quot;活动火爆，请稍后重试！！！！&quot;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 第二种：默认返回方法，默认方法只需要返回错误结果即可</span><br><span class="line">     * @param id</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    @GetMapping(&quot;/hystrixdefaultFallback&quot;)</span><br><span class="line">    @HystrixCommand(defaultFallback = &quot;hystrixdefaultFallback&quot;)</span><br><span class="line">    public String hystrixdefaultFallback(Integer id)&#123;</span><br><span class="line">        if(id&lt;0)&#123;</span><br><span class="line">            throw new RuntimeException(&quot;id值小于0&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        return &quot;success：&quot;+id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public String hystrixdefaultFallback()&#123;</span><br><span class="line">        return &quot;网络异常，请重试&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>d、在浏览器调用开启服务熔断的方法，根据所写代码让程序短时间内产生大量异常，导致线程资源不能释放，然后再已正确的参数调用方法，就可以看到熔断的效果</p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210927212156089.png" alt="image-20210927212156089"></p>
+<h3 id="7-5Openfeign整合Hystrix"><a href="#7-5Openfeign整合Hystrix" class="headerlink" title="7.5Openfeign整合Hystrix"></a>7.5Openfeign整合Hystrix</h3><p>a、因为openfeign依赖中已经引入了hystrix的依赖，所以我们不需要再重复引入hystrix的依赖，只要引入openfeign即可</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-cloud-starter-openfeign&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>b、在application.yml配置文件中开启Openfeign对Hystrix的支持</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">feign:</span><br><span class="line">  hystrix:</span><br><span class="line">    enabled: true</span><br></pre></td></tr></table></figure>
+
+
+
+<p>c、编写Openfeign服务调用失败默认处理实现类</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">package com.wgp.hystrixfallback;</span><br><span class="line"></span><br><span class="line">import com.wgp.hystrixclient.HystrixClinet;</span><br><span class="line">import org.springframework.stereotype.Component;</span><br><span class="line"></span><br><span class="line">@Component</span><br><span class="line">public class HystrixFallbackFactory implements HystrixClinet &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public String hystrixdefaultFallback(Integer id) &#123;</span><br><span class="line">        return &quot;Hystrix-server服务太火爆了！！&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>d、在openfeign中加入@FeignClient(value &#x3D; “hystrix-server”,fallback &#x3D; 默认实现类名.class)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">package com.wgp.hystrixclient;</span><br><span class="line"></span><br><span class="line">import com.wgp.hystrixfallback.HystrixFallbackFactory;</span><br><span class="line">import org.springframework.cloud.openfeign.FeignClient;</span><br><span class="line">import org.springframework.web.bind.annotation.GetMapping;</span><br><span class="line">import org.springframework.web.bind.annotation.RequestParam;</span><br><span class="line"></span><br><span class="line">@FeignClient(value = &quot;hystrix-server&quot;,fallback = HystrixFallbackFactory.class)</span><br><span class="line">public interface HystrixClinet &#123;</span><br><span class="line">    @GetMapping(&quot;/hystrixdefaultFallback&quot;)</span><br><span class="line">    String hystrixdefaultFallback(@RequestParam(value =&quot;id&quot; ) Integer id);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>e、当服务不可用时，会给我们返回默认提示</p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210927220834969.png" alt="image-20210927220834969"></p>
+<h2 id="8-SpringcloudConfig配置中心"><a href="#8-SpringcloudConfig配置中心" class="headerlink" title="8.SpringcloudConfig配置中心"></a>8.SpringcloudConfig配置中心</h2><p>官网地址：<a target="_blank" rel="noopener" href="https://spring.io/projects/spring-cloud-config">https://spring.io/projects/spring-cloud-config</a></p>
+<h3 id="8-1整合配置中心服务端"><a href="#8-1整合配置中心服务端" class="headerlink" title="8.1整合配置中心服务端"></a>8.1整合配置中心服务端</h3><p>a、引入依赖</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 配置中心服务--&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">  &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">  &lt;artifactId&gt;spring-cloud-config-server&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<p>b、启动类添加配置中心服务注解@EnableConfigServer </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@SpringBootApplication</span><br><span class="line">@EnableEurekaClient</span><br><span class="line">@EnableConfigServer // 开启配置中心服务</span><br><span class="line">public class ConfigServerApplication &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        SpringApplication.run(ConfigServerApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>c、配置application.yml</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  application:</span><br><span class="line">    name: config-server</span><br><span class="line">  cloud:</span><br><span class="line">    config:</span><br><span class="line">      server:</span><br><span class="line">        git:</span><br><span class="line">          uri: https://gitee.com/studentgitee/springcloudconfig.git  #git仓库地址</span><br><span class="line">          default-label: master  #拉去git的master分支</span><br></pre></td></tr></table></figure>
+
+<p>d、验证是否成功，在gitee上新建两个文件application.yml 和application-dev.yml         (一般配置文件我们都是：<strong>服务名-环境.yml</strong>)</p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210929093942124.png" alt="image-20210929093942124"></p>
+<p>application.yml</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">server:</span><br><span class="line">  port: 8007</span><br><span class="line">spring:</span><br><span class="line">  application:</span><br><span class="line">    name: config-client</span><br></pre></td></tr></table></figure>
+
+<p>application-dev.yml</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">username: devzhangsan</span><br></pre></td></tr></table></figure>
+
+<p>e、使用我们的configserver去访问文件，如果能看到自己刚才新建的文件说明成功了</p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210929094035929.png" alt="image-20210929094035929"></p>
+<h3 id="8-2整合配置中心client"><a href="#8-2整合配置中心client" class="headerlink" title="8.2整合配置中心client"></a>8.2整合配置中心client</h3><p>a、引入依赖</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- config配置中心客户端--&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">   &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">   &lt;artifactId&gt;spring-cloud-starter-config&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>b、配置application.yml</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  cloud:</span><br><span class="line">    config:</span><br><span class="line">      discovery:</span><br><span class="line">        enabled: true #开启根据服务id去注册中心获取服务</span><br><span class="line">        service-id: config-server  #根据服务id去注册中心查找配置服务</span><br><span class="line">      label: master  #git的master分支</span><br><span class="line">      name: application   #拉去的配置文件名称</span><br><span class="line">      profile: dev   #拉去的环境，不如生产环境或者是测试环境</span><br><span class="line">eureka:</span><br><span class="line">  client:</span><br><span class="line">    service-url:</span><br><span class="line">      defaultZone: http://localhost:10001/eureka  #eureka地址     访问地址http://localhost:10001</span><br></pre></td></tr></table></figure>
+
+
+
+<p>c、需要将application.yml改成bootstrap.yml，这是因为application.yml是可知的配置文件，但是我们现在需要到config上面去拉去配置</p>
+<p>后再进行服务启动，所有我们要先加载配置文件后再启动服务。</p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210929100917748.png" alt="image-20210929100917748"></p>
+<p>d、编写测试是否成功  @Value(“${username}”)是在配置文件application-dev.yml中定义的，我们只需要看能不能取到变量值。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@RestController</span><br><span class="line">public class ConfigController &#123;</span><br><span class="line"></span><br><span class="line">    @Value(&quot;$&#123;username&#125;&quot;)</span><br><span class="line">    private String name;</span><br><span class="line"></span><br><span class="line">    @GetMapping(&quot;/username&quot;)</span><br><span class="line">    public String invokeTest() &#123;</span><br><span class="line">        return &quot;success&quot; + name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>e、结果</p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210929101216254.png" alt="image-20210929101216254"></p>
+<h2 id="9-bus组件"><a href="#9-bus组件" class="headerlink" title="9.bus组件"></a>9.bus组件</h2><p>官网地址：<a target="_blank" rel="noopener" href="https://spring.io/projects/spring-cloud-bus">https://spring.io/projects/spring-cloud-bus</a></p>
+<h3 id="9-1什么是bus-AMQP-RibbitMQ"><a href="#9-1什么是bus-AMQP-RibbitMQ" class="headerlink" title="9.1什么是bus(AMQP RibbitMQ)"></a>9.1什么是bus(AMQP RibbitMQ)</h3><blockquote>
+<p><strong>定义: bus称之为springcloud中消息总线,主要用来在微服务系统中实现远端配置更新时通过广播形式通知所有客户端刷新配置信息，避免手动重启服务的工作</strong></p>
+</blockquote>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210929120458129.png" alt="image-20210929120458129"></p>
+<h3 id="9-2整合bus消息总线"><a href="#9-2整合bus消息总线" class="headerlink" title="9.2整合bus消息总线"></a>9.2整合bus消息总线</h3><h4 id="在docker中安装rabbitMQ"><a href="#在docker中安装rabbitMQ" class="headerlink" title="在docker中安装rabbitMQ"></a>在docker中安装rabbitMQ</h4><ul>
+<li>下载镜像</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull rabbitmq:3.7.7-management</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>启动镜像（用户名和密码设置为guest guest）</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -dit --name rabbitmq3.7.7 -e RABBITMQ_DEFAULT_USER=guest -e RABBITMQ_DEFAULT_PASS=guest -p 15672:15672 -p 5672:5672 rabbitmq:3.7.7-management</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>访问rabbitmq管理界面</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">注意访问后台用的是端口15672，springcloud程序连接的是5672。   ip:15672</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210929120203367.png" alt="image-20210929120203367"></p>
+<h4 id="config服务端整合bus"><a href="#config服务端整合bus" class="headerlink" title="config服务端整合bus"></a>config服务端整合bus</h4><p>a、引入bus消息总线依赖</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--bus消息总线--&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-cloud-starter-bus-amqp&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<p>b、配置application.yml文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  application:</span><br><span class="line">    name: config-server</span><br><span class="line">  cloud:</span><br><span class="line">    config:</span><br><span class="line">      server:</span><br><span class="line">        git:</span><br><span class="line">          uri: https://gitee.com/studentgitee/springcloudconfig.git</span><br><span class="line">          default-label: master</span><br><span class="line">  rabbitmq:</span><br><span class="line">    host: 192.168.1.27  #rabbitmq地址</span><br><span class="line">    port: 5672  #rabbitmq端口</span><br><span class="line">    username: guest   #用户名</span><br><span class="line">    password: guest   #密码</span><br><span class="line">    virtual-host: /   #虚拟主机</span><br><span class="line">management:</span><br><span class="line">  endpoints:</span><br><span class="line">    web:</span><br><span class="line">      exposure:</span><br><span class="line">        include: &quot;*&quot;  #开启所有的web端口</span><br></pre></td></tr></table></figure>
+
+<p>c、启动服务后再rabbitmq查看是否有连接</p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210929123431652.png" alt="image-20210929123431652"></p>
+<h4 id="config客户端整合bus"><a href="#config客户端整合bus" class="headerlink" title="config客户端整合bus"></a>config客户端整合bus</h4><p>a、引入bus消息总线依赖</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--bus消息总线--&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-cloud-starter-bus-amqp&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<p>b、配置application.yml文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  application:</span><br><span class="line">    name: config-server</span><br><span class="line">  cloud:</span><br><span class="line">    config:</span><br><span class="line">      server:</span><br><span class="line">        git:</span><br><span class="line">          uri: https://gitee.com/studentgitee/springcloudconfig.git</span><br><span class="line">          default-label: master</span><br><span class="line">  rabbitmq:</span><br><span class="line">    host: 192.168.1.27  #rabbitmq地址</span><br><span class="line">    port: 5672  #rabbitmq端口</span><br><span class="line">    username: guest   #用户名</span><br><span class="line">    password: guest   #密码</span><br><span class="line">    virtual-host: /   #虚拟主机</span><br><span class="line">management:</span><br><span class="line">  endpoints:</span><br><span class="line">    web:</span><br><span class="line">      exposure:</span><br><span class="line">        include: &quot;*&quot;  #开启所有的web端口</span><br></pre></td></tr></table></figure>
+
+<p> c、在controller上添加@RefreshScope刷新</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">import org.springframework.beans.factory.annotation.Value;</span><br><span class="line">import org.springframework.cloud.context.config.annotation.RefreshScope;</span><br><span class="line">import org.springframework.web.bind.annotation.GetMapping;</span><br><span class="line">import org.springframework.web.bind.annotation.RestController;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@RestController</span><br><span class="line">@RefreshScope</span><br><span class="line">public class ConfigController &#123;</span><br><span class="line"></span><br><span class="line">    @Value(&quot;$&#123;username&#125;&quot;)</span><br><span class="line">    private String name;</span><br><span class="line"></span><br><span class="line">    @GetMapping(&quot;/username&quot;)</span><br><span class="line">    public String invokeTest() &#123;</span><br><span class="line">        return &quot;success&quot; + name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>d、修改云端的配置文件application-dev.yml的username</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  rabbitmq:</span><br><span class="line">    host: 192.168.1.27</span><br><span class="line">    port: 5672</span><br><span class="line">    username: guest</span><br><span class="line">    password: guest</span><br><span class="line">    virtual-host: /</span><br><span class="line">username: devzhangsan111111122222333333</span><br></pre></td></tr></table></figure>
+
+
+
+<p>e、使用postman发送post请求，让config配置中心从gitee上拉去配置文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -X POST http://localhost:8848/actuator/bus-refresh</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210929141803439.png" alt="image-20210929141803439"></p>
+<p>f、观察config服务端和客户端的控制台</p>
+<p><strong>服务端：</strong></p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210929144257111.png" alt="image-20210929144257111"></p>
+<p><strong>客户端：</strong></p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210929144350499.png" alt="image-20210929144350499"></p>
+<p>g、刷新客户端页面可以看到，修改配置文件已经生效了</p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210929144825170.png" alt="image-20210929144825170"></p>
+<h3 id="9-3webhooks实现配置自动刷新"><a href="#9-3webhooks实现配置自动刷新" class="headerlink" title="9.3webhooks实现配置自动刷新"></a>9.3webhooks实现配置自动刷新</h3><h4 id="配置webhooks"><a href="#配置webhooks" class="headerlink" title="配置webhooks"></a>配置webhooks</h4><ul>
+<li>说明: git仓库提供一种特有机制:这种机制就是一 个监听机制，监听就是仓库提交事件————–触发对应事件执行</li>
+<li>javascript:事件事件源htm1标签 事件:触发特定动作c1ick … 事件处理程序:函数</li>
+<li>添加webhooks</li>
+<li>在webhooks 中添加刷新配置接口</li>
+<li>内网穿透的网站: <a target="_blank" rel="noopener" href="https://natapp.cn/">https://natapp.cn/</a></li>
+</ul>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210929145519944.png" alt="image-20210929145519944"></p>
+<h4 id="利用natapp实现内网穿透（如果没有域名）"><a href="#利用natapp实现内网穿透（如果没有域名）" class="headerlink" title="利用natapp实现内网穿透（如果没有域名）"></a>利用natapp实现内网穿透（如果没有域名）</h4><p>网址：<a target="_blank" rel="noopener" href="https://natapp.cn/">https://natapp.cn/</a></p>
+<p>a、购买隧道</p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210929153452741.png" alt="image-20210929153452741"></p>
+<p>b、配置隧道</p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210929153538877.png" alt="image-20210929153538877"></p>
+<p>c、下载客户端</p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210929153615368.png" alt="image-20210929153615368"></p>
+<p>d、进入客户端安装目录</p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210929153715918.png" alt="image-20210929153715918"></p>
+<p>e、建立通道</p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210929153921887.png" alt="image-20210929153921887"></p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210929153902920.png" alt="image-20210929153902920"></p>
+<p>f、结果</p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210929153800234.png" alt="image-20210929153800234"></p>
+<p><strong>在gitiee填写地址</strong></p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210929160016876.png" alt="image-20210929160016876"></p>
+<p>当我们配置好WebHooks仍然不能实现动态刷新配置，就去WebHooks查看提交修改发送POST请求的操作信息，出现400的错误。错误的意思 POST请求后会给配置中心服务器发送一些内容，这些内容使用JSON解析的时候出错，无法反序列化这些类容，然后就抛异常，返回400错误。</p>
+<blockquote>
+<p>{“timestamp”:“2020-4-8T12:33:34.975+0000”,“status”:400,“error”:“Bad Request”,“message”:“JSON parse error: Cannot deserialize instance of java.lang.String out of START_ARRAY token; nested exception is com.fasterxml.jackson.databind.exc.MismatchedInputException: Cannot deserialize instance of java.lang.String out of START_ARRAY token\n at [Source: (PushbackInputStream); line: 1, column: 326] (through reference chain: java.util.LinkedHashMap[“commits”])”,“path”:”&#x2F;actuator&#x2F;bus-refresh”}</p>
+</blockquote>
+<p><strong>解决方案：</strong></p>
+<p>a、编写配置类：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">package com.wgp.fiter;</span><br><span class="line"></span><br><span class="line">import org.springframework.stereotype.Component;</span><br><span class="line">import javax.servlet.*;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletRequestWrapper;</span><br><span class="line">import java.io.ByteArrayInputStream;</span><br><span class="line">import java.io.IOException;</span><br><span class="line"></span><br><span class="line">@Component</span><br><span class="line">public class WebHooksFilter implements Filter &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void init(FilterConfig filterConfig) throws ServletException &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void destroy() &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException &#123;</span><br><span class="line">        HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;</span><br><span class="line">        String url = new String(httpServletRequest.getRequestURI());</span><br><span class="line"></span><br><span class="line">        if(!url.endsWith(&quot;/bus-refresh&quot;))&#123;</span><br><span class="line">            filterChain.doFilter(servletRequest,servletResponse);</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        RequestWrapper requestWrapper = new RequestWrapper(httpServletRequest);</span><br><span class="line">        filterChain.doFilter(requestWrapper, servletResponse);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private class RequestWrapper extends HttpServletRequestWrapper &#123;</span><br><span class="line">        public RequestWrapper(HttpServletRequest request) &#123;</span><br><span class="line">            super(request);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public ServletInputStream getInputStream() throws IOException &#123;</span><br><span class="line">            byte[] bytes = new byte[0];</span><br><span class="line">            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);</span><br><span class="line">            ServletInputStream servletInputStream = new ServletInputStream() &#123;</span><br><span class="line">                @Override</span><br><span class="line">                public int read() throws IOException &#123;</span><br><span class="line">                    return byteArrayInputStream.read();</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                @Override</span><br><span class="line">                public boolean isFinished() &#123;</span><br><span class="line">                    return byteArrayInputStream.read() == -1 ? true : false;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                @Override</span><br><span class="line">                public boolean isReady() &#123;</span><br><span class="line">                    return false;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                @Override</span><br><span class="line">                public void setReadListener(ReadListener listener) &#123;</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;;</span><br><span class="line">            return servletInputStream;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>b、在启动类上添加@ServletComponentScan(basePackages&#x3D;”com.wgp.fiter”)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@SpringBootApplication</span><br><span class="line">@EnableEurekaClient</span><br><span class="line">@EnableConfigServer // 开启配置中心服务</span><br><span class="line">@ServletComponentScan(basePackages=&quot;com.wgp.fiter&quot;)</span><br><span class="line">public class ConfigServerApplication &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        SpringApplication.run(ConfigServerApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>c、查看gitee</p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210929160339904.png" alt="image-20210929160339904"></p>
+<p>d、测试发现已实现配置自动刷新</p>
+<h2 id="10-Sleuth链路跟踪-zipkin系统监控"><a href="#10-Sleuth链路跟踪-zipkin系统监控" class="headerlink" title="10.Sleuth链路跟踪-zipkin系统监控"></a>10.Sleuth链路跟踪-zipkin系统监控</h2><h3 id="10-1简介"><a href="#10-1简介" class="headerlink" title="10.1简介"></a>10.1简介</h3><blockquote>
+<p>SpringCloud从F版起已不需要自己构建Zipkin Server了，只需调用jar包即可</p>
+</blockquote>
+<p>安装zipkin</p>
+<p>a、下载jar后直接运行即可</p>
+<p>地址：<a target="_blank" rel="noopener" href="https://dl.bintray.com/openzipkin/maven/io/zipkin/java/zipkin-server/%EF%BC%88%E6%98%AF%E6%97%B6%E5%80%99%E4%BC%9A%E5%A4%B1%E6%95%88%EF%BC%89">https://dl.bintray.com/openzipkin/maven/io/zipkin/java/zipkin-server/（是时候会失效）</a></p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210929164131013.png" alt="image-20210929164131013"></p>
+<h3 id="10-2集成zipkin"><a href="#10-2集成zipkin" class="headerlink" title="10.2集成zipkin"></a>10.2集成zipkin</h3><p>a、引入依赖</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--zipkin系统监控包含了sleuth--&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-cloud-starter-zipkin&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<p>b、配置application.yml</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  application:</span><br><span class="line">    name: user-server</span><br><span class="line">  zipkin:</span><br><span class="line">    base-url: http://localhost:9411  #zipkin地址</span><br><span class="line">    sleuth:</span><br><span class="line">      sampler:</span><br><span class="line">        probability: 1 #采样率值介于0到1之间，1则表示全部采集</span><br></pre></td></tr></table></figure>
+
+<p>c、测试调用后查看zipkin</p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210929164256442.png" alt="image-20210929164256442"></p>
+<h2 id="11-SpringCloud-Alibaba介绍"><a href="#11-SpringCloud-Alibaba介绍" class="headerlink" title="11.SpringCloud Alibaba介绍"></a>11.SpringCloud Alibaba介绍</h2><h3 id="文档地址"><a href="#文档地址" class="headerlink" title="文档地址"></a>文档地址</h3><p><strong>github地址</strong>：<a target="_blank" rel="noopener" href="https://github.com/alibaba/spring-cloud-alibaba/wiki">https://github.com/alibaba/spring-cloud-alibaba/wiki</a></p>
+<p><strong>官网地址</strong>：<a target="_blank" rel="noopener" href="https://spring.io/projects/spring-cloud-alibaba">https://spring.io/projects/spring-cloud-alibaba</a></p>
+<ul>
+<li><p>Spring Cloud Alibaba 致力于提供微服务开发的一站式解决方案。此项目包含开发分布式应用服务的必需组件，方便开发者通过 </p>
+<p>Spring Cloud 编程模型轻松使用这些组件来开发分布式应用服务。</p>
+</li>
+<li><p>依托 Spring Cloud Alibaba，您只需要添加一些注解和少量配置，就可以将 Spring Cloud 应用接入阿里分布式应用解决方案，通过</p>
+<p>阿里中间件来迅速搭建分布式应用系统。</p>
+</li>
+</ul>
+<h3 id="主要功能"><a href="#主要功能" class="headerlink" title="主要功能"></a>主要功能</h3><ul>
+<li><p><strong>服务限流降级</strong>：默认支持 WebServlet、WebFlux、OpenFeign、RestTemplate、Spring Cloud Gateway、Zuul、Dubbo 和 </p>
+<p>RocketMQ 限流降级功能的接入，可以在运行时通过控制台实时修改限流降级规则，还支持查看限流降级 Metrics 监控。</p>
+</li>
+<li><p><strong>服务注册与发现</strong>：适配 Spring Cloud 服务注册与发现标准，默认集成了 Ribbon 的支持。</p>
+</li>
+<li><p><strong>分布式配置管理</strong>：支持分布式系统中的外部化配置，配置更改时自动刷新。</p>
+</li>
+<li><p><strong>消息驱动能力</strong>：基于 Spring Cloud Stream 为微服务应用构建消息驱动能力。</p>
+</li>
+<li><p><strong>分布式事务</strong>：使用 @GlobalTransactional 注解， 高效并且对业务零侵入地解决分布式事务问题。</p>
+</li>
+<li><p><strong>阿里云对象存储</strong>：阿里云提供的海量、安全、低成本、高可靠的云存储服务。支持在任何应用、任何时间、任何地点存储和访问任意</p>
+<p>类型的数据。</p>
+</li>
+<li><p><strong>分布式任务调度</strong>：提供秒级、精准、高可靠、高可用的定时（基于 Cron 表达式）任务调度服务。同时提供分布式的任务执行模型，</p>
+<p>如网格任务。网格任务支持海量子任务均匀分配到所有 Worker（schedulerx-client）上执行。</p>
+</li>
+<li><p><strong>阿里云短信服务</strong>：覆盖全球的短信服务，友好、高效、智能的互联化通讯能力，帮助企业迅速搭建客户触达通道。</p>
+</li>
+</ul>
+<h2 id="12-Nacos注册中心"><a href="#12-Nacos注册中心" class="headerlink" title="12.Nacos注册中心"></a>12.Nacos注册中心</h2><h3 id="文档地址-1"><a href="#文档地址-1" class="headerlink" title="文档地址"></a>文档地址</h3><p><strong>nacos官方文档</strong>：<a target="_blank" rel="noopener" href="https://nacos.io/zh-cn/docs/what-is-nacos.html">https://nacos.io/zh-cn/docs/what-is-nacos.html</a></p>
+<h3 id="什么是nacos"><a href="#什么是nacos" class="headerlink" title="什么是nacos"></a>什么是nacos</h3><ul>
+<li><p>Nacos 致力于帮助您发现、配置和管理微服务。Nacos 提供了一组简单易用的特性集，帮助您快速实现动态服务发现、服务配置、服</p>
+<p>务元数据及流量管理。</p>
+</li>
+<li><p>Nacos 帮助您更敏捷和容易地构建、交付和管理微服务平台。 Nacos 是构建以“服务”为中心的现代应用架构 (例如微服务范式、云原</p>
+<p>生范式) 的服务基础设施</p>
+</li>
+</ul>
+<p><strong>Nacos 的关键特性包括:</strong></p>
+<ul>
+<li>服务发现和服务健康监测</li>
+<li>动态配置服务</li>
+<li>动态 DNS 服务</li>
+<li>服务及其元数据管理</li>
+</ul>
+<h3 id="注册中心演变及设计思想"><a href="#注册中心演变及设计思想" class="headerlink" title="注册中心演变及设计思想"></a>注册中心演变及设计思想</h3><p>管理所有微服务、解决微服务之间调用关系错综复杂、难以维护的问题；</p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210923154242161.png" alt="image-20210923154242161"></p>
+<h3 id="核心功能"><a href="#核心功能" class="headerlink" title="核心功能"></a>核心功能</h3><p><strong>服务注册</strong>：Nacos Client会通过发送REST请求的方式向Nacos Server注册自己的服务，提供自身的元数据，比如ip地<br>址、端口等信息。Nacos Server接收到注册请求后，就会把这些元数据信息存储在一个双层的内存Map中。</p>
+<p><strong>服务心跳</strong>：在服务注册后，Nacos Client会维护一个定时心跳来持续通知Nacos Server，说明服务一直处于可用状态，防<br>止被剔除。默认5s发送一次心跳。</p>
+<p><strong>服务同步</strong>：Nacos Server集群之间会互相同步服务实例，用来保证服务信息的一致性。  leader   raft   </p>
+<p><strong>服务发现</strong>：服务消费者（Nacos Client）在调用服务提供者的服务时，会发送一个REST请求给Nacos Server，获取上面<br>注册的服务清单，并且缓存在Nacos Client本地，同时会在Nacos Client本地开启一个定时任务定时拉取服务端最新的注<br>册表信息更新到本地缓存</p>
+<p><strong>服务健康检查</strong>：Nacos Server会开启一个定时任务用来检查注册服务实例的健康情况，对于超过15s没有收到客户端心跳<br>的实例会将它的healthy属性置为false(客户端服务发现时不会发现)，如果某个实例超过30秒没有收到心跳，直接剔除该<br>实例(被剔除的实例如果恢复发送心跳则会重新注册)</p>
+<h3 id="centos7安装nacos"><a href="#centos7安装nacos" class="headerlink" title="centos7安装nacos"></a>centos7安装nacos</h3><p>1、官网下载对应版本的nacos</p>
+<p>地址：<a target="_blank" rel="noopener" href="https://github.com/alibaba/Nacos/releases">https://github.com/alibaba/Nacos/releases</a></p>
+<p>2、解压，进入nacos目录,进入到bin目录下，修改startup.sh</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">standalone</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210923182905383.png" alt="image-20210923182905383"></p>
+<p>3、进入conf目录找到nacos-mysql.sql,新建数据库nacos,执行脚本</p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210923183106249.png" alt="image-20210923183106249"></p>
+<p>再找到application.properties,修改成自己的数据库</p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210923183230327.png" alt="image-20210923183230327"></p>
+<p>4、进入到bin目录,启动nacos</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sh startup.sh    #启动nacos</span><br><span class="line"></span><br><span class="line">访问地址：http://ip:8848/nacos</span><br><span class="line"></span><br><span class="line">账号：nacos</span><br><span class="line">密码：nacos</span><br></pre></td></tr></table></figure>
+
+<h3 id="微服务引入nacos"><a href="#微服务引入nacos" class="headerlink" title="微服务引入nacos"></a>微服务引入nacos</h3><p>1、pom文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot;</span><br><span class="line">         xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">         xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;</span><br><span class="line">    &lt;parent&gt;</span><br><span class="line">        &lt;artifactId&gt;springcloudalibaba&lt;/artifactId&gt;</span><br><span class="line">        &lt;groupId&gt;com.wgp&lt;/groupId&gt;</span><br><span class="line">        &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;</span><br><span class="line">    &lt;/parent&gt;</span><br><span class="line">    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;</span><br><span class="line">    &lt;artifactId&gt;cms-user-service&lt;/artifactId&gt;</span><br><span class="line">    &lt;dependencies&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">         &lt;!--  服务配置 --&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;com.alibaba.cloud&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-cloud-starter-alibaba-nacos-config&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;!--  服务发现 --&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;com.alibaba.cloud&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-cloud-starter-alibaba-nacos-discovery&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">    &lt;/dependencies&gt;</span><br><span class="line">&lt;/project&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>2、在resourcess下新建bootstrap.yml </p>
+<p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20210924111318823.png" alt="image-20210924111318823"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">server:</span><br><span class="line">  port: 8001</span><br><span class="line">spring:</span><br><span class="line">  application:</span><br><span class="line">    name: cms-user-service</span><br><span class="line">  cloud:</span><br><span class="line">    nacos:</span><br><span class="line">      config:</span><br><span class="line">        file-extension: yaml   #配置文件后缀</span><br><span class="line">        group: DEFAULT_GROUP   #组</span><br><span class="line">        server-addr: $&#123;spring.cloud.nacos.server-addr&#125; #nacos配置地址</span><br><span class="line">      discovery:</span><br><span class="line">        server-addr: 192.168.1.28:8848 #服务发现地址</span><br><span class="line">      server-addr: 192.168.1.28:8848 #nacos服务地址</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>3、进入nacos控制台新建一个文件cms-user-service.yaml</p>
+<p>在 Nacos Spring Cloud 中，<code>dataId</code> 的完整格式如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$&#123;prefix&#125;-$&#123;spring.profiles.active&#125;.$&#123;file-extension&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>prefix</code> 默认为 <code>spring.application.name</code> 的值，也可以通过配置项 <code>spring.cloud.nacos.config.prefix</code>来配置。</li>
+<li><code>spring.profiles.active</code> 即为当前环境对应的 profile，详情可以参考 <a target="_blank" rel="noopener" href="https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-profiles.html#boot-features-profiles">Spring Boot文档</a>。 <strong>注意：当 <code>spring.profiles.active</code> 为空时，对应的连接符 <code>-</code> 也将不存在，dataId 的拼接格式变成 <code>$&#123;prefix&#125;.$&#123;file-extension&#125;</code></strong></li>
+<li><code>file-exetension</code> 为配置内容的数据格式，可以通过配置项 <code>spring.cloud.nacos.config.file-extension</code> 来配置。目前只支持 <code>properties</code> 和 <code>yaml</code> 类型</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">MrWei</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2023/02/12/%E5%BE%AE%E6%9C%8D%E5%8A%A1/springcloud/">http://example.com/2023/02/12/%E5%BE%AE%E6%9C%8D%E5%8A%A1/springcloud/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">Gping</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">微服务</a></div><div class="post_share"><div class="social-share" data-image="https://gitee.com/studentgitee/note-picture/raw/master/u=4096551373,629120265&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPEG.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/02/12/java/java%E5%9F%BA%E7%A1%80/" title="java基础"><img class="cover" src="https://gitee.com/studentgitee/note-picture/raw/master/917121c7d8615458f6c6039069fc6255.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">java基础</div></div></a></div><div class="next-post pull-right"><a href="/2023/02/12/%E5%B8%B8%E7%94%A8%E6%A1%86%E6%9E%B6/mybatis/mybatis/" title="mybatis"><img class="cover" src="https://gitee.com/studentgitee/note-picture/raw/master/ca099f708e25d28ee7acab1af024f99c.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">mybatis</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://gitee.com/studentgitee/note-picture/raw/master/1676193401851.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">MrWei</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">19</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">1.微服务介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84%E6%BC%94%E5%8F%98"><span class="toc-number">1.1.</span> <span class="toc-text">1.1系统架构演变</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-1-%E5%8D%95%E4%BD%93%E5%BA%94%E7%94%A8%E6%9E%B6%E6%9E%84"><span class="toc-number">1.1.1.</span> <span class="toc-text">1.1.1 单体应用架构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-2-%E5%9E%82%E7%9B%B4%E5%BA%94%E7%94%A8%E6%9E%B6%E6%9E%84"><span class="toc-number">1.1.2.</span> <span class="toc-text">1.1.2 垂直应用架构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-3-%E5%88%86%E5%B8%83%E5%BC%8F%E6%9E%B6%E6%9E%84"><span class="toc-number">1.1.3.</span> <span class="toc-text">1.1.3 分布式架构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-4-SOA%E6%9E%B6%E6%9E%84"><span class="toc-number">1.1.4.</span> <span class="toc-text">1.1.4 SOA架构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-5-%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84"><span class="toc-number">1.1.5.</span> <span class="toc-text">1.1.5 微服务架构</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.2.</span> <span class="toc-text">1.2微服务架构介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-1%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%B8%AD%E6%96%87%E7%BD%91%E5%9D%80"><span class="toc-number">1.2.1.</span> <span class="toc-text">1.2.1微服务中文网址</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-2-%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E7%9A%84%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="toc-number">1.2.2.</span> <span class="toc-text">1.2.2 微服务架构的常见问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-3-%E5%B8%B8%E8%A7%81%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84"><span class="toc-number">1.2.3.</span> <span class="toc-text">1.2.3 常见微服务架构</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-springCloud%E6%90%AD%E5%BB%BA"><span class="toc-number">2.</span> <span class="toc-text">2.springCloud搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1%E7%89%88%E6%9C%AC%E8%A6%81%E6%B1%82"><span class="toc-number">2.1.</span> <span class="toc-text">2.1版本要求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2%E5%88%9B%E5%BB%BA%E7%88%B6%E5%B7%A5%E7%A8%8B"><span class="toc-number">2.2.</span> <span class="toc-text">2.2创建父工程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83"><span class="toc-number">3.</span> <span class="toc-text">3.服务注册中心</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1%E4%BB%80%E4%B9%88%E6%98%AF%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83"><span class="toc-number">3.1.</span> <span class="toc-text">3.1什么是服务注册中心</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2eureka"><span class="toc-number">3.2.</span> <span class="toc-text">3.2eureka</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#eureka%E6%9C%8D%E5%8A%A1%E7%AB%AF"><span class="toc-number">3.2.1.</span> <span class="toc-text">eureka服务端</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#eureka%E5%AE%A2%E6%88%B7%E7%AB%AF"><span class="toc-number">3.2.2.</span> <span class="toc-text">eureka客户端</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#eureka%E8%87%AA%E6%88%91%E4%BF%9D%E6%8A%A4%E6%9C%BA%E5%88%B6"><span class="toc-number">3.2.3.</span> <span class="toc-text">eureka自我保护机制</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E6%9C%8D%E5%8A%A1%E9%97%B4%E7%9A%84%E9%80%9A%E8%AE%AF"><span class="toc-number">4.</span> <span class="toc-text">4.服务间的通讯</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1%E5%9F%BA%E4%BA%8ERestTemplate%E6%9C%8D%E5%8A%A1%E8%B0%83%E7%94%A8"><span class="toc-number">4.1.</span> <span class="toc-text">4.1基于RestTemplate服务调用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2%E5%9F%BA%E4%BA%8ERibbon%E7%9A%84%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1"><span class="toc-number">4.2.</span> <span class="toc-text">4.2基于Ribbon的负载均衡</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">4.2.1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8Riobbin"><span class="toc-number">4.2.2.</span> <span class="toc-text">使用Riobbin</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90"><span class="toc-number">4.2.3.</span> <span class="toc-text">源码解析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AE%97%E6%B3%95"><span class="toc-number">4.2.4.</span> <span class="toc-text">常见负载均衡算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E9%BB%98%E8%AE%A4%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5"><span class="toc-number">4.2.5.</span> <span class="toc-text">修改默认负载均衡策略</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-OpenFeign%E7%BB%84%E4%BB%B6"><span class="toc-number">5.</span> <span class="toc-text">5.OpenFeign组件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1%E4%BB%80%E4%B9%88%E6%98%AFFeign"><span class="toc-number">5.1.</span> <span class="toc-text">5.1什么是Feign</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2%E5%BF%AB%E9%80%9F%E4%BD%BF%E7%94%A8OpenFeign"><span class="toc-number">5.2.</span> <span class="toc-text">5.2快速使用OpenFeign</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3Openfeign%E8%B6%85%E6%97%B6%E5%A4%84%E7%90%86"><span class="toc-number">5.3.</span> <span class="toc-text">5.3Openfeign超时处理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%BD%91%E5%85%B3"><span class="toc-number">6.</span> <span class="toc-text">6.微服务网关</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AD%98%E5%9C%A8%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">6.1.</span> <span class="toc-text">6.1微服务存在的问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8%E7%BD%91%E5%85%B3%EF%BC%9F"><span class="toc-number">6.2.</span> <span class="toc-text">6.2为什么使用网关？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-3zuul%E7%BD%91%E5%85%B3"><span class="toc-number">6.3.</span> <span class="toc-text">6.3zuul网关</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B-1"><span class="toc-number">6.3.1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8Zuul"><span class="toc-number">6.3.2.</span> <span class="toc-text">使用Zuul</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E6%8E%92%E9%99%A4"><span class="toc-number">6.3.3.</span> <span class="toc-text">路由排除</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#url%E6%8E%92%E9%99%A4"><span class="toc-number">6.3.3.1.</span> <span class="toc-text">url排除</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E5%90%8D%E7%A7%B0%E6%8E%92%E9%99%A4"><span class="toc-number">6.3.3.2.</span> <span class="toc-text">服务名称排除</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B7%AF%E7%94%B1%E5%89%8D%E7%BC%80"><span class="toc-number">6.3.4.</span> <span class="toc-text">路由前缀</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BD%91%E5%85%B3%E8%BF%87%E6%BB%A4%E5%99%A8"><span class="toc-number">6.3.5.</span> <span class="toc-text">网关过滤器</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E5%90%8D%E8%AF%8D"><span class="toc-number">6.3.5.1.</span> <span class="toc-text">关键名词</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%BF%87%E6%BB%A4%E5%99%A8%E7%B1%BB%E5%9E%8B"><span class="toc-number">6.3.5.2.</span> <span class="toc-text">过滤器类型</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">6.4.</span> <span class="toc-text"></span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-4Gateway%E7%BD%91%E5%85%B3"><span class="toc-number">6.5.</span> <span class="toc-text">6.4Gateway网关</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B-2"><span class="toc-number">6.5.1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Gateway%E5%8A%9F%E8%83%BD%E7%89%B9%E5%BE%81"><span class="toc-number">6.5.2.</span> <span class="toc-text">Gateway功能特征</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5"><span class="toc-number">6.5.3.</span> <span class="toc-text">核心概念</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9B%86%E6%88%90gateway%E7%BD%91%E5%85%B3"><span class="toc-number">6.5.4.</span> <span class="toc-text">集成gateway网关</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-Hystrix%E6%96%AD%E8%B7%AF%E5%99%A8"><span class="toc-number">7.</span> <span class="toc-text">7.Hystrix断路器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#7-1%E6%9C%8D%E5%8A%A1%E9%9B%AA%E5%B4%A9"><span class="toc-number">7.1.</span> <span class="toc-text">7.1服务雪崩</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-2%E6%9C%8D%E5%8A%A1%E7%86%94%E6%96%AD"><span class="toc-number">7.2.</span> <span class="toc-text">7.2服务熔断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-3%E6%9C%8D%E5%8A%A1%E9%99%8D%E7%BA%A7"><span class="toc-number">7.3.</span> <span class="toc-text">7.3服务降级</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-4%E6%95%B4%E5%90%88Hystrix"><span class="toc-number">7.4.</span> <span class="toc-text">7.4整合Hystrix</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-5Openfeign%E6%95%B4%E5%90%88Hystrix"><span class="toc-number">7.5.</span> <span class="toc-text">7.5Openfeign整合Hystrix</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-SpringcloudConfig%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83"><span class="toc-number">8.</span> <span class="toc-text">8.SpringcloudConfig配置中心</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#8-1%E6%95%B4%E5%90%88%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83%E6%9C%8D%E5%8A%A1%E7%AB%AF"><span class="toc-number">8.1.</span> <span class="toc-text">8.1整合配置中心服务端</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-2%E6%95%B4%E5%90%88%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83client"><span class="toc-number">8.2.</span> <span class="toc-text">8.2整合配置中心client</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-bus%E7%BB%84%E4%BB%B6"><span class="toc-number">9.</span> <span class="toc-text">9.bus组件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#9-1%E4%BB%80%E4%B9%88%E6%98%AFbus-AMQP-RibbitMQ"><span class="toc-number">9.1.</span> <span class="toc-text">9.1什么是bus(AMQP RibbitMQ)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-2%E6%95%B4%E5%90%88bus%E6%B6%88%E6%81%AF%E6%80%BB%E7%BA%BF"><span class="toc-number">9.2.</span> <span class="toc-text">9.2整合bus消息总线</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9C%A8docker%E4%B8%AD%E5%AE%89%E8%A3%85rabbitMQ"><span class="toc-number">9.2.1.</span> <span class="toc-text">在docker中安装rabbitMQ</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#config%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%95%B4%E5%90%88bus"><span class="toc-number">9.2.2.</span> <span class="toc-text">config服务端整合bus</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#config%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%95%B4%E5%90%88bus"><span class="toc-number">9.2.3.</span> <span class="toc-text">config客户端整合bus</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-3webhooks%E5%AE%9E%E7%8E%B0%E9%85%8D%E7%BD%AE%E8%87%AA%E5%8A%A8%E5%88%B7%E6%96%B0"><span class="toc-number">9.3.</span> <span class="toc-text">9.3webhooks实现配置自动刷新</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEwebhooks"><span class="toc-number">9.3.1.</span> <span class="toc-text">配置webhooks</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%A9%E7%94%A8natapp%E5%AE%9E%E7%8E%B0%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%EF%BC%88%E5%A6%82%E6%9E%9C%E6%B2%A1%E6%9C%89%E5%9F%9F%E5%90%8D%EF%BC%89"><span class="toc-number">9.3.2.</span> <span class="toc-text">利用natapp实现内网穿透（如果没有域名）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-Sleuth%E9%93%BE%E8%B7%AF%E8%B7%9F%E8%B8%AA-zipkin%E7%B3%BB%E7%BB%9F%E7%9B%91%E6%8E%A7"><span class="toc-number">10.</span> <span class="toc-text">10.Sleuth链路跟踪-zipkin系统监控</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#10-1%E7%AE%80%E4%BB%8B"><span class="toc-number">10.1.</span> <span class="toc-text">10.1简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-2%E9%9B%86%E6%88%90zipkin"><span class="toc-number">10.2.</span> <span class="toc-text">10.2集成zipkin</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#11-SpringCloud-Alibaba%E4%BB%8B%E7%BB%8D"><span class="toc-number">11.</span> <span class="toc-text">11.SpringCloud Alibaba介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E6%A1%A3%E5%9C%B0%E5%9D%80"><span class="toc-number">11.1.</span> <span class="toc-text">文档地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E8%A6%81%E5%8A%9F%E8%83%BD"><span class="toc-number">11.2.</span> <span class="toc-text">主要功能</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#12-Nacos%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83"><span class="toc-number">12.</span> <span class="toc-text">12.Nacos注册中心</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E6%A1%A3%E5%9C%B0%E5%9D%80-1"><span class="toc-number">12.1.</span> <span class="toc-text">文档地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFnacos"><span class="toc-number">12.2.</span> <span class="toc-text">什么是nacos</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83%E6%BC%94%E5%8F%98%E5%8F%8A%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3"><span class="toc-number">12.3.</span> <span class="toc-text">注册中心演变及设计思想</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E5%8A%9F%E8%83%BD"><span class="toc-number">12.4.</span> <span class="toc-text">核心功能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#centos7%E5%AE%89%E8%A3%85nacos"><span class="toc-number">12.5.</span> <span class="toc-text">centos7安装nacos</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%BC%95%E5%85%A5nacos"><span class="toc-number">12.6.</span> <span class="toc-text">微服务引入nacos</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/02/13/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E6%90%AD%E5%BB%BA/" title="mysql主从赋值搭建"><img src="https://gitee.com/studentgitee/note-picture/raw/master/v2-3286aaa6155b7e419c002b536332c519_250x0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="mysql主从赋值搭建"/></a><div class="content"><a class="title" href="/2023/02/13/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E6%90%AD%E5%BB%BA/" title="mysql主从赋值搭建">mysql主从赋值搭建</a><time datetime="2023-02-13T00:43:54.264Z" title="发表于 2023-02-13 08:43:54">2023-02-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/02/13/%E8%99%9A%E6%8B%9F%E6%9C%BA/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" title="Linux常用命令"><img src="https://gitee.com/studentgitee/note-picture/raw/master/147937407959735466.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux常用命令"/></a><div class="content"><a class="title" href="/2023/02/13/%E8%99%9A%E6%8B%9F%E6%9C%BA/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" title="Linux常用命令">Linux常用命令</a><time datetime="2023-02-13T00:43:54.264Z" title="发表于 2023-02-13 08:43:54">2023-02-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/02/13/%E5%B8%B8%E7%94%A8%E6%A1%86%E6%9E%B6/oauth2.0/oauth2.0/" title="oauth2.0"><img src="https://gitee.com/studentgitee/note-picture/raw/master/9e803ed883298d09d964bbaf9d89b9dc.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="oauth2.0"/></a><div class="content"><a class="title" href="/2023/02/13/%E5%B8%B8%E7%94%A8%E6%A1%86%E6%9E%B6/oauth2.0/oauth2.0/" title="oauth2.0">oauth2.0</a><time datetime="2023-02-13T00:43:54.262Z" title="发表于 2023-02-13 08:43:54">2023-02-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/02/13/%E5%B8%B8%E7%94%A8%E6%A1%86%E6%9E%B6/ElasticSearch7/elasticSearch7/" title="elasticSearch7"><img src="https://gitee.com/studentgitee/note-picture/raw/master/c38cf6948b39dd755ac13fc639070fd8af5cd4db.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="elasticSearch7"/></a><div class="content"><a class="title" href="/2023/02/13/%E5%B8%B8%E7%94%A8%E6%A1%86%E6%9E%B6/ElasticSearch7/elasticSearch7/" title="elasticSearch7">elasticSearch7</a><time datetime="2023-02-13T00:43:54.261Z" title="发表于 2023-02-13 08:43:54">2023-02-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/02/13/%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7/git%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/" title="git使用手册"><img src="https://gitee.com/studentgitee/note-picture/raw/master/u=829309475,2841958997&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPG.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="git使用手册"/></a><div class="content"><a class="title" href="/2023/02/13/%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7/git%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/" title="git使用手册">git使用手册</a><time datetime="2023-02-13T00:43:54.260Z" title="发表于 2023-02-13 08:43:54">2023-02-13</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By MrWei</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

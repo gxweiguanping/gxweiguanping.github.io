@@ -1,0 +1,1183 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>Gping | Gping</title><meta name="author" content="MrWei"><meta name="copyright" content="MrWei"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="referrer" content="no-referrer"><meta name="description" content="[TOC] 学习Redis单线程架构每次客户端调用： 1.发送命令————–&gt; 2.执行命令———–&gt; 3.返回结果 其中第2步是要重点讨论的，因为Reddis 是的单线程处理命令的，所以一条命令从客户端达到服务端不会立刻被执行，所有命令都会进入到一个队列中逐个被执行。 为什么单线程能这么快 纯内存访问。 非阻塞IO,Redis 使用epoll作为IO多路复用技术的实现。加上Redis">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Gping">
+<meta property="og:url" content="http://example.com/redis/learn/Redis_Learn.html">
+<meta property="og:site_name" content="Gping">
+<meta property="og:description" content="[TOC] 学习Redis单线程架构每次客户端调用： 1.发送命令————–&gt; 2.执行命令———–&gt; 3.返回结果 其中第2步是要重点讨论的，因为Reddis 是的单线程处理命令的，所以一条命令从客户端达到服务端不会立刻被执行，所有命令都会进入到一个队列中逐个被执行。 为什么单线程能这么快 纯内存访问。 非阻塞IO,Redis 使用epoll作为IO多路复用技术的实现。加上Redis">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/studentgitee/note-picture/raw/master/1676193401851.png">
+<meta property="article:published_time" content="2023-02-13T00:43:55.009Z">
+<meta property="article:modified_time" content="2023-02-13T00:43:55.009Z">
+<meta property="article:author" content="MrWei">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/studentgitee/note-picture/raw/master/1676193401851.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/redis/learn/Redis_Learn.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Gping',
+  isPost: false,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2023-02-13 08:43:55'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = url => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      link.onload = () => resolve()
+      link.onerror = () => reject()
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="./css/background.css"><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://gitee.com/studentgitee/note-picture/raw/master/1676193401851.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">19</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/plan/"><i class="fa-fw fas fa-navicon"></i><span> 计划</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="not-home-page" id="page-header" style="background-image: url('/./img/siteCover.png')"><nav id="nav"><span id="blog-info"><a href="/" title="Gping"><span class="site-name">Gping</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/plan/"><i class="fa-fw fas fa-navicon"></i><span> 计划</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="page-site-info"><h1 id="site-title">Gping</h1></div></header><main class="layout" id="content-inner"><div id="page"><div id="article-container"><p>[TOC]</p>
+<h1 id="学习Redis"><a href="#学习Redis" class="headerlink" title="学习Redis"></a>学习Redis</h1><h2 id="单线程架构"><a href="#单线程架构" class="headerlink" title="单线程架构"></a>单线程架构</h2><p>每次客户端调用：</p>
+<p>1.发送命令————–&gt; 2.执行命令———–&gt; 3.返回结果</p>
+<p>其中第2步是要重点讨论的，因为Reddis 是的单线程处理命令的，所以一条命令从客户端达到服务端不会立刻被执行，所有命令都会进入到一个队列中逐个被执行。</p>
+<h3 id="为什么单线程能这么快"><a href="#为什么单线程能这么快" class="headerlink" title="为什么单线程能这么快"></a>为什么单线程能这么快</h3><ol>
+<li>纯内存访问。</li>
+<li>非阻塞IO,Redis 使用epoll作为IO多路复用技术的实现。加上Redis自身的事件处理模型将epoll中的链接、读写、关闭都转换成时间，不在网络IO上浪费过多的时间。</li>
+</ol>
+<p>​		<img src="/redis/learn/Redis_Learn.htm/image-20211229222545928.png" alt="image-20211229222545928"></p>
+<ol start="3">
+<li>单线程避免了线程切换和静态产生的消耗</li>
+</ol>
+<h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><p><img src="/redis/learn/Redis_Learn.htm/image-20211229222755020.png" alt="image-20211229222755020"></p>
+<h3 id="String"><a href="#String" class="headerlink" title="String"></a>String</h3><p>内部数据结构</p>
+<ol>
+<li>int</li>
+<li>embstr： &lt;&#x3D; 39个字节的字符串</li>
+<li>raw: &gt; 39的字符串</li>
+</ol>
+<h4 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h4><ul>
+<li><p>缓存功能</p>
+</li>
+<li><p>计数器，</p>
+<ul>
+<li><p>订单号。</p>
+<pre><code>  - 点赞数
+</code></pre>
+</li>
+<li><p>共享session</p>
+</li>
+<li><p>限速</p>
+<p>例如短信接口不能频繁访问 1分钟只能发5次</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="哈希"><a href="#哈希" class="headerlink" title="哈希"></a>哈希</h3><p><img src="/redis/learn/Redis_Learn.htm/image-20211229224415866.png" alt="image-20211229224415866"></p>
+<h4 id="内部编码"><a href="#内部编码" class="headerlink" title="内部编码"></a>内部编码</h4><ul>
+<li><p>ziplist（压缩列表）</p>
+<p>当哈希类型元素个数小于hash-max-ziplist-entries配置（默认512个）、同时所有值都小于hash-max-ziplist-value配置（默认64字节）时，Redis会使用ziplist作为哈希的内部实现，ziplist使用更加紧凑的结构实现多个元素的连续存储，所以在节省内存方面比hashtable更加优秀。</p>
+</li>
+<li><p>hashtable （哈希表）</p>
+<p>当哈希类型无法满足ziplist的条件时，Redis会使用hashtable作为哈希的内部实现，因为此时ziplist的读写效率会下降，而hashtable的读写时间复杂度为O（1）。</p>
+</li>
+</ul>
+<p>下面的示例演示了哈希类型的内部编码，以及相应的变化。</p>
+<p> 1）当field个数比较少且没有大的value时，内部编码为ziplist：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; hmset hashkey f1 v1 f2 v2 </span><br><span class="line">OK </span><br><span class="line">127.0.0.1:6379&gt; object encoding hashkey </span><br><span class="line"><span class="string">&quot;ziplist&quot;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p> 2.1）当有value大于64字节，内部编码会由ziplist变为hashtable：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; hset hashkey f3 <span class="string">&quot;one string is bigger than 64 byte...忽略...&quot;</span> </span><br><span class="line">OK </span><br><span class="line">127.0.0.1:6379&gt; object encoding hashkey </span><br><span class="line"><span class="string">&quot;hashtable&quot;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>2.2）当field个数超过512，内部编码也会由ziplist变为hashtable：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; hmset hashkey f1 v1 f2 v2 f3 v3 ...忽略... f513 v513 </span><br><span class="line">OK </span><br><span class="line">127.0.0.1:6379&gt; object encoding hashkey </span><br><span class="line"><span class="string">&quot;hashtable&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="使用场景-1"><a href="#使用场景-1" class="headerlink" title="使用场景"></a>使用场景</h4><p>可以将用户的信息放到hashMap里面。</p>
+<p>对比三种缓存方法缓存用户的优缺点。</p>
+<p>1）原生字符串类型：每个属性一个键。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span> user:1:name tom </span><br><span class="line"><span class="built_in">set</span> user:1:age 23 </span><br><span class="line"><span class="built_in">set</span> user:1:city beijing</span><br></pre></td></tr></table></figure>
+
+
+
+<p> 优点：简单直观，每个属性都支持更新操作。</p>
+<p>缺点：占用过多的键，内存占用量较大，同时用户信息内聚性比较差，所以此种方案一般不会在生产环境使用。</p>
+<p> 2）序列化字符串类型：将用户信息序列化后用一个键保存。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span> user:1 serialize(userInfo)</span><br></pre></td></tr></table></figure>
+
+
+
+<p> 优点：简化编程，如果合理的使用序列化可以提高内存的使用效率。<br> 缺点：序列化和反序列化有一定的开销，同时每次更新属性都需要把全部数据取出进行反序列化，更新后再序列化到Redis中。</p>
+<p> 3）哈希类型：每个用户属性使用一对field-value，但是只用一个键保存。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hmset user:1 name tom age 23 city beijing</span><br></pre></td></tr></table></figure>
+
+
+
+<p> 优点：简单直观，如果使用合理可以减少内存空间的使用。<br> 缺点：要控制哈希在ziplist和hashtable两种内部编码的转换，hashtable会消耗更多内存。</p>
+<h3 id="列表List"><a href="#列表List" class="headerlink" title="列表List"></a>列表List</h3><p>一个列表最多可以存储 2^32-1个元素。</p>
+<table>
+<thead>
+<tr>
+<th>操作类型</th>
+<th>操作</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>添加</td>
+<td>rpush lpush linsert</td>
+</tr>
+<tr>
+<td>查询</td>
+<td>lrange index llen</td>
+</tr>
+<tr>
+<td>删除</td>
+<td>lpop rpop lrem ltrim</td>
+</tr>
+<tr>
+<td>修改</td>
+<td>lset</td>
+</tr>
+<tr>
+<td>阻塞操作</td>
+<td>blpop brpop</td>
+</tr>
+</tbody></table>
+<h4 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h4><p>没用过的进行笔记</p>
+<ul>
+<li><p>linsert :  </p>
+<p>向某个元素前或者后插入元素</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">linsert key before|after pivot value</span><br></pre></td></tr></table></figure>
+
+
+
+<p> linsert命令会从列表中找到等于pivot的元素，在其前（before）或者后（after）插入一个新的元素value，例如下面操作会在列表的元素b前插入java：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; linsert listkey before b java </span><br><span class="line">(<span class="built_in">integer</span>) 4</span><br></pre></td></tr></table></figure>
+
+<p> 返回结果为4，代表当前命令的长度，当前列表变为个</p>
+</li>
+<li><p>lrem: 删除指定元素</p>
+<p>lrem命令会从列表中找到等于value的元素进行删除，根据count的不同分为三种情况：</p>
+<ul>
+<li>count&gt;0，从左到右，删除最多count个元素。</li>
+<li>count&lt;0，从右到左，删除最多count绝对值个元素。</li>
+<li>ount&#x3D;0，删除所有。</li>
+</ul>
+<p>	</p>
+<p>例如向列表从左向右插入5个a，那么当前列表变为“a a a a a java b a”，下面操作将从列表左边开始删除4个为a的元素：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; lrem listkey 4 a </span><br><span class="line">(<span class="built_in">integer</span>) 4 </span><br><span class="line">127.0.0.1:6379&gt; lrange listkey 0 -1 </span><br><span class="line">1) <span class="string">&quot;a&quot;</span> </span><br><span class="line">2) <span class="string">&quot;java&quot;</span> </span><br><span class="line">3) <span class="string">&quot;b&quot;</span> </span><br><span class="line">4) <span class="string">&quot;a&quot;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>​	</p>
+<ul>
+<li><p>ltrim 留下索引范围的列表</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">  ltrim key start end</span><br><span class="line">  <span class="comment"># start 到 end 部分会被留下，其他删除</span></span><br><span class="line"></span><br><span class="line">- blpop： 弹出元素如果没有的话，会等到时间结束。如果<span class="built_in">timeout</span> = 0 ，客户端会一直阻塞下去。</span><br><span class="line"></span><br><span class="line"><span class="comment">#### 内部编码</span></span><br><span class="line"></span><br><span class="line">- ziplist（压缩列表）：当列表的元素个数小于list-max-ziplist-entries配置（默认512个），同时列表中每个元素的值都小于list-max-ziplist-value配置时（默认64字节），Redis会选用ziplist来作为列表的内部实现来减少内存的使用。</span><br><span class="line">- linkedlist（链表）：当列表类型无法满足ziplist的条件时，Redis会使用linkedlist作为列表的内部实现。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#### 使用场景</span></span><br><span class="line"></span><br><span class="line">- 消息队列</span><br><span class="line">  - 可以用阻塞式<span class="string">&#x27;抢&#x27;</span>列表尾部元素</span><br><span class="line"></span><br><span class="line">- 文章列表</span><br><span class="line"></span><br><span class="line">  每个用户有属于自己的文章列表，需要分页展示文章列表。</span><br><span class="line"></span><br><span class="line">- 开发提示</span><br><span class="line">  - lpush + lpop = stack （栈）</span><br><span class="line">  - lpush + rpop = queue （队列）</span><br><span class="line">  - lpush + ltrim = Capped Collection （有限集合）</span><br><span class="line">  - lpush + brpop = message queue (消息队列)</span><br><span class="line"></span><br><span class="line"><span class="comment">### 集合</span></span><br><span class="line"></span><br><span class="line">常用命令，</span><br><span class="line"></span><br><span class="line">| 命令z                                 | 作用                         |</span><br><span class="line">| ------------------------------------- | ---------------------------- |</span><br><span class="line">| sadd key element  [element ...]       | 增加成员                     |</span><br><span class="line">| srem key element [element...]         | 删除成员                     |</span><br><span class="line">| scard key                             | 计算元素个数                 |</span><br><span class="line">| sismember key element                 | 是否在集合中                 |</span><br><span class="line">| srandmember key [count]               | 随机拿出count 个成员         |</span><br><span class="line">| spop key                              | 随机弹出一个                 |</span><br><span class="line">| smembers key                          | 拿出所有成员                 |</span><br><span class="line">| sinter key [key ...]                  | 交集                         |</span><br><span class="line">| suion key [key ...]                   | 并集                         |</span><br><span class="line">| sdiff key [key ...]                   | key1 - key2                  |</span><br><span class="line">| sinterstore destination key [key ...] | 交集保存到destination        |</span><br><span class="line">| suionstore destination key [key ...]  | 保存到destination            |</span><br><span class="line">| sdiffstore destination key [key ...]  | key1 - key2保存到destination |</span><br><span class="line"></span><br><span class="line"><span class="comment">#### 内部编码</span></span><br><span class="line"></span><br><span class="line">- intset（整数集合）：当集合中的元素都是整数且元素个数小于set-max-intset-entries配置（默认512个）时，Redis会选用intset来作为集合的内部实现，从而减少内存的使用。</span><br><span class="line">- hashtable（哈希表）：当集合类型无法满足intset的条件时，Redis会使用hashtable作为集合的内部实现。</span><br><span class="line"></span><br><span class="line">下面用示例来说明：</span><br><span class="line"> 1）当元素个数较少且都为整数时，内部编码为intset：</span><br><span class="line"></span><br><span class="line"> ```bash</span><br><span class="line"> 127.0.0.1:6379&gt; sadd setkey 1 2 3 4 </span><br><span class="line"> (<span class="built_in">integer</span>) 4 </span><br><span class="line"> 127.0.0.1:6379&gt; object encoding setkey</span><br><span class="line"> <span class="string">&quot;intset&quot;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<p> 2.1）当元素个数超过512个，内部编码变为hashtable：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; sadd setkey 1 2 3 4 5 6 ... 512 513 </span><br><span class="line">(integer) 509 </span><br><span class="line">127.0.0.1:6379&gt; scard setkey </span><br><span class="line">(integer) 513 </span><br><span class="line">127.0.0.1:6379&gt; object encoding listkey </span><br><span class="line">&quot;hashtable&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<p> 2.2）当某个元素不为整数时，内部编码也会变为hashtable：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; sadd setkey a </span><br><span class="line">(<span class="built_in">integer</span>) 1 </span><br><span class="line">127.0.0.1:6379&gt; object encoding setkey </span><br><span class="line"><span class="string">&quot;hashtable&quot;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="使用场景-2"><a href="#使用场景-2" class="headerlink" title="使用场景"></a>使用场景</h4><ul>
+<li>贴标签</li>
+</ul>
+<p>​		集合类型比较典型的使用场景是标签（tag）。例如一个用户可能对娱乐、体育比较感兴趣，另一个用户可能对历史、新闻比较感兴趣，这些兴趣点就是标签。有了这些数据就可以得到喜欢同一个标签的人，以及用户的共同喜好的标签，这些数据对于用户体验以及增强用户黏度比较重要。例如一个电子商务的网站会对不同标签的用户做不同类型的推荐，比如对数码产品比较感兴趣的人，在各个页面或者通过邮件的形式给他们推荐最新的数码产品，通常会为网站带来更多的利益。</p>
+<ul>
+<li>开发提示<ul>
+<li>sadd &#x3D; Tagging (标签)</li>
+<li>spop&#x2F;srandmember &#x3D; Random item (生成随机数， 比如抽奖)</li>
+<li>sadd + sinter &#x3D; Social Graph (社交需求)</li>
+</ul>
+</li>
+</ul>
+<h3 id="有序集合"><a href="#有序集合" class="headerlink" title="有序集合"></a>有序集合</h3><h4 id="操作-1"><a href="#操作-1" class="headerlink" title="操作"></a>操作</h4><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>zadd key score member [score member …]</td>
+<td>添加成员</td>
+</tr>
+<tr>
+<td>zcard key</td>
+<td>统计成员个数</td>
+</tr>
+<tr>
+<td>zscore key member</td>
+<td>获得成员分数</td>
+</tr>
+<tr>
+<td>zrank key member</td>
+<td>成员排多少名，升序从0开始计算。无并列同一名的情况</td>
+</tr>
+<tr>
+<td>zrevrank key member</td>
+<td>倒序</td>
+</tr>
+<tr>
+<td>zrem key member [member …]</td>
+<td>删除成员</td>
+</tr>
+<tr>
+<td>zincrby key increment member</td>
+<td>增加成员分数</td>
+</tr>
+<tr>
+<td>zrange key start end [withscores]</td>
+<td>返回指定排名。加上withscores会顺带返回分数。</td>
+</tr>
+<tr>
+<td>zrevrange key start end [withscores]</td>
+<td></td>
+</tr>
+<tr>
+<td>zrangebyscore key min max [withscores] [limit offset count]</td>
+<td>返回指定分数的成员</td>
+</tr>
+<tr>
+<td>zrevrangebyscore key min max [withscores] [limit offset count]</td>
+<td></td>
+</tr>
+<tr>
+<td>zcount key min max</td>
+<td>返回指定分数有多少成员</td>
+</tr>
+<tr>
+<td>zremrangebyrank key start end</td>
+<td>删除排名成员</td>
+</tr>
+<tr>
+<td>zremrangebyscore key min max</td>
+<td>删除指定成绩成员</td>
+</tr>
+<tr>
+<td>zinterstore destination numkeys key [key …]</td>
+<td>交集</td>
+</tr>
+<tr>
+<td>zunionstore destination numberkeys key [key …]</td>
+<td>并集</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h4 id="内部编码-1"><a href="#内部编码-1" class="headerlink" title="内部编码"></a>内部编码</h4><ul>
+<li><p>ziplist（压缩列表）：当有序集合的元素个数小于zset-max-ziplist-entries配置（默认128个），同时每个元素的值都小于zset-max-ziplist-value配置（默认64字节）时，Redis会用ziplist来作为有序集合的内部实现，ziplist可以有效减少内存的使用。</p>
+</li>
+<li><p>skiplist（跳跃表）：当ziplist条件不满足时，有序集合会使用skiplist作为内部实现，因为此时ziplist的读写效率会下降。</p>
+<p> 下面用示例来说明：<br> 1）当元素个数较少且每个元素较小时，内部编码为skiplist：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; zadd zsetkey 50 e1 60 e2 30 e3 (<span class="built_in">integer</span>) 3 127.0.0.1:6379&gt; object encoding zsetkey <span class="string">&quot;ziplist&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p> 2.1）当元素个数超过128个，内部编码变为ziplist：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; zadd zsetkey 50 e1 60 e2 30 e3 12 e4 ...忽略... 84 e129 </span><br><span class="line">(<span class="built_in">integer</span>) </span><br><span class="line">129 127.0.0.1:6379&gt; object encoding zsetkey </span><br><span class="line"><span class="string">&quot;skiplist&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p> 2.2）当某个元素大于64字节时，内部编码也会变为hashtable：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; zadd zsetkey 20 <span class="string">&quot;one string is bigger than 64 byte.............     ...................&quot;</span> </span><br><span class="line">(<span class="built_in">integer</span>) 1 </span><br><span class="line">127.0.0.1:6379&gt; object encoding zsetkey</span><br><span class="line"><span class="string">&quot;skiplist&quot;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>跳表是什么？<ul>
+<li>跳表实际是做了多级索引，例如每3个元素抽一个元素出来做索引。这样可以加快查找。</li>
+<li><img src="/redis/learn/Redis_Learn.htm/image-20220127205555003.png" alt="image-20220127205555003"></li>
+</ul>
+</li>
+<li>为什么不用红黑树或者二叉树呢？<ul>
+<li>跳表实现了范围查找，而且比红黑树简单。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="使用场景-3"><a href="#使用场景-3" class="headerlink" title="使用场景"></a>使用场景</h4><p>排名系统</p>
+<h3 id="键管理"><a href="#键管理" class="headerlink" title="键管理"></a>键管理</h3><ul>
+<li><p>单个键</p>
+</li>
+<li><p>遍历键</p>
+</li>
+<li><p>数据库</p>
+</li>
+</ul>
+<h4 id="单个键"><a href="#单个键" class="headerlink" title="单个键"></a>单个键</h4><ul>
+<li>键重命名： rename key newkey,会覆盖已经存在的key<ul>
+<li><code>renamenx key newkey</code> 可以防止被覆盖</li>
+<li>在使用重命名命令时，有两点需要注意：<ul>
+<li>由于重命名键期间会执行del命令删除旧的键，如果键对应的值比较大，会存在阻塞Redis的可能性，这点不要忽视。</li>
+<li>如果rename和renamenx中的key和newkey如果是相同的，在Redis3.2和之前版本返回结果略有不同。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>随机返回一个key: randomkey</li>
+<li>键过期：<ul>
+<li><code>expire key seconds</code> </li>
+<li><code>expireat key timestamp</code> 键在秒级时间戳 timestamp后过期</li>
+<li>还有毫秒级方案 …</li>
+<li>ttl 剩余生命 秒<ul>
+<li>-1 ：没有设置过期</li>
+<li>-2 ：不存在</li>
+</ul>
+</li>
+<li>pttl 剩余毫秒</li>
+<li>注意<ul>
+<li>expire key 的键不存在 返回结果0</li>
+<li>persist 可以删除过期时间</li>
+<li>对于字符串类型，<strong>执行set 命令会去掉过期时间</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="迁移键"><a href="#迁移键" class="headerlink" title="迁移键"></a>迁移键</h5><p>迁移键功能非常重要，因为有时候我们只想把部分数据由一个Redis迁移到另一个Redis（例如从生产环境迁移到测试环境），Redis发展历程中提供了move、dump+restore、migrate三组迁移键的方法，它们的实现方式以及使用的场景不太相同，下面分别介绍。</p>
+<p><strong>(1）move</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">move key db</span><br></pre></td></tr></table></figure>
+
+
+
+<p> 如图2-26所示，move命令用于在Redis内部进行数据迁移，Redis内部可以有多个数据库，由于多个数据库功能后面会进行介绍，这里只需要知道Redis内部可以有多个数据库，彼此在数据上是相互隔离的，move key db就是把指定的键从源数据库移动到目标数据库中，但笔者认为多数据库功能不建议在生产环境使用，所以这个命令读者知道即可。</p>
+<p><img src="/redis/learn/Redis_Learn.htm/image-20211230150707113.png" alt="image-20211230150707113"></p>
+<p><strong>（2）dump+restore</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dump key </span><br><span class="line">restore key ttl value</span><br></pre></td></tr></table></figure>
+
+
+
+<p> dump+restore可以实现在不同的Redis实例之间进行数据迁移的功能，整个迁移的过程分为两步：<br> 1）在源Redis上，dump命令会将键值序列化，格式采用的是RDB格式。<br> 2）在目标Redis上，restore命令将上面序列化的值进行复原，其中ttl参数代表过期时间，如果ttl&#x3D;0代表没有过期时间。<br> 整个过程如图2-27所示。</p>
+<p><img src="/redis/learn/Redis_Learn.htm/image-20211230150910797.png" alt="image-20211230150910797"></p>
+<p>有两点需要注意：第一，整个迁移过程并非原子性的，而是通过客户端分步完成的。第二，迁移过程是开启了两个客户端连接，所以dump的结果不是在源Redis和目标Redis之间进行传输，下面用一个例子演示完整过程。<br> 1）在源Redis上执行dump：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">redis-source&gt; <span class="built_in">set</span> hello world </span><br><span class="line">OK </span><br><span class="line">redis-source&gt; dump hello </span><br><span class="line"><span class="string">&quot;\x00\x05world\x06\x00\x8f&lt;T\x04%\xfcNQ&quot;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p> 2）在目标Redis上执行restore：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">redis-target&gt; get hello </span><br><span class="line">(nil) </span><br><span class="line">redis-target&gt; restore hello 0 </span><br><span class="line"><span class="string">&quot;\x00\x05world\x06\x00\x8f&lt;T\x04%\xfcNQ&quot;</span> OK </span><br><span class="line">redis-target&gt; get hello </span><br><span class="line"><span class="string">&quot;world&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>（3）migrate</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">migrate host port key|<span class="string">&quot;&quot;</span> destination-db <span class="built_in">timeout</span> [copy] [replace] [keys key [key ...]]</span><br></pre></td></tr></table></figure>
+
+
+
+<p>migrate命令也是用于在Redis实例间进行数据迁移的，实际上migrate命令就是将dump、restore、del三个命令进行组合，从而简化了操作流程。migrate命令具有原子性，而且从Redis3.0.6版本以后已经支持迁移多个键的功能，有效地提高了迁移效率，migrate在10.4节水平扩容中起到重要作用。</p>
+<p> 整个过程如下图所示，实现过程和dump+restore基本类似，但是有3点不太相同：第一，整个过程是原子执行的，不需要在多个Redis实例上开启客户端的，只需要在源Redis上执行migrate命令即可。第二，migrate命令的数据传输直接在源Redis和目标Redis上完成的。第三，目标Redis完成restore后会发送OK给源Redis，源Redis接收后会根据migrate对应的选项来决定是否在源Redis上删除对应的键。</p>
+<p><img src="/redis/learn/Redis_Learn.htm/image-20211230152226683.png" alt="image-20211230152226683"></p>
+<p>详细操作翻书</p>
+<h6 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h6><p><img src="/redis/learn/Redis_Learn.htm/image-20211230152514765.png" alt="image-20211230152514765"></p>
+<h4 id="遍历键"><a href="#遍历键" class="headerlink" title="遍历键"></a>遍历键</h4><p>全量遍历：keys </p>
+<p>渐进式：scan</p>
+<h5 id="0-glob风格通配符"><a href="#0-glob风格通配符" class="headerlink" title="0.glob风格通配符"></a>0.glob风格通配符</h5><ul>
+<li>符号：？</li>
+</ul>
+<p>​		含义：匹配一个字符</p>
+<ul>
+<li>符号：*</li>
+</ul>
+<p>​		含义：匹配任意个（包括0个）字符</p>
+<ul>
+<li><p>符号：[]</p>
+<p>含义：匹配括号间的任一字符，可以使用“-”符号表示一个范围，如a[b-d]，可以匹配ab,ac,ad</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; keys [j,r]edis</span><br><span class="line">1) <span class="string">&quot;jedis&quot;</span> </span><br><span class="line">2) <span class="string">&quot;redis&quot;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>符号：\x</p>
+</li>
+</ul>
+<p>​		含义：匹配字符x，用于转义符号。例如匹配“?”就需要使用 ?</p>
+<h5 id="1-全量遍历键"><a href="#1-全量遍历键" class="headerlink" title="1. 全量遍历键"></a>1. 全量遍历键</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">keys pattern</span><br><span class="line"><span class="comment"># pattern 使用glob风格通配符</span></span><br></pre></td></tr></table></figure>
+
+<p>在使用keys 可以轻松获取key,但如果考虑到Redis的单线程架构就不那么美妙了，如果Redis包含了大量的键，执行keys命令很可能会造成Redis阻塞，所以一般建议不要在生产环境下使用keys命令。但有时候确实有遍历键的需求该怎么办，可以在以下三种情况使用：</p>
+<ul>
+<li>在一个不对外提供服务的Redis从节点上执行，这样不会阻塞到客户端的请求，但是会影响到主从复制</li>
+<li>如果确认键值总数确实比较少，可以执行该命令。</li>
+<li>使用下面要介绍的scan命令渐进式的遍历所有键，可以有效防止阻塞。</li>
+</ul>
+<h5 id="2-渐进式遍历键"><a href="#2-渐进式遍历键" class="headerlink" title="2. 渐进式遍历键"></a>2. 渐进式遍历键</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scan cursor [match pattern] [count number]</span><br></pre></td></tr></table></figure>
+
+<p>将数据库分区来进行扫描，扫描后返回偏移量，直到偏移量变成0 则遍历完</p>
+<h6 id="其他scan"><a href="#其他scan" class="headerlink" title="其他scan"></a>其他scan</h6><p>除了scan ，还有为了解决 hgetall、smembers、zrange，可以使用hscan、sscan、zscan</p>
+<h6 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h6><p>渐进式遍历可以有效的解决keys命令可能产生的阻塞问题，但是scan并非完美无瑕，如果在scan的过程中如果有键的变化（增加、删除、修改），那么遍历效果可能会碰到如下问题：<strong>新增的键可能没有遍历到</strong>，遍历出了重复的键等情况，也就是说scan并不能保证完整的遍历出来所有的键，这些是我们在开发时需要考虑的。</p>
+<h4 id="数据库管理"><a href="#数据库管理" class="headerlink" title="数据库管理"></a>数据库管理</h4><ul>
+<li>dbsize</li>
+<li>select </li>
+<li>flushdb&#x2F;flushall ： 删除自身&#x2F;删除全部</li>
+</ul>
+<h5 id="切换数据库"><a href="#切换数据库" class="headerlink" title="切换数据库"></a>切换数据库</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select dbindex</span><br></pre></td></tr></table></figure>
+
+<p>多个数据库看起来很美好，但Redis3.0中已经逐渐弱化这个功能，例如Redis的分布式实现Redis Cluster只允许使用0号数据库，只不过为了向下兼容老版本的数据库功能，该功能没有完全废弃掉，下面分析一下为什么要废弃掉这个“优秀”的功能呢？总结起来有三点：</p>
+<ul>
+<li>Redis是单线程的。如果使用多个数据库，那么这些数据库仍然是使用一个CPU，彼此之间还是会受到影响的。</li>
+<li>多数据库的使用方式，会让调试和运维不同业务的数据库变的困难，假如有一个慢查询存在，依然会影响其他数据库，这样会使得别的业务方定位问题非常的困难。</li>
+<li>部分Redis的客户端根本就不支持这种方式。即使支持，在开发的时候来回切换数字形式的数据库，很容易弄乱。</li>
+</ul>
+<h2 id="辅助功能"><a href="#辅助功能" class="headerlink" title="辅助功能"></a>辅助功能</h2><ul>
+<li>慢查询分析：通过慢查询分析，找到有问题的命令进行优化。</li>
+<li>Redis Shell：功能强大的Redis Shell会有意想不到的实用功能。</li>
+<li>Pipeline：通过Pipeline（管道或者流水线）机制有效提高客户端性能。</li>
+<li>事务与Lua：制作自己的专属原子命令。</li>
+<li>Bitmaps：通过在字符串数据结构上使用位操作，有效节省内存，为开发提供新的思路。</li>
+<li>HyperLogLog：一种基于概率的新算法，难以想象地节省内存空间。</li>
+<li>发布订阅：基于发布订阅模式的消息通信机制。</li>
+<li>GEO：Redis3.2提供了基于地理位置信息的功能。</li>
+</ul>
+<h3 id="慢查询分析"><a href="#慢查询分析" class="headerlink" title="慢查询分析"></a>慢查询分析</h3><p><img src="/redis/learn/Redis_Learn.htm/image-20211230163619652.png" alt="image-20211230163619652"></p>
+<p>生命周期：1）发送命令 ———&gt;2）命令排队———–&gt;3）命令执行—–&gt;4）返回结果</p>
+<p>需要注意，慢查询只统计步骤3）的时间，所以没有慢查询并不代表客户端没有超时问题。</p>
+<h3 id="Redis-Shell"><a href="#Redis-Shell" class="headerlink" title="Redis Shell"></a>Redis Shell</h3><h3 id="Pipline"><a href="#Pipline" class="headerlink" title="Pipline"></a>Pipline</h3><p> 当多个redis命令之间没有依赖、顺序关系（例如第二条命令依赖第一条命令的结果）时，建议使用pipline；如果命令之间有依赖或顺序关系时，pipline就无法使用，此时可以考虑才用lua脚本的方式来使用；</p>
+<h4 id="Pipelining-的优势"><a href="#Pipelining-的优势" class="headerlink" title="Pipelining 的优势"></a>Pipelining 的优势</h4><ul>
+<li><p>将多条命令打包一次性发送给服务端，减少了客户端与服务端之间的网络调用次数，节省了 RTT</p>
+</li>
+<li><p>避免了上下文切换，当客户端&#x2F;服务端需要从网络中读写数据时，都会产生一次系统调用，系统调用是非常耗时的操作，其中设计到程序由用户态切换到内核态，再从内核态切换回用户态的过程。当我们执行 10 条 redis 命令的时候，就会发生 10 次用户态到内核态的上下文切换，但如果我们使用 Pipeining 将多条命令打包成一条一次性发送给服务端，就只会产生一次上下文切换</p>
+</li>
+</ul>
+<p>我们都知道， redis 执行命令的时候是单线程执行的，所以 redis 中的所有命令都具备原子性，这意味着 redis 并不会在执行某条命令的中途停止去执行另一条命令</p>
+<p>但是 Pipelining 并不具备原子性，想象一下有两个客户端 client1 和 client2 同时向 redis 服务端发送 Pipelining 命令，每条 Pipelining 包含 5 条 redis 命令。 redis 可以保证 client1 管道中的命令始终是顺序执行的， client2 管道中的命令也是一样，始终按照管道中传入的顺序执行命令</p>
+<p>但是 redis 并不能保证等 client1 管道中的所有命令执行完成，再执行 client2 管道中的命令，因此，在服务端中的命令执行顺序有可能是下面这种情况<br><img src="/redis/learn/Redis_Learn.htm/pipline_run1.png" alt="在这里插入图片描述"></p>
+<p>这种行为显示 <code>Pipelining</code> 在执行的时候并不会阻塞服务端。即使 <code>client1</code> 向客户端发送了包含多条指令的 <code>Pipelining</code> ，其他客户端也不会被阻塞，因为他们发送的指令可以插入到 <code>Pipelining</code> 中间执行</p>
+<p>只有在 Pipelining 内所有命令执行完后，服务端才会把执行结果通过数组的方式返回给客户端。在执行 Pipelining 内的命令的时候，如果某些指令执行失败， Pipelining 仍会继续执行</p>
+<p>比如下面的例子</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">printf</span> <span class="string">&quot;SET name huangxy\r\nINCR name\r\nGET name\r\n&quot;</span> | nc localhost 6379</span><br><span class="line">+OK</span><br><span class="line">-ERR value is not an <span class="built_in">integer</span> or out of range</span><br><span class="line"><span class="variable">$6</span></span><br><span class="line">huangxy</span><br></pre></td></tr></table></figure>
+
+
+<p>Pipelining 中第二条指令执行失败， <strong>Pipelining 并不会停止</strong>，而是会继续执行，等所有命令都执行完的时候，再将结果返回给客户端，其中第二条指令返回的是错误信息</p>
+<p>Pipelining 的这个特性会导致一个问题，就是当 Pipelining 中的指令需要读取之前指令设置 key 的时候，需要额外小心，因为 key 的值有可能会被其他客户端修改。此时 Pipelining 的执行结果往往就不是我们所预期的</p>
+<h4 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h4><p>事务的优点<br>事务提供了 WATCH 命令，使我们可以实现 CAS 功能，比如通过事务，我们可以实现跟 INCR 命令一样的功能</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">WATCH mykey</span><br><span class="line">val = GET mykey</span><br><span class="line">val = val + 1</span><br><span class="line">MULTI</span><br><span class="line">SET mykey <span class="variable">$val</span></span><br><span class="line">EXEC</span><br></pre></td></tr></table></figure>
+
+<h5 id="事务的原子性"><a href="#事务的原子性" class="headerlink" title="事务的原子性"></a>事务的原子性</h5><p>redis 事务具备原子性，当一个事务正在执行时，服务端会阻塞其接收到的其他命令，只有在事务执行完成时，才会执行接下来的命令，因此事务具备原子性</p>
+<h5 id="事务的局限性"><a href="#事务的局限性" class="headerlink" title="事务的局限性"></a>事务的局限性</h5><p>跟 Pipelining 一样，只有在事务执行完成时，才会把事务中多个命令的结果一并返回给客户端，因此客户端在事务还没有执行完的时候，无法获取其命令的执行结果</p>
+<p>如果事务中的其中一个命令发生错误，会有以下两种可能性：</p>
+<ul>
+<li>当发生语法错误，在执行 EXEC 命令的时候，事务将会被丢弃，不会执行</li>
+<li>当发生运行时错误（操作了错误的数据类型）时， redis 会将报错信息缓存起来，继续执行后面的命令，并在最后将所有命令的执行结果返回给客户端（报错信息也会返回）。这意味着 redis 事务中没有回滚机制</li>
+</ul>
+<h5 id="事务使用场景"><a href="#事务使用场景" class="headerlink" title="事务使用场景"></a>事务使用场景</h5><ul>
+<li>需要原子地执行多个命令</li>
+<li>不需要事务中间命令的执行结果来编排后面的命令</li>
+</ul>
+<h4 id="Lua-脚本"><a href="#Lua-脚本" class="headerlink" title="Lua 脚本"></a>Lua 脚本</h4><p><code>redis</code> 从 2.6 版本开始引入对 Lua 脚本的支持，通过在服务器中嵌入 Lua 环境， <code>redis</code> 客户端可以直接使用 Lua 脚本，在服务端原子地执行多个 <code>redis</code> 命令</p>
+<h5 id="Lua脚本的优势"><a href="#Lua脚本的优势" class="headerlink" title="Lua脚本的优势"></a>Lua脚本的优势</h5><p>与 <code>Pipelining</code> 和 事务不同的是，在脚本内部，我们可以在脚本中获取中间命令的返回结果，然后根据结果值做相应的处理（如 if 判断）</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> key = KEYS[<span class="number">1</span>]</span><br><span class="line"><span class="keyword">local</span> new = ARGV[<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> current = redis.call(<span class="string">&#x27;GET&#x27;</span>, key)</span><br><span class="line"><span class="keyword">if</span> (current == <span class="literal">false</span>) <span class="keyword">or</span> (<span class="built_in">tonumber</span>(new) &lt; <span class="built_in">tonumber</span>(current)) <span class="keyword">then</span></span><br><span class="line">  redis.call(<span class="string">&#x27;SET&#x27;</span>, key, new)</span><br><span class="line">  <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>同时， redis 服务端还支持对 Lua 脚本进行缓存（使用 SCRIPT LOAD 或 EVAL 执行过的脚本服务端都会对其进行缓存），下次可以使用 EVALSHA 命令调用缓存的脚本，节省带宽</p>
+<h5 id="Lua-脚本的原子性"><a href="#Lua-脚本的原子性" class="headerlink" title="Lua 脚本的原子性"></a>Lua 脚本的原子性</h5><p>Lua 脚本跟事务一样具备原子性，当脚本执行中时，服务端接收到的命令会被阻塞</p>
+<h5 id="Lua-脚本的局限性"><a href="#Lua-脚本的局限性" class="headerlink" title="Lua 脚本的局限性"></a>Lua 脚本的局限性</h5><p>Lua 脚本在功能上没有过多的限制，但要注意的一点是，Lua 脚本在执行的时候，会阻塞其他命令的执行，所以不宜在脚本中写太耗时的处理逻辑</p>
+<h5 id="Lua-脚本的使用场景"><a href="#Lua-脚本的使用场景" class="headerlink" title="Lua 脚本的使用场景"></a>Lua 脚本的使用场景</h5><ul>
+<li>需要原子性地执行多个命令</li>
+<li>需要中间值来组合后面的命令</li>
+<li>需要中间值来编排后面的命令</li>
+<li>常用于扩展 redis 功能，实现符合自己业务场景的命令</li>
+</ul>
+<h3 id="事务与Lua"><a href="#事务与Lua" class="headerlink" title="事务与Lua"></a>事务与Lua</h3><p>编写lua:</p>
+<ul>
+<li><p>redis.call 函数实现对redis 的访问。</p>
+</li>
+<li><p>redis.pcall()函数可以忽略函数继续执行。</p>
+</li>
+</ul>
+<p>实例：</p>
+<p>热点key放在list 里面，实现热点事件批量 + 1</p>
+<p>初始设置：</p>
+<p>构建list</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">lpush hot:user:list user:1:ratio  user:8:ratio  user:3:ratio   user:99:ratio   user:72:ratio  </span><br><span class="line"></span><br><span class="line"> mset user:1:ratio 986  user:8:ratio 762  user:3:ratio  556 user:99:ratio  400 user:72:ratio  101</span><br></pre></td></tr></table></figure>
+
+
+
+<p>lua脚本</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> mylist = redis.call(<span class="string">&quot;lrange&quot;</span>, KEYS[<span class="number">1</span>], <span class="number">0</span>, <span class="number">-1</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> count = <span class="number">0</span> </span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> index, key <span class="keyword">in</span> <span class="built_in">ipairs</span>(mylist)</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">	redis.call(<span class="string">&quot;incr&quot;</span>,key)</span><br><span class="line">	count = count + <span class="number">1</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="keyword">return</span> count</span><br></pre></td></tr></table></figure>
+
+
+
+<p>执行脚本：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-cli --pass 123456  --<span class="built_in">eval</span> lrange_and_mincr.lua hot:user:list</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="redis-管理lua脚本"><a href="#redis-管理lua脚本" class="headerlink" title="redis 管理lua脚本"></a>redis 管理lua脚本</h4><h5 id="加载脚本"><a href="#加载脚本" class="headerlink" title="加载脚本"></a>加载脚本</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]<span class="comment"># redis-cli --pass 123456  script load &quot;$(cat lrange_and_mincr.lua)&quot;</span></span><br><span class="line">Warning: Using a password with <span class="string">&#x27;-a&#x27;</span> or <span class="string">&#x27;-u&#x27;</span> option on the <span class="built_in">command</span> line interface may not be safe.</span><br><span class="line"><span class="string">&quot;52bb7f1bcdf5c1d5e904a867877e182153f5a253&quot;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="查询脚本是否存在"><a href="#查询脚本是否存在" class="headerlink" title="查询脚本是否存在"></a>查询脚本是否存在</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; script exists 52bb7f1bcdf5c1d5e904a867877e182153f5a253</span><br><span class="line">1) (<span class="built_in">integer</span>) 1</span><br></pre></td></tr></table></figure>
+
+<h5 id="清空所有脚本"><a href="#清空所有脚本" class="headerlink" title="清空所有脚本"></a>清空所有脚本</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">script flush</span><br></pre></td></tr></table></figure>
+
+<h5 id="杀死正在运行的脚本"><a href="#杀死正在运行的脚本" class="headerlink" title="杀死正在运行的脚本"></a>杀死正在运行的脚本</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">script <span class="built_in">kill</span> </span><br></pre></td></tr></table></figure>
+
+
+
+<p>可以模拟脚本死循环</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">eval</span> <span class="string">&#x27;while 1==1 do end&#x27;</span> 0 </span><br></pre></td></tr></table></figure>
+
+<p>Redis提供了一个lua-time-limit参数，默认是5秒，它是Lua脚本的“超时时间”，但这个超时时间仅仅是当Lua脚本时间超过lua-time-limit后，向其他命令调用发送BUSY的信号，但是并不会停止掉服务端和客户端的脚本执行，所以当达到lua-time-limit值之后，其他客户端在执行正常的命令时，将会收到“Busy Redis is busy running a script”错误，并且提示使用script kill或者shutdown nosave命令来杀掉这个busy的脚本：</p>
+<h3 id="发布订阅"><a href="#发布订阅" class="headerlink" title="发布订阅"></a>发布订阅</h3><h2 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h2><h3 id="客户端协议"><a href="#客户端协议" class="headerlink" title="客户端协议"></a>客户端协议</h3><p>主流编程语言都有Redis客户端，原因：</p>
+<ol>
+<li>客户端与服务端的通信协议是在TCP协议之上构建的</li>
+<li>Redis构建了RESP (Redis Serialization Protocol ）实现了客户端与服务端的正常交互，这种协议简单高效，既能被机器解析，又容易被人类阅读。</li>
+</ol>
+<p><strong>1. 发送命令格式</strong><br> RESP的规定一条命令的格式如下，CRLF代表”\r\n”。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">*&lt;参数数量&gt; CRLF </span><br><span class="line">$&lt;参数1的字节数量&gt; CRLF </span><br><span class="line">&lt;参数1&gt; CRLF</span><br><span class="line">... </span><br><span class="line">$&lt;参数N的字节数量&gt; CRLF </span><br><span class="line">&lt;参数N&gt; CRLF</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p> 依然以set hell world这条命令进行说明。</p>
+<p> 参数数量为3个，因此第一行为：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">*3</span><br></pre></td></tr></table></figure>
+
+<p> 参数字节数分别是355，因此后面几行为：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$3</span> </span><br><span class="line">SET </span><br><span class="line"><span class="variable">$5</span> </span><br><span class="line">hello </span><br><span class="line"><span class="variable">$5</span> </span><br><span class="line">world</span><br></pre></td></tr></table></figure>
+
+<p>有一点要注意的是，上面只是格式化显示的结果，实际传输格式为如下代码，整个过程如图4-1所示：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">*3\r\n<span class="variable">$3</span>\r\nSET\r\n<span class="variable">$5</span>\r\nhello\r\n<span class="variable">$5</span>\r\nworld\r\n</span><br></pre></td></tr></table></figure>
+
+<p>有一点要注意的是，上面只是格式化显示的结果，实际传输格式为如下代码，整个过程如图4-1所示：</p>
+<p> *3\r\n$3\r\nSET\r\n$5\r\nhello\r\n$5\r\nworld\r\n</p>
+<p>有一点要注意的是，上面只是格式化显示的结果，实际传输格式为如下代码，整个过程如图4-1所示：</p>
+<p> *3\r\n$3\r\nSET\r\n$5\r\nhello\r\n$5\r\nworld\r\n</p>
+<p> <strong>2.返回结果格式</strong><br> Redis的返回结果类型分为以下五种，如图4-2所示：</p>
+<ul>
+<li>状态回复：在RESP中第一个字节为”+”。</li>
+<li>错误回复：在RESP中第一个字节为”-“。</li>
+<li>整数回复：在RESP中第一个字节为”：”。</li>
+<li>字符串回复：在RESP中第一个字节为”$”。</li>
+<li>多条字符串回复：在RESP中第一个字节为”*”。</li>
+</ul>
+<p><img src="/redis/learn/Redis_Learn.htm/image-20211230215034841.png" alt="image-20211230215034841"></p>
+<h2 id="持久化"><a href="#持久化" class="headerlink" title="持久化"></a>持久化</h2><p>持久化有两种RDB (redis data base) 和 AOF (append only file)</p>
+<h3 id="RDB"><a href="#RDB" class="headerlink" title="RDB"></a>RDB</h3><p>数据快照</p>
+<h4 id="触发机制"><a href="#触发机制" class="headerlink" title="触发机制"></a>触发机制</h4><p>手动触发：</p>
+<ul>
+<li><p>save 命令: 保存会造成阻塞，线上不使用</p>
+</li>
+<li><p>bgsave 命令： fork子进程时会阻塞</p>
+<p>bgsave 是save的优化版本，redis内部涉及rdb都使用bgsave.</p>
+</li>
+</ul>
+<p>自动触发：</p>
+<ul>
+<li>配置文件 <code># save 300 100</code> 在300秒内发生100个key变化触发bgsave</li>
+<li>从节点执行全量复制 操作， 主节点自动执行bgsave生成RDB文件发送给从节点</li>
+<li>执行debug reload 命令重新加载redis时</li>
+<li>默认情况下执行shutdown，没有开启AOF持久化功能时</li>
+</ul>
+<h4 id="流程说明"><a href="#流程说明" class="headerlink" title="流程说明"></a>流程说明</h4><p><img src="/redis/learn/Redis_Learn.htm/image-20211231154437624.png" alt="image-20211231154437624"></p>
+<p>1）执行bgsave命令，Redis父进程判断当前是否存在正在执行的子进程，如RDB&#x2F;AOF子进程，如果存在bgsave命令直接返回。</p>
+<p>2）父进程执行fork操作创建子进程，fork操作过程中父进程会阻塞，通过info stats命令查看latest_fork_usec选项，可以获取最近一个fork操作的耗时，单位为微秒。</p>
+<p>3）父进程fork完成后，bgsave命令返回“Background saving started”信息并不再阻塞父进程，可以继续响应其他命令。</p>
+<p>4）子进程创建RDB文件，根据父进程内存生成临时快照文件，完成后对原有文件进行原子替换。执行lastsave命令可以获取最后一次生成RDB的时间，对应info统计的rdb_last_save_time选项。</p>
+<p>5）进程发送信号给父进程表示完成，父进程更新统计信息，具体见info Persistence下的rdb_*相关选项。</p>
+<h3 id="AOF"><a href="#AOF" class="headerlink" title="AOF"></a>AOF</h3><p>记录每次命令，重新执行命令达到恢复数据的目的。AOF主要是解决了数据持久化的实时性。对兼顾数据安全性和性能非常有帮助。</p>
+<p>开启AOF功能需要设置配置：appendonly yes，默认不开启。AOF文件名通过appendfilename配置设置，默认文件名是appendonly.aof。保存路径同RDB持久化方式一致，通过dir配置指定。AOF的工作流程操作：命令写入（append）、文件同步（sync）、文件重写（rewrite）、重启加载（load），如图5-2所示。</p>
+<p><img src="/redis/learn/Redis_Learn.htm/image-20211231155619306.png" alt="image-20211231155619306">流程如下：<br>    1）所有的写入命令会追加到aof_buf（缓冲区）中。</p>
+<p>​	2）AOF缓冲区根据对应的策略向硬盘做同步操作。</p>
+<p>​	3）随着AOF文件越来越大，需要定期对AOF文件进行重写，达到压缩的目的。</p>
+<p>​	4)当Redis服务器重启时，可以加载AOF文件进行数据恢复。<br>​	</p>
+<p>了解AOF工作流程之后，下面针对每个步骤做详细介绍。</p>
+<h4 id="命令写入"><a href="#命令写入" class="headerlink" title="命令写入"></a>命令写入</h4><p>AOF命令写入的内容直接是Redis文本协议格式。例如set hello world这条命令，在AOF缓冲区会追加如下文本：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">*3\r\n$3\r\nset\r\n$5\r\nhello\r\n$5\r\nworld\r\n</span><br></pre></td></tr></table></figure>
+
+<p>AOF的两个疑惑：<br>1）AOF为什么直接采用文本协议格式？可能的理由如下：</p>
+<ul>
+<li>文本协议具有很好的兼容性。</li>
+<li>开启AOF后，所有写入命令都包含追加操作，直接采用协议格式，避免了二次处理开销。</li>
+<li>文本协议具有可读性，方便直接修改和处理。</li>
+</ul>
+<p>2）AOF为什么把命令追加到<strong>aof_buf</strong>中？</p>
+<p>​	Redis使用单线程响应命令，如果每次写AOF文件命令都直接追加到硬盘，那么性能完全取决于当前硬盘负载。先写入缓冲区aof_buf中，还有另一个好处，Redis可以提供多种缓冲区同步硬盘的策略，在性能和安全性方面做出平衡。</p>
+<h4 id="文件同步"><a href="#文件同步" class="headerlink" title="文件同步"></a>文件同步</h4><p>​	Redis提供了多种AOF缓冲区同步文件策略，由参数appendfsync控制，不同值的含义如表所示。<br>​	 <img src="/redis/learn/Redis_Learn.htm/image-20211231162846847.png" alt="image-20211231162846847"></p>
+<p>系统调用write和fsync说明：</p>
+<ul>
+<li>write操作会触发延迟写（delayed write）机制。Linux在内核提供页缓冲区用来提高硬盘IO性能。write操作在写入系统缓冲区后直接返回。同步硬盘操作依赖于系统调度机制，例如：缓冲区页空间写满或达到特定时间周期。同步文件之前，如果此时系统故障宕机，缓冲区内数据将丢失。</li>
+<li>fsync针对单个文件操作（比如AOF文件），做强制硬盘同步，fsync将阻塞直到写入硬盘完成后返回，保证了数据持久化。<br>除了write、fsync，Linux还提供了sync、fdatasync操作，具体API说明参见：<a target="_blank" rel="noopener" href="http://linux.die.net/man/2/write%EF%BC%8Chttp://linux.die.net/man/2/fsync%EF%BC%8Chttp://linux.die.net/man/2/sync%EF%BC%8Chttp://linux.die.net/man/2/fdatasync%E3%80%82">http://linux.die.net/man/2/write，http://linux.die.net/man/2/fsync，http://linux.die.net/man/2/sync，http://linux.die.net/man/2/fdatasync。</a></li>
+</ul>
+<p>​       —————–好像文件同步策略是用了fsync</p>
+<ul>
+<li>配置为always时，每次写入都要同步AOF文件，在一般的SATA硬盘上，Redis只能支持大约几百TPS写入，显然跟Redis高性能特性背道而驰，不建议配置。</li>
+<li>配置为no，由于操作系统每次同步AOF文件的周期不可控，而且会加大每次同步硬盘的数据量，虽然提升了性能，但数据安全性无法保证。</li>
+<li>配置为<strong>everysec，是建议的同步策略</strong>，也是默认配置，做到兼顾性能和数据安全性。理论上只有在系统突然宕机的情况下丢失1秒的数据。（严格来说最多丢失1秒数据是不准确的，后面会做具体介绍到。）</li>
+</ul>
+<h4 id="重写机制"><a href="#重写机制" class="headerlink" title="重写机制"></a>重写机制</h4><p>​	随着命令不断写入AOF，文件会越来越大，为了解决这个问题，Redis引入AOF重写机制压缩文件体积。AOF文件重写是把Redis进程内的数据转化为写命令同步到新AOF文件的过程。</p>
+<p><strong>重写后的AOF文件为什么可以变小</strong>？有如下原因：</p>
+<pre><code> 1. 进程内已经超时的数据不再写入文件。
+ 2.  旧的AOF文件含有无效命令，如del key1、hdel key2、srem keys、set a111、set a222等。重写使用进程内数据直接生成，这样新的AOF文件只保留最终数据的写入命令。
+ 3. 多条写命令可以合并为一个，如：lpush list a、lpush list b、lpush list c可以转化为：lpush list a b c。为了防止单条命令过大造成客户端缓冲区溢出，对于list、set、hash、zset等类型操作，以64个元素为界拆分为多条。
+</code></pre>
+<p><strong>AOF 重写意义</strong></p>
+<p>​	AOF重写降低了文件占用空间，除此之外，另一个目的是：更小的AOF文件可以更快地被Redis加载。<br>​	</p>
+<p><strong>AOF重写过程可以手动触发和自动触发：</strong></p>
+<ul>
+<li>手动触发：直接调用bgrewriteaof命令。</li>
+<li>自动触发：根据auto-aof-rewrite-min-size和auto-aof-rewrite-percentage参数确定自动触发时机。<ul>
+<li><p>auto-aof-rewrite-min-size：表示运行AOF重写时文件最小体积，默认为64MB。</p>
+</li>
+<li><p>auto-aof-rewrite-percentage：代表当前AOF文件空间（aof_current_size）和上一次重写后AOF文件空间（aof_base_size）的比值。</p>
+</li>
+<li><p>自动触发时机&#x3D;aof_current_size&gt;auto-aof-rewrite-min-size&amp;&amp;（aof_current_size-aof_base_size）&#x2F;aof_base_size&gt;&#x3D;auto-aof-rewrite-percentage</p>
+<ul>
+<li>其中aof_current_size和aof_base_size可以在info Persistence统计信息中查看。</li>
+<li>当触发AOF重写时，内部做了哪些事呢？下面结合图5-3介绍它的运行流程。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="重写流程"><a href="#重写流程" class="headerlink" title="重写流程"></a>重写流程</h4><p><img src="/redis/learn/Redis_Learn.htm/image-20211231164906850.png" alt="image-20211231164906850"></p>
+<p>流程说明：</p>
+<p>1）执行AOF重写请求。</p>
+<p>如果当前进程正在执行AOF重写，请求不执行并返回如下响应：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ERR Background append only file rewriting already <span class="keyword">in</span> progress</span><br></pre></td></tr></table></figure>
+
+<p>如果当前进程正在执行bgsave操作，重写命令延迟到bgsave完成之后再执行，返回如下响应：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Background append only file rewriting scheduled</span><br></pre></td></tr></table></figure>
+
+<p>2）父进程执行fork创建子进程，开销等同于bgsave过程。</p>
+<p>3.1）主进程fork操作完成后，继续响应其他命令。所有修改命令依然写入AOF缓冲区并根据appendfsync策略同步到硬盘，保证原有AOF机制正确性。</p>
+<p>3.2）由于fork操作运用写时复制技术，子进程只能共享fork操作时的内存数据。由于父进程依然响应命令，Redis使用“AOF重写缓冲区”保存这部分新数据，防止新AOF文件生成期间丢失这部分数据。</p>
+<p>4）子进程根据内存快照，按照命令合并规则写入到新的AOF文件。每次批量写入硬盘数据量由配置aof-rewrite-incremental-fsync控制，默认为32MB，防止单次刷盘数据过多造成硬盘阻塞。</p>
+<p>5.1）新AOF文件写入完成后，子进程发送信号给父进程，父进程更新统计信息，具体见info persistence下的aof_*相关统计。</p>
+<p>5.2）父进程把AOF重写缓冲区的数据写入到新的AOF文件。</p>
+<p>5.3）使用新AOF文件替换老文件，完成AOF重写。</p>
+<h3 id="重启加载"><a href="#重启加载" class="headerlink" title="重启加载"></a>重启加载</h3><h4 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h4><p><img src="/redis/learn/Redis_Learn.htm/image-20211231170123832.png" alt="image-20211231170123832"></p>
+<p> 优先使用AOF</p>
+<h4 id="文件校验"><a href="#文件校验" class="headerlink" title="文件校验"></a>文件校验</h4><p>AOF 加载失败可以用<code>redis-check-aof --fix</code> 命令修复</p>
+<h3 id="问题定位与优化"><a href="#问题定位与优化" class="headerlink" title="问题定位与优化"></a>问题定位与优化</h3><h4 id="fork操作"><a href="#fork操作" class="headerlink" title="fork操作"></a>fork操作</h4><p>做RDB或者AOF重写，都需要执行fork操作，大多数操作系统来说fork是个重量级的错误。</p>
+<p>虽然fork创建的子进程不需要拷贝父进程的物理内存空间，但是会复制父进程的空间内存页表。</p>
+<p>​	例如对于10GB的Redis进程，需要复制大约20MB的内存页表，因此fork操作耗时跟进程总内存量息息相关，如果使用虚拟化技术，特别是Xen虚拟机，fork操作会更耗时。</p>
+<p> fork耗时问题定位：</p>
+<p>​	对于高流量的Redis实例OPS可达5万以上，如果fork操作耗时在秒级别将拖慢Redis几万条命令执行，对线上应用延迟影响非常明显。正常情况下fork耗时应该是每GB消耗20毫秒左右。可以在info stats统计中查latest_fork_usec指标获取最近一次fork操作耗时，单位微秒。</p>
+<h5 id="如何改善fork操作的耗时："><a href="#如何改善fork操作的耗时：" class="headerlink" title="如何改善fork操作的耗时："></a>如何改善fork操作的耗时：</h5><p> 1）优先使用物理机或者高效支持fork操作的虚拟化技术，避免使用Xen。</p>
+<p> 2）控制Redis实例最大可用内存，fork耗时跟内存量成正比，线上建议每个Redis实例内存控制在10GB以内。</p>
+<p> 3）合理配置Linux内存分配策略，避免物理内存不足导致fork失败</p>
+<p> 4）降低fork操作的频率，如适度放宽AOF自动触发时机，避免不必要的全量复制等。</p>
+<p>1</p>
+<h2 id="理解内存"><a href="#理解内存" class="headerlink" title="理解内存"></a>理解内存</h2><h3 id="内存消耗"><a href="#内存消耗" class="headerlink" title="内存消耗"></a>内存消耗</h3><p>内存消耗：</p>
+<ul>
+<li>进程自身消耗</li>
+<li>子进程消耗</li>
+</ul>
+<h4 id="内存使用统计"><a href="#内存使用统计" class="headerlink" title="内存使用统计"></a>内存使用统计</h4><p>命令：info memory</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; info memory</span><br><span class="line"><span class="comment"># Memory</span></span><br><span class="line">used_memory:873624</span><br><span class="line">used_memory_human:853.15K</span><br><span class="line">used_memory_rss:10170368</span><br><span class="line">used_memory_rss_human:9.70M</span><br><span class="line">mem_fragmentation_ratio:12.22</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>需要重点关注的指标有：used_memory_rss和used_memory以及它们的比值mem_fragmentation_ratio。</p>
+<ul>
+<li>mem_fragmentation_ratio（碎片率） &#x3D; used_memory_rss&#x2F; </li>
+<li>used_memory ：Redis的分配内存大小</li>
+<li>used_memory_rss ：Redis实例进程所占物理内存的大小（系统角度）</li>
+</ul>
+<p> 当mem_fragmentation_ratio&gt;1时，说明used_memory_rss-used_memory多出的部分内存并没有用于数据存储，而是被内存碎片所消耗，如果两者相差很大，说明碎片率严重。</p>
+<p>当mem_fragmentation_ratio&lt;1时，这种情况一般出现在操作系统把Redis内存交换（Swap）到硬盘导致，出现这种情况时要格外关注，由于硬盘速度远远慢于内存，Redis性能会变得很差，甚至僵死。</p>
+<h4 id="内存消耗划分"><a href="#内存消耗划分" class="headerlink" title="内存消耗划分"></a>内存消耗划分</h4><p><img src="/redis/learn/Redis_Learn.htm/image-20220126215439122.png" alt="image-20220126215439122"></p>
+<p><strong>对象内存</strong></p>
+<p> 每次创建数据都要创建key 对象和value 对象。可以简单的理解为sizeof(keys) + sizeof(value).</p>
+<p>所以key要尽量避免使用过长的key。</p>
+<p><strong>缓冲内存</strong></p>
+<ul>
+<li>客户端缓冲</li>
+<li>复制积压缓冲区</li>
+<li>AOF缓冲区</li>
+</ul>
+<p><strong>内存碎片</strong></p>
+<p>Redis默认的内存分配器采用jemalloc，可选的分配器还有：glibc、tcmalloc。内存分配器为了更好地管理和重复利用内存，分配内存策略一般采用固定范围的内存块进行分配。例如jemalloc在64位系统中将内存空间划分为：小、大、巨大三个范围。每个范围内又划分为多个小的内存块单位，如下所示：</p>
+<ul>
+<li>小：[8byte]，[16byte，32byte，48byte，…，128byte]，[192byte，256byte，…，512byte]，[768byte，1024byte，…，3840byte]</li>
+<li>大：[4KB，8KB，12KB，…，4072KB]</li>
+<li>巨大：[4MB，8MB，12MB，…]</li>
+</ul>
+<p>比如当保存5KB对象时jemalloc可能会采用8KB的块存储，而剩下的3KB空间变为了内存碎片不能再分配给其他对象存储。内存碎片问题虽然是所有内存服务的通病，但是jemalloc针对碎片化问题专门做了优化，一般不会存在过度碎片化的问题，正常的碎片率（mem_fragmentation_ratio）在1.03左右。但是当存储的数据长短差异较大时，以下场景容易出现高内存碎片问题：</p>
+<ul>
+<li>频繁做更新操作，例如频繁对已存在的键执行append、setrange等更新操作。</li>
+<li>大量过期键删除，键对象过期删除后，释放的空间无法得到充分利用，导致碎片率上升。</li>
+</ul>
+<p> <strong>出现高内存碎片问题时常见的解决方式如下：</strong></p>
+<ul>
+<li>数据对齐：在条件允许的情况下尽量做数据对齐，比如数据尽量采用数字类型或者固定长度字符串等，但是这要视具体的业务而定，有些场景无法做到。</li>
+<li>安全重启：重启节点可以做到内存碎片重新整理，因此可以利用高可用架构，如Sentinel或Cluster，将碎片率过高的主节点转换为从节点，进行安全重启。</li>
+</ul>
+<h4 id="子内存消耗"><a href="#子内存消耗" class="headerlink" title="子内存消耗"></a>子内存消耗</h4><p>lLinux具有写时复制技术（copy-on-write），父子进程会共享相同的物理内存页，当父进程处理写请求时会对需要修改的页复制出一份副本完成写操作，而子进程依然读取fork时整个父进程的内存快照。<br> Linux Kernel在2.6.38内核增加了Transparent Huge Pages（THP）机制，而有些Linux发行版即使内核达不到2.6.38也会默认加入并开启这个功能，如Redhat Enterprise Linux在6.0以上版本默认会引入THP。</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 开启THP: </span><br><span class="line">C * AOF rewrite: 1039 MB of memory used by copy-on-write </span><br><span class="line">// 关闭THP: </span><br><span class="line">C * AOF rewrite: 9 MB of memory used by copy-on-write</span><br></pre></td></tr></table></figure>
+
+
+
+<p> 这两个日志出自同一Redis进程，used_memory总量为1.5GB，子进程执行期间每秒写命令量都在200左右。当分别开启和关闭THP时，子进程内存消耗有天壤之别。如果在高并发写的场景下开启THP，子进程内存消耗可能是父进程的数倍，极易造成机器物理内存溢出，从而触发SWAP或OOM killer，更多关于THP细节见12.1节“Linux配置优化”。</p>
+<p><strong>总结</strong></p>
+<ul>
+<li>Redis产生的子进程并不需要消耗1倍的父进程内存，实际消耗根据期间写入命令量决定，但是依然要预留出一些内存防止溢出。</li>
+<li>需要设置sysctl vm.overcommit_memory&#x3D;1允许内核可以分配所有的物理内存，防止Redis进程执行fork时因系统剩余内存不足而失败。</li>
+<li>排查当前系统是否支持并开启THP，如果开启建议关闭，防止copy-on-write期间内存过度消耗</li>
+</ul>
+<h2 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h2><h4 id="设置内存上限"><a href="#设置内存上限" class="headerlink" title="设置内存上限"></a>设置内存上限</h4><p>Redis使用<strong>maxmemory</strong>参数限制最大可用内存。限制内存的目的主要有：</p>
+<ul>
+<li>用于缓存场景，当超出内存上限maxmemory时使用LRU等删除策略释放空间。</li>
+<li>防止所用内存超过服务器物理内存。</li>
+</ul>
+<p> 需要注意，maxmemory限制的是Redis实际使用的内存量，也就是<strong>used_memory</strong>统计项对应的内存。由于内存碎片率的存在，实际消耗的内存可能会比<strong>maxmemory设置的更大</strong>，实际使用时要小心这部分内存溢出。通过设置内存上限可以非常方便地实现一台服务器部署多个Redis进程的内存控制。</p>
+<p>比如一台24GB内存的服务器，为系统预留4GB内存，预留4GB空闲内存给其他进程或Redis fork进程，留给Redis16GB内存，这样可以部署4个maxmemory&#x3D;4GB的Redis进程。得益于Redis单线程架构和内存限制机制，即使没有采用虚拟化，不同的Redis进程之间也可以很好地实现CPU和内存的隔离性，如图8-2所示。</p>
+<p><img src="/redis/learn/Redis_Learn.htm/image-20220126222432383.png" alt="image-20220126222432383"></p>
+<p><strong>动态调整内存上限</strong><br> Redis的内存上限可以通过config set maxmemory进行动态修改，即修改最大可用内存。例如之前的示例，当发现Redis-2没有做好内存预估，实际只用了不到2GB内存，而Redis-1实例需要扩容到6GB内存才够用，这时可以分别执行如下命令进行调整：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Redis-1&gt;config <span class="built_in">set</span> maxmemory 6GB </span><br><span class="line">Redis-2&gt;config <span class="built_in">set</span> maxmemory 2GB</span><br></pre></td></tr></table></figure>
+
+
+
+<p> 通过动态修改maxmemory，可以实现在当前服务器下动态伸缩Redis内存的目的，如图所示。</p>
+<p><img src="/redis/learn/Redis_Learn.htm/image-20220126222546442.png" alt="image-20220126222546442"></p>
+<p>这个例子过于理想化，如果此时Redis-3和Redis-4实例也需要分别扩容到6GB，这时超出系统物理内存限制就不能简单的通过调整maxmemory来达到扩容的目的，需要采用在线迁移数据或者通过复制切换服务器来达到扩容的目的。具体细节见“哨兵”和“集群”部分。<br>  <strong>运维提示</strong><br> Redis默认无限使用服务器内存，为防止极端情况下导致系统内存耗尽，<strong>建议所有的Redis进程都要配置maxmemory</strong>。</p>
+<p> 在保证物理内存可用的情况下，系统中所有Redis实例可以调整maxmemory参数来达到自由伸缩内存的目的。</p>
+<h4 id="动态调整内存上限"><a href="#动态调整内存上限" class="headerlink" title="动态调整内存上限"></a>动态调整内存上限</h4><h4 id="内存回收策略"><a href="#内存回收策略" class="headerlink" title="内存回收策略"></a>内存回收策略</h4><p>主要体现在两个方面：</p>
+<ul>
+<li>删除过期的键对象</li>
+<li>内存使用达到maxmemory上限时触发内存溢出控制策略</li>
+</ul>
+<h5 id="删除过期键对象"><a href="#删除过期键对象" class="headerlink" title="删除过期键对象"></a>删除过期键对象</h5><ul>
+<li><p>惰性删除</p>
+<ul>
+<li>会占用内存</li>
+</ul>
+</li>
+<li><p>到期删除</p>
+<ul>
+<li>太耗费CPU</li>
+</ul>
+</li>
+<li><p>定时任务删除(折中处理)：</p>
+<p>Redis内部维护一个定时任务，默认每秒运行10次（通过配置hz控制）。定时任务中删除过期键逻辑采用了自适应算法，根据键的过期比例、使用快慢两种速率模式回收键，流程如图8-4所示。</p>
+<p><img src="/redis/learn/Redis_Learn.htm/image-20220127164121869.png" alt="image-20220127164121869"></p>
+</li>
+</ul>
+<p>内存溢出策略：</p>
+<p>当Redis所用内存达到maxmemory上限时会触发相应的溢出控制策略。具体策略受maxmemory-policy参数控制，Redis支持6种策略，如下所示：</p>
+<blockquote>
+<p> 1）noeviction：默认策略，不会删除任何数据，拒绝所有写入操作并返回客户端错误信息（error）OOM command not allowed when used memory，此时Redis只响应读操作。<br> 2）volatile-lru：根据LRU算法删除设置了超时属性（expire）的键，直到腾出足够空间为止。如果没有可删除的键对象，回退到noeviction策略。<br> 3）allkeys-lru：根据LRU算法删除键，不管数据有没有设置超时属性，直到腾出足够空间为止。<br> 4）allkeys-random：随机删除所有键，直到腾出足够空间为止。<br> 5）volatile-random：随机删除过期键，直到腾出足够空间为止。<br> 6）volatile-ttl：根据键值对象的ttl属性，删除最近将要过期数据。如果没有，回退到noeviction策略。</p>
+</blockquote>
+<p>内存溢出控制策略可以采用config set maxmemory-policy{policy}动态配置。Redis支持丰富的内存溢出应对策略，可以根据实际需求灵活定制，比如当设置volatile-lru策略时，保证具有过期属性的键可以根据LRU剔除，而未设置超时的键可以永久保留。还可以采用allkeys-lru策略把Redis变为纯缓存服务器使用。当Redis因为内存溢出删除键时，可以通过执行info stats命令查看evicted_keys指标找出当前Redis服务器已剔除的键数量。</p>
+<blockquote>
+<p>evicted_keys: 由于 maxmemory 限制，而被回收内存的 key 的总数</p>
+</blockquote>
+<p>每次Redis执行命令时如果设置了maxmemory参数，都会尝试执行回收内存操作。当Redis一直工作在内存溢出（used_memory&gt;maxmemory）的状态下且设置非noeviction策略时，会频繁地触发回收内存的操作，影响Redis服务器的性能。回收内存逻辑伪代码如下：</p>
+<p>频繁执行回收内存成本很高，主要包括查找可回收键和删除键的开销，如果当前Redis有从节点，回收内存操作对应的删除命令会同步到从节点，导致写放大的问题</p>
+<p><img src="/redis/learn/Redis_Learn.htm/image-20220127164902717.png" alt="image-20220127164902717"></p>
+<blockquote>
+<p>运维提示：</p>
+<p>建议线上Redis内存工作在maxmemory&gt;used_memory状态下，避免频繁内存回收开销。<br> 对于需要收缩Redis内存的场景，可以通过调小maxmemory来实现快速回收。比如对一个实际占用6GB内存的进程设置maxmemory&#x3D;4GB，之后第一次执行命令时，如果使用非noeviction策略，它会一次性回收到maxmemory指定的内存量，从而达到快速回收内存的目的。注意，此操作会导致数据丢失和短暂的阻塞问题，一般在缓存场景下使用。</p>
+</blockquote>
+<h3 id="内存优化"><a href="#内存优化" class="headerlink" title="内存优化"></a>内存优化</h3><h4 id="redisObject-对象"><a href="#redisObject-对象" class="headerlink" title="redisObject 对象"></a>redisObject 对象</h4><p><img src="/redis/learn/Redis_Learn.htm/image-20220127165225889.png" alt="image-20220127165225889"></p>
+<p>Redis存储的数据都使用redisObject来封装，包括string、hash、list、set、zset在内的所有数据类型。理解redisObject对内存优化非常有帮助，下面针对每个字段做详细说明：</p>
+<ul>
+<li><p>type字段：表示当前对象使用的数据类型，Redis主要支持5种数据类型：string、hash、list、set、zset。可以使用type{key}命令查看对象所属类型，type命令返回的是值对象类型，键都是string类型。</p>
+</li>
+<li><p>encoding字段：表示Redis内部编码类型，encoding在Redis内部使用，代表当前对象内部采用哪种数据结构实现。理解Redis内部编码方式对于优化内存非常重要，同一个对象采用不同的编码实现内存占用存在明显差异。</p>
+</li>
+<li><p>lru字段：记录对象最后一次被访问的时间，当配置了maxmemory和maxmemory-policy&#x3D;volatile-lru或者allkeys-lru时，用于辅助LRU算法删除键数据。可以使用object idletime{key}命令在不更新lru字段情况下查看当前键的空闲时间</p>
+</li>
+</ul>
+<blockquote>
+<p>开发提示：</p>
+</blockquote>
+<p>​		可以使用scan+object idletime命令批量查询哪些键长时间未被访问，找出长时间不访问的键进行清理，可降低内存占用。</p>
+<ul>
+<li><p>refcount字段：记录当前对象被引用的次数，用于通过引用次数回收内存，当refcount&#x3D;0时，可以安全回收当前对象空间。使用object refcount{key}获取当前对象引用。当对象为整数且范围在[0-9999]时，Redis可以使用共享对象的方式来节省内存。具体细节见之后8.3.3节“共享对象池”部分。</p>
+</li>
+<li><p>*ptr字段：与对象的数据内容相关，如果是整数，直接存储数据；否则表示指向数据的指针。Redis在3.0之后对值对象是字符串且长度&lt;&#x3D;39字节的数据，内部编码为embstr类型，字符串sds和redisObject一起分配，从而只要一次内存操作即可。</p>
+</li>
+</ul>
+<blockquote>
+<p>开发提示:<br> 高并发写入场景中，在条件允许的情况下，建议字符串长度控制在39字节以内，减少创建redisObject内存分配次数，从而提高性能。 </p>
+</blockquote>
+<h4 id="缩减值对象"><a href="#缩减值对象" class="headerlink" title="缩减值对象"></a>缩减值对象</h4><p>降低Redis内存使用最直接的方式就是缩减键（key）和值（value）的长度。</p>
+<ul>
+<li><p>key长度：如在设计键时，在完整描述业务情况下，键值越短越好。如user：{uid}：friends：notify：{fid}可以简化为u：{uid}：fs：nt：{fid}。</p>
+</li>
+<li><p>value长度：值对象缩减比较复杂，常见需求是把业务对象序列化成二进制数组放入Redis。</p>
+</li>
+<li><p>首先应该在业务上精简业务对象，去掉不必要的属性避免存储无效数据。</p>
+</li>
+<li><p>其次在序列化工具选择上，应该选择更高效的序列化工具来降低字节数组大小。</p>
+<ul>
+<li>以Java为例，内置的序列化方式无论从速度还是压缩比都不尽如人意，这时可以选择更高效的序列化工具，如：protostuff、kryo等。-</li>
+</ul>
+</li>
+<li><p>值对象除了存储二进制数据之外，通常还会使用通用格式存储数据比如：json、xml等作为字符串存储在Redis中。这种方式优点是方便调试和跨语言，但是同样的数据相比字节数组所需的空间更大，在内存紧张的情况下，可以使用通用压缩算法压缩json、xml后再存入Redis，从而降低内存占用，例如使用GZIP压缩后的json可降低约60%的空间。</p>
+</li>
+</ul>
+<blockquote>
+<p>开发提示：</p>
+<p>当频繁压缩解压json等文本数据时，开发人员需要考虑压缩速度和计算开销成本，这里推荐使用Google的Snappy压缩工具，在特定的压缩率情况下效率远远高于GZIP等传统压缩工具，且支持所有主流语言环境。</p>
+</blockquote>
+<h4 id="共享池对象"><a href="#共享池对象" class="headerlink" title="共享池对象"></a>共享池对象</h4><p>其实就是整数池 Redis内部维护了[0-9999] 的整数池对象。创建大量的整数类型redisObject存在内存开销，每个redisObject内部结构至少占<strong>16字节，甚至超过了整数自身空间消耗</strong>。所以Redis内存维护一个[0-9999]的整数对象池，用于节约内存。除了整数值对象，其他类型如list、hash、set、zset内部元素也可以使用整数对象池。因此开发中在满足需求的前提下，尽量使用整数对象以节省内存。<br> 整数对象池在Redis中通过变量REDIS_SHARED_INTEGERS定义，不能通过配置修改。可以通过object refcount命令查看对象引用数验证是否启用整数对象池技术，如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">redis&gt; <span class="built_in">set</span> foo 100 </span><br><span class="line">OK </span><br><span class="line">redis&gt; object refcount foo </span><br><span class="line">(<span class="built_in">integer</span>) 2 </span><br><span class="line">redis&gt; <span class="built_in">set</span> bar 100 </span><br><span class="line">OK </span><br><span class="line">redis&gt; object refcount bar </span><br><span class="line">(<span class="built_in">integer</span>) 3</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p> 设置键foo等于100时，直接使用共享池内整数对象，因此引用数是2，再设置键bar等于100时，引用数又变为3，如图8-8所示。</p>
+<p><img src="/redis/learn/Redis_Learn.htm/image-20220127171308717.png" alt="image-20220127171308717"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">redis&gt; <span class="built_in">set</span> key:1 99 </span><br><span class="line">OK              // 设置key:1=99 </span><br><span class="line">redis&gt; object refcount key:1 </span><br><span class="line">(<span class="built_in">integer</span>) 2     // 使用了对象共享,引用数为2 </span><br><span class="line">redis&gt; config <span class="built_in">set</span> maxmemory-policy volatile-lru</span><br><span class="line">OK              // 开启LRU淘汰策略 </span><br><span class="line">redis&gt; <span class="built_in">set</span> key:2 99</span><br><span class="line">OK              // 设置key:2=99 </span><br><span class="line">redis&gt; object refcount key:2 </span><br><span class="line">(<span class="built_in">integer</span>) 3     // 使用了对象共享,引用数变为3 </span><br><span class="line">redis&gt; config <span class="built_in">set</span> maxmemory 1GB </span><br><span class="line">OK              // 设置最大可用内存 </span><br><span class="line">redis&gt; <span class="built_in">set</span> key:3 99 OK              // 设置key:3=99 </span><br><span class="line">redis&gt; object refcount key:3 </span><br><span class="line">(<span class="built_in">integer</span>) 1     // 未使用对象共享,引用数为1 </span><br><span class="line">redis&gt; config <span class="built_in">set</span> maxmemory-policy volatile-ttl </span><br><span class="line">OK              // 设置非LRU淘汰策略 </span><br><span class="line">redis&gt; <span class="built_in">set</span> key:4 99 </span><br><span class="line">OK              // 设置key:4=99 </span><br><span class="line">redis&gt; object refcount key:4 </span><br><span class="line">(<span class="built_in">integer</span>) 4     // 又可以使用对象共享,引用数变为4</span><br></pre></td></tr></table></figure>
+
+
+
+<p> 为什么<strong>开启maxmemory和LRU淘汰策略</strong>后对象池<strong>无效</strong>？</p>
+<p> LRU算法需要获取对象最后被访问时间，以便淘汰最长未访问数据，每个对象最后访问时间存储在redisObject对象的lru字段。对象共享意味着多个引用共享同一个redisObject，这时lru字段也会被共享，导致无法获取每个对象的最后访问时间。如果没有设maxmemory，直到内存被用尽Redis也不会触发内存回收，所以共享对象池可以正常工作。</p>
+<p> 综上所述，共享对象池与maxmemory+LRU策略冲突，使用时需要注意。对于ziplist编码的值对象，即使内部数据为整数也无法使用共享对象池，因为ziplist使用压缩且内存连续的结构，对象共享判断成本过高，ziplist编码细节后面内容详细说明。</p>
+<p> <strong>为什么只有整数对象池</strong>？</p>
+<p> 首先整数对象池复用的几率最大，其次对象共享的一个关键操作就是判断相等性，Redis之所以只有整数对象池，是因为整数比较算法时间复杂度为O（1），只保留一万个整数为了防止对象池浪费。如果是字符串判断相等性，时间复杂度变为O（n），特别是长字符串更消耗性能（浮点数在Redis内部使用字符串存储）。对于更复杂的数据结构如hash、list等，相等性判断需要O（n2）。对于单线程的Redis来说，这样的开销显然不合理，因此Redis只保留整数共享对象池。</p>
+<h4 id="字符串优化"><a href="#字符串优化" class="headerlink" title="字符串优化"></a>字符串优化</h4><p>字符串对象是Redis内部最常用的数据类型。所有的键都是字符串类型，值对象数据除了整数之外都使用字符串存储。比如执行命令：lpush cache：type”redis””memcache””tair””levelDB”，Redis首先创建”cache：type”键字符串，然后创建链表对象，链表对象内再包含四个字符串对象，排除Redis内部用到的字符串对象之外至少创建5个字符串对象。可见字符串对象在Redis内部使用非常广泛，因此深刻理解Redis字符串对于内存优化非常有帮助。</p>
+<h5 id="1-字符串结构"><a href="#1-字符串结构" class="headerlink" title="1.字符串结构"></a>1.字符串结构</h5><p> Redis没有采用原生C语言的字符串类型而是自己实现了字符串结构，内部简单动态字符串（simple dynamic string，SDS）。结构如图8-9所示。</p>
+<p><img src="/redis/learn/Redis_Learn.htm/image-20220127180532333.png" alt="image-20220127180532333"></p>
+<p>Redis自身实现的字符串结构有如下特点：</p>
+<ul>
+<li>O（1）时间复杂度获取：字符串长度、已用长度、未用长度。</li>
+<li>可用于保存字节数组，支持安全的二进制数据存储。</li>
+<li>内部实现空间预分配机制，降低内存再分配次数。</li>
+<li>惰性删除机制，字符串缩减后的空间不释放，作为预分配空间保留。</li>
+</ul>
+<h5 id="2-预分配机制"><a href="#2-预分配机制" class="headerlink" title="2.预分配机制"></a>2.预分配机制</h5><p> 因为字符串（SDS）存在预分配机制，日常开发中要小心预分配带来的内存浪费，例如表8-3的测试用例。</p>
+<p><img src="/redis/learn/Redis_Learn.htm/image-20220127181207361.png" alt="image-20220127181207361"></p>
+<p>从测试数据可以看出，同样的数据追加后内存消耗非常严重，下面我们结合图来分析这一现象。阶段1每个字符串对象空间占用如图8-10所示。</p>
+<p><img src="/redis/learn/Redis_Learn.htm/image-20220127181602096.png" alt="image-20220127181602096"></p>
+<p>阶段1插入新的字符串后，free字段保留空间为0，总占用空间&#x3D;实际占用空间+1字节，最后1字节保存‘\0’标示结尾，这里忽略int类型len和free字段消耗的8字节。在阶段1原有字符串上追加60字节数据空间占用如图8-11所示。</p>
+<p><img src="/redis/learn/Redis_Learn.htm/image-20220127181632254.png" alt="image-20220127181632254"></p>
+<p>追加操作后字符串对象预分配了一倍容量作为预留空间，而且大量追加操作需要内存重新分配，造成内存碎片率（mem_fragmentation_ratio）上升。直接插入与阶段2相同数据的空间占用，如图8-12所示。</p>
+<p><img src="/redis/learn/Redis_Learn.htm/image-20220127181803408.png" alt="image-20220127181803408"></p>
+<p>阶段3直接插入同等数据后，相比阶段2节省了每个字符串对象预分配的空间，同时降低了碎片率。</p>
+<p> 字符串之所以采用预分配的方式是防止修改操作需要不断重分配内存和字节数据拷贝。但同样也会造成内存的浪费。字符串预分配每次并不都是翻倍扩容，空间预分配规则如下：</p>
+<ul>
+<li><p>1）<strong>第一次创建len属性等于数据实际大小，free等于0，不做预分配。</strong></p>
+</li>
+<li><p>2）修改后如果已有free空间不够且数据小于1M，每次预分配一倍容量。如原有len&#x3D;60byte，free&#x3D;0，再追加60byte，预分配120byte，总占用空间：60byte+60byte+120byte+1byte。</p>
+</li>
+<li><p>3）修改后如果已有free空间不够且数据大于1MB，每次预分配1MB数据。如原有len&#x3D;30MB，free&#x3D;0，当再追加100byte，预分配1MB，总占用空间：1MB+100byte+1MB+1byte。</p>
+</li>
+</ul>
+<blockquote>
+<p><strong>开发提示：</strong></p>
+<p>尽量减少字符串频繁修改操作如append、setrange，改为直接使用set修改字符串，降低预分配带来的内存浪费和内存碎片化。</p>
+</blockquote>
+<p> 3.字符串重构</p>
+<p> 字符串重构：指不一定把每份数据作为字符串整体存储，像json这样的数据可以使用hash结构，使用二级结构存储也能帮我们节省内存。同时可以使用hmget、hmset命令支持字段的部分读取修改，而不用每次整体存取。例如下面的json数据：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;vid&quot;</span><span class="punctuation">:</span> <span class="string">&quot;413368768&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;title&quot;</span><span class="punctuation">:</span> <span class="string">&quot;搜狐屌丝男士&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;videoAlbumPic&quot;</span><span class="punctuation">:</span> <span class="string">&quot;http://photocdn.sohu.com/60160518/vrsa_ver8400079_ae433_pic26.jpg&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;pid&quot;</span><span class="punctuation">:</span> <span class="string">&quot;6494271&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;1024&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;playlist&quot;</span><span class="punctuation">:</span> <span class="string">&quot;6494271&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;playTime&quot;</span><span class="punctuation">:</span> <span class="string">&quot;468&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p> 分别使用字符串和hash结构测试内存表现，如表8-4所示。</p>
+<p><img src="/redis/learn/Redis_Learn.htm/image-20220127182407700.png" alt="image-20220127182407700"></p>
+<p>根据测试结构，第一次默认配置下使用hash类型，内存消耗不但没有降低反而比字符串存储多出2倍，而调整hash-max-ziplist-value&#x3D;66之后内存降低为535.60M。因为json的videoAlbumPic属性长度是65，而hash-max-ziplist-value默认值是64，Redis采用hashtable编码方式，反而消耗了大量内存。调整配置后hash类型内部编码方式变为ziplist，相比字符串更省内存且支持属性的部分操作。下一节将具体介绍ziplist编码优化细节。</p>
+<h4 id="编码优化"><a href="#编码优化" class="headerlink" title="编码优化"></a>编码优化</h4><h5 id="1-了解编码"><a href="#1-了解编码" class="headerlink" title="1. 了解编码"></a>1. 了解编码</h5><p>Redis对外提供了string、list、hash、set、zet等类型，但是Redis内部针对不同类型存在编码的概念，所谓编码就是具体使用哪种底层数据结构来实现。编码不同将直接影响数据的内存占用和读写效率。使用object encoding{key}命令获取编码类型。如下所示：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">redis&gt; <span class="built_in">set</span> str:1 hello </span><br><span class="line">OK </span><br><span class="line">redis&gt; object encoding str:1 </span><br><span class="line"><span class="string">&quot;embstr&quot;</span>                // embstr编码字符串 </span><br><span class="line">redis&gt; lpush list:1 1 2 3 </span><br><span class="line">(<span class="built_in">integer</span>) 3 </span><br><span class="line">redis&gt; object encoding list:1 </span><br><span class="line"><span class="string">&quot;ziplist&quot;</span>               // ziplist编码列表</span><br></pre></td></tr></table></figure>
+
+
+
+<p> Redis针对每种数据类型（type）可以采用至少两种编码方式来实现</p>
+<p>String:</p>
+<table>
+<thead>
+<tr>
+<th>编码方式</th>
+<th>数据结构</th>
+<th>出现条件</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>raw</td>
+<td>动态字符串编码</td>
+<td>&lt;&#x3D; 39个字节的字符串</td>
+</tr>
+<tr>
+<td>embstr</td>
+<td>优化内存分配的字符串编码</td>
+<td>&gt; 39个字节的字符串</td>
+</tr>
+<tr>
+<td>int</td>
+<td>整数编码</td>
+<td>整数</td>
+</tr>
+</tbody></table>
+<p>hash:</p>
+<table>
+<thead>
+<tr>
+<th>编码方式</th>
+<th>数据结构</th>
+<th>出现条件</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>hashtable</td>
+<td>散列表编码</td>
+<td></td>
+</tr>
+<tr>
+<td>ziplist</td>
+<td>压缩列表编码</td>
+<td>hash-max-ziplist-entries配置（默认512个） &amp;&amp; hash-max-ziplist-value配置（默认64字节）</td>
+</tr>
+</tbody></table>
+<p>ziplist使用更加紧凑的结构实现多个元素的连续存储，所以在节省内存方面比hashtable更加优秀。</p>
+<p>list：</p>
+<table>
+<thead>
+<tr>
+<th>编码方式</th>
+<th>数据结构</th>
+<th>出现条件</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>linkedlist</td>
+<td>双向列表编码</td>
+<td></td>
+</tr>
+<tr>
+<td>ziplist</td>
+<td>压缩列表编码</td>
+<td>小于list-max-ziplist-entries配置（默认512个) &amp;&amp; 小于list-max-ziplist-value配置时（默认64字节）</td>
+</tr>
+<tr>
+<td>quicklist</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p>set:</p>
+<table>
+<thead>
+<tr>
+<th>编码方式</th>
+<th>数据结构</th>
+<th>出现条件</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>hashtable</td>
+<td>散列表编码</td>
+<td></td>
+</tr>
+<tr>
+<td>intset</td>
+<td>整数集合编码</td>
+<td>小于zset-max-ziplist-entries配置（默认128个）&amp;&amp;小于zset-max-ziplist-value配置（默认64字节）</td>
+</tr>
+</tbody></table>
+<p>zset：</p>
+<table>
+<thead>
+<tr>
+<th>编码方式</th>
+<th>数据结构</th>
+<th>出现条件</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>skiplist</td>
+<td>跳跃表编码</td>
+<td></td>
+</tr>
+<tr>
+<td>ziplist</td>
+<td>压缩列表编码</td>
+<td>set-max-ziplist-entries配置（默认128个）&amp;&amp;小于zset-max-ziplist-value配置（默认64字节）</td>
+</tr>
+</tbody></table>
+<p><strong>为什么使用内部结构？</strong></p>
+<p>主要原因是Redis作者想通过不同编码实现效率和空间的平衡。比如当我们的存储只有10个元素的列表，当使用双向链表数据结构时，必然需要维护大量的内部字段如每个元素需要：前置指针，后置指针，数据指针等，造成空间浪费，如果采用连续内存结构的压缩列表（ziplist），将会节省大量内存，而由于数据长度较小，存取操作时间复杂度即使为O（n2）性能也可满足需求。</p>
+<h5 id="2-控制编码类型"><a href="#2-控制编码类型" class="headerlink" title="2.控制编码类型"></a>2.控制编码类型</h5><p>编码类型转换在Redis写入数据时自动完成，这个转换过程是不可逆的，转换规则只能从小内存编码向大内存编码转换。例如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">redis&gt; lpush list:1 a b c d </span><br><span class="line">(<span class="built_in">integer</span>) 4     // 存储4个元素 </span><br><span class="line">redis&gt; object encoding list:1 </span><br><span class="line"><span class="string">&quot;ziplist&quot;</span>               // 采用ziplist压缩列表编码 </span><br><span class="line">redis&gt; config <span class="built_in">set</span> list-max-ziplist-entries 4 </span><br><span class="line">OK              // 设置列表类型ziplist编码最大允许4个元素 </span><br><span class="line">redis&gt; lpush list:1 e </span><br><span class="line">(<span class="built_in">integer</span>) 5     // 写入第5个元素e </span><br><span class="line">redis&gt; object encoding list:1 </span><br><span class="line"><span class="string">&quot;linkedlist&quot;</span>    // 编码类型转换为链表 </span><br><span class="line">redis&gt; rpop list:1 </span><br><span class="line"><span class="string">&quot;a&quot;</span>             // 弹出元素a </span><br><span class="line">redis&gt; llen list:1 (<span class="built_in">integer</span>) 4     </span><br><span class="line">// 列表此时有4个元素 </span><br><span class="line">redis&gt; object encoding list:1 </span><br><span class="line"><span class="string">&quot;linkedlist&quot;</span>    // 编码类型依然为链表，未做编码回退</span><br></pre></td></tr></table></figure>
+
+
+
+<p> 以上命令体现了list类型编码的转换过程，其中Redis之所以不支持编码回退，主要是数据增删频繁时，数据向压缩编码转换非常消耗CPU，得不偿失。以上示例用到了list-max-ziplist-entries参数，这个参数用来决定列表长度在多少范围内使用ziplist编码。当然还有其他参数控制各种数据类型的编码，如表8-6所示。</p>
+<p><img src="/redis/learn/Redis_Learn.htm/image-20220127184853458.png" alt="image-20220127184853458"></p>
+<p><img src="/redis/learn/Redis_Learn.htm/image-20220127184906509.png" alt="image-20220127184906509"></p>
+<p><img src="/redis/learn/Redis_Learn.htm/image-20220127185058888.png" alt="image-20220127185058888"></p>
+<h5 id="3-ziplist编码"><a href="#3-ziplist编码" class="headerlink" title="3.ziplist编码"></a>3.ziplist编码</h5><p>ziplist编码主要目的是为了节约内存，因此所有数据都是采用线性连续的内存结构。ziplist编码是应用范围最广的一种，可以分别作为hash、list、zset类型的底层数据结构实现。首先从ziplist编码结构开始分析，它的内部结构类似这样：</p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;zlbytes&gt;&lt;zltail&gt;&lt;zllen&gt;&lt;entry-1&gt;&lt;entry-2&gt;&lt;....&gt;&lt;entry-n&gt;&lt;zlend&gt;</span><br></pre></td></tr></table></figure>
+
+<p>。一个ziplist可以包含多个entry（元素），每个entry保存具体的数据（整数或者字节数组），内部结构如图8-14所示。</p>
+<p><img src="/redis/learn/Redis_Learn.htm/image-20220127185346226.png" alt="image-20220127185346226"></p>
+<p>字段含义：</p>
+<ul>
+<li><p>1）zlbytes：记录整个压缩列表所占字节长度，方便重新调整ziplist空间。类型是int-32，长度为4字节。</p>
+</li>
+<li><p>2）zltail：记录距离尾节点的偏移量，方便尾节点弹出操作。类型是int-32，长度为4字节。</p>
+</li>
+<li><p>3）zllen：记录压缩链表节点数量，当长度超过216-2时需要遍历整个列表获取长度，一般很少见。类型是int-16，长度为2字节。</p>
+</li>
+<li><p>4）entry：记录具体的节点，长度根据实际存储的数据而定。</p>
+</li>
+<li><p>a）prev_entry_bytes_length：记录前一个节点所占空间，用于快速定位上一个节点，可实现列表反向迭代。</p>
+</li>
+<li><p>b）encoding：标示当前节点编码和长度，前两位表示编码类型：字符串&#x2F;整数，其余位表示数据长度。</p>
+</li>
+<li><p>c）contents：保存节点的值，针对实际数据长度做内存占用优化。</p>
+</li>
+<li><p>5）zlend：记录列表结尾，占用一个字节。</p>
+</li>
+</ul>
+<p>根据以上对ziplist字段说明，可以分析出该数据结构特点如下：</p>
+<ul>
+<li>内部表现为数据紧凑排列的一块连续内存数组。</li>
+<li>可以模拟双向链表结构，以O（1）时间复杂度入队和出队。</li>
+<li>新增删除操作涉及内存重新分配或释放，加大了操作的复杂性。</li>
+<li>读写操作涉及复杂的指针移动，最坏时间复杂度为O（n2）。</li>
+<li>适合存储小对象和长度有限的数据。</li>
+</ul>
+<p>测试数据采用100W个36字节数据，划分为1000个键，每个类型长度统一为1000。从测试结果可以看出：</p>
+<p> 1）使用ziplist可以分别作为hash、list、zset数据类型实现。</p>
+<p> 2）使用ziplist编码类型可以<strong>大幅降低内存占用</strong>。</p>
+<p> 3）ziplist实现的数据类型相比原生结构，命令操作更加耗时，不同类型耗时排序：list&lt;hash&lt;zset。</p>
+<p> ziplist压缩编码的性能表现跟值长度和元素个数密切相关，正因为如此Redis提供了{type}-max-ziplist-value和{type}-max-ziplist-entries相关参数来做控制ziplist编码转换。最后再次强调使用ziplist压缩编码的原则：追求空间和时间的平衡。</p>
+<blockquote>
+<p><strong>开发提示:</strong><br> 针对性能要求较高的场景使用ziplist，建议长度不要超过1000，每个元素大小控制在512字节以内。<br> 命令平均耗时使用info Commandstats命令获取，包含每个命令调用次数、总耗时、平均耗时，单位为微妙</p>
+</blockquote>
+<h5 id="4-intset编码"><a href="#4-intset编码" class="headerlink" title="4.intset编码"></a>4.intset编码</h5><p>intset编码是集合（set）类型编码的一种，内部表现为<strong>存储有序</strong>、不重复的整数集。当集合只包含整数且长度不超过set-max-intset-entries配置时被启用。执行以下命令查看intset表现：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">redis&gt; sadd <span class="built_in">set</span>:<span class="built_in">test</span> 3 4 2 6 8 9 2 </span><br><span class="line">(<span class="built_in">integer</span>) 6             // 乱序写入6个整数 </span><br><span class="line">Redis&gt; object encoding <span class="built_in">set</span>:<span class="built_in">test</span> </span><br><span class="line"><span class="string">&quot;intset&quot;</span>                        // 使用intset编码 </span><br><span class="line">Redis&gt; smembers <span class="built_in">set</span>:<span class="built_in">test</span> </span><br><span class="line"><span class="string">&quot;2&quot;</span> <span class="string">&quot;3&quot;</span> <span class="string">&quot;4&quot;</span> <span class="string">&quot;6&quot;</span> <span class="string">&quot;8&quot;</span> <span class="string">&quot;9&quot;</span>         // 排序输出整数结合 </span><br><span class="line">redis&gt; config <span class="built_in">set</span> set-max-intset-entries 6 </span><br><span class="line">OK                              // 设置intset最大允许整数长度 </span><br><span class="line">redis&gt; sadd <span class="built_in">set</span>:<span class="built_in">test</span> 5 </span><br><span class="line">(<span class="built_in">integer</span>) 1                     // 写入第7个整数 5 </span><br><span class="line">redis&gt; object encoding <span class="built_in">set</span>:<span class="built_in">test</span> </span><br><span class="line"><span class="string">&quot;hashtable&quot;</span>                     // 编码变为hashtable </span><br><span class="line">redis&gt; smembers <span class="built_in">set</span>:<span class="built_in">test</span> <span class="string">&quot;8&quot;</span> <span class="string">&quot;3&quot;</span> <span class="string">&quot;5&quot;</span> <span class="string">&quot;9&quot;</span> <span class="string">&quot;4&quot;</span> <span class="string">&quot;2&quot;</span> <span class="string">&quot;6&quot;</span>     // 乱序输出</span><br></pre></td></tr></table></figure>
+
+
+
+<p> 以上命令可以看出intset对写入整数进行排序，通过O（log（n））时间复杂度实现查找和去重操作，intset编码结构如图8-15所示。</p>
+<p><img src="/redis/learn/Redis_Learn.htm/image-20220127210807391.png" alt="image-20220127210807391"></p>
+<p>intset的字段结构含义：<br> 1）encoding：整数表示类型，根据集合内最长整数值确定类型，整数类型划分为三种：int-16、int-32、int-64。<br> 2）length：表示集合元素个数。<br> 3）contents：整数数组，按从小到大顺序保存。<br> intset保存的整数类型根据长度划分，当保存的整数超出当前类型时，将会触发自动升级操作且升级后不再做回退。升级操作将会导致重新申请内存空间，把原有数据按转换类型后拷贝到新数组。</p>
+<blockquote>
+<p>  <strong>开发提示</strong></p>
+<p> 使用intset编码的集合时，尽量保持整数范围一致，如都在int-16范围内。防止个别大整数触发集合升级操作，产生内存浪费。</p>
+</blockquote>
+<h4 id="控制键的数量"><a href="#控制键的数量" class="headerlink" title="控制键的数量"></a>控制键的数量</h4><p>可以通过将String  转成hash 来减少键的数量，，如果需要在hash里面做过期判断，可以定期使用hscan 只好出hash内超市的数据项并删除。</p>
+<h4 id="本章回顾"><a href="#本章回顾" class="headerlink" title="本章回顾"></a>本章回顾</h4><ul>
+<li>1）Redis实际内存消耗主要包括：键值对象、缓冲区内存、内存碎片。</li>
+<li>2）通过调整maxmemory控制Redis最大可用内存。当内存使用超出时，根据maxmemory-policy控制内存回收策略。</li>
+<li>3）内存是相对宝贵的资源，通过合理的优化可以有效地降低内存的使用量，内存优化的思路包括：<ul>
+<li>精简键值对大小，键值字面量精简，使用高效二进制序列化工具。</li>
+<li>使用对象共享池优化小整数对象。</li>
+<li>数据优先使用整数，比字符串类型更节省空间。</li>
+<li>优化字符串使用，避免预分配造成的内存浪费。</li>
+<li>使用ziplist压缩编码优化hash、list等结构，注重效率和空间的平衡。</li>
+<li>使用intset编码优化整数集合。</li>
+<li>使用ziplist编码的hash结构降低小对象链规模。</li>
+</ul>
+</li>
+</ul>
+</div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://gitee.com/studentgitee/note-picture/raw/master/1676193401851.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">MrWei</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">19</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/02/13/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E6%90%AD%E5%BB%BA/" title="mysql主从赋值搭建"><img src="https://gitee.com/studentgitee/note-picture/raw/master/v2-3286aaa6155b7e419c002b536332c519_250x0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="mysql主从赋值搭建"/></a><div class="content"><a class="title" href="/2023/02/13/%E6%95%B0%E6%8D%AE%E5%BA%93/mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E6%90%AD%E5%BB%BA/" title="mysql主从赋值搭建">mysql主从赋值搭建</a><time datetime="2023-02-13T00:43:54.264Z" title="发表于 2023-02-13 08:43:54">2023-02-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/02/13/%E8%99%9A%E6%8B%9F%E6%9C%BA/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" title="Linux常用命令"><img src="https://gitee.com/studentgitee/note-picture/raw/master/147937407959735466.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux常用命令"/></a><div class="content"><a class="title" href="/2023/02/13/%E8%99%9A%E6%8B%9F%E6%9C%BA/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" title="Linux常用命令">Linux常用命令</a><time datetime="2023-02-13T00:43:54.264Z" title="发表于 2023-02-13 08:43:54">2023-02-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/02/13/%E5%B8%B8%E7%94%A8%E6%A1%86%E6%9E%B6/oauth2.0/oauth2.0/" title="oauth2.0"><img src="https://gitee.com/studentgitee/note-picture/raw/master/9e803ed883298d09d964bbaf9d89b9dc.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="oauth2.0"/></a><div class="content"><a class="title" href="/2023/02/13/%E5%B8%B8%E7%94%A8%E6%A1%86%E6%9E%B6/oauth2.0/oauth2.0/" title="oauth2.0">oauth2.0</a><time datetime="2023-02-13T00:43:54.262Z" title="发表于 2023-02-13 08:43:54">2023-02-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/02/13/%E5%B8%B8%E7%94%A8%E6%A1%86%E6%9E%B6/ElasticSearch7/elasticSearch7/" title="elasticSearch7"><img src="https://gitee.com/studentgitee/note-picture/raw/master/c38cf6948b39dd755ac13fc639070fd8af5cd4db.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="elasticSearch7"/></a><div class="content"><a class="title" href="/2023/02/13/%E5%B8%B8%E7%94%A8%E6%A1%86%E6%9E%B6/ElasticSearch7/elasticSearch7/" title="elasticSearch7">elasticSearch7</a><time datetime="2023-02-13T00:43:54.261Z" title="发表于 2023-02-13 08:43:54">2023-02-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/02/13/%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7/git%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/" title="git使用手册"><img src="https://gitee.com/studentgitee/note-picture/raw/master/u=829309475,2841958997&amp;fm=253&amp;fmt=auto&amp;app=138&amp;f=JPG.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="git使用手册"/></a><div class="content"><a class="title" href="/2023/02/13/%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7/git%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/" title="git使用手册">git使用手册</a><time datetime="2023-02-13T00:43:54.260Z" title="发表于 2023-02-13 08:43:54">2023-02-13</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>分类</span>
+            <a class="card-more-btn" href="/categories/" title="查看更多">
+    <i class="fas fa-angle-right"></i></a>
+            </div>
+            <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/java/"><span class="card-category-list-name">java</span><span class="card-category-list-count">2</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/nginx/"><span class="card-category-list-name">nginx</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%85%B6%E4%BB%96/"><span class="card-category-list-name">其他</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%AE%B9%E5%99%A8%E9%83%A8%E7%BD%B2/"><span class="card-category-list-name">容器部署</span><span class="card-category-list-count">2</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%B7%A5%E4%BD%9C%E6%B5%81/"><span class="card-category-list-name">工作流</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7/"><span class="card-category-list-name">常用工具</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%B8%B8%E7%94%A8%E6%A1%86%E6%9E%B6/"><span class="card-category-list-name">常用框架</span><span class="card-category-list-count">4</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/"><span class="card-category-list-name">微服务</span><span class="card-category-list-count">1</span></a></li>
+            </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/java/" style="font-size: 1.3em; color: #99a1ac">java</a> <a href="/tags/nginx/" style="font-size: 1.1em; color: #999">nginx</a> <a href="/tags/%E5%85%B6%E4%BB%96/" style="font-size: 1.1em; color: #999">其他</a> <a href="/tags/%E5%AE%B9%E5%99%A8%E9%83%A8%E7%BD%B2/" style="font-size: 1.3em; color: #99a1ac">容器部署</a> <a href="/tags/%E5%B7%A5%E4%BD%9C%E6%B5%81/" style="font-size: 1.1em; color: #999">工作流</a> <a href="/tags/%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7/" style="font-size: 1.1em; color: #999">常用工具</a> <a href="/tags/%E5%B8%B8%E7%94%A8%E6%A1%86%E6%9E%B6/" style="font-size: 1.5em; color: #99a9bf">常用框架</a> <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" style="font-size: 1.1em; color: #999">微服务</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 1.1em; color: #999">数据库</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/" style="font-size: 1.1em; color: #999">虚拟机</a> <a href="/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/" style="font-size: 1.5em; color: #99a9bf">面试题</a></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/02/"><span class="card-archive-list-date">二月 2023</span><span class="card-archive-list-count">19</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">19</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2023-02-13T03:01:26.750Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By MrWei</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
