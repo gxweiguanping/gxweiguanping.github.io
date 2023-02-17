@@ -2809,7 +2809,7 @@
 <p>Elasticsearch也使用Java开发并使用Lucene作为其核心来实现所有索引和搜索的功能，但是它的目的是通过简单的 RESTful API 来隐藏Lucene的复杂性，从而让全文搜索变得简单。</p>
 <p>Elasticsearch的中文网址：<a href="https://www.elastic.co/cn/products/elasticsearch">https://www.elastic.co/cn/products/elasticsearch</a></p>
 </blockquote>
-<h3 id="1-1-正向索引和倒排索引"><a href="#1-1-正向索引和倒排索引" class="headerlink" title="1.1 正向索引和倒排索引"></a>1.1 正向索引和倒排索引</h3><blockquote>
+<h3 id="正向索引和倒排索引"><a href="#正向索引和倒排索引" class="headerlink" title="正向索引和倒排索引"></a>正向索引和倒排索引</h3><blockquote>
 <p>正向索引与倒排索引，这是在搜索领域中非常重要的两个名词，正向索引通常用于数据库中，在搜索引擎领域使用的最多的就是倒排索引，我们根据如下两个网页来对这两个概念进行阐述：</p>
 </blockquote>
 <p><strong>html1</strong></p>
@@ -2818,7 +2818,7 @@
 <p><strong>html2</strong></p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">我爱编程，我是个快乐的小码农</span><br></pre></td></tr></table></figure>
 
-<h4 id="1-1-1-正向索引"><a href="#1-1-1-正向索引" class="headerlink" title="1.1.1 正向索引"></a>1.1.1 正向索引</h4><blockquote>
+<h4 id="正向索引"><a href="#正向索引" class="headerlink" title="正向索引"></a>正向索引</h4><blockquote>
 <p>假设我们使用mysql的全文检索，会对如上两句话分别进行分词处理，那么预计得到的结果如下：</p>
 </blockquote>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">我 爱 爱我 祖国 我的祖国 编程 爱编程 我爱编程</span><br></pre></td></tr></table></figure>
@@ -2828,14 +2828,14 @@
 <blockquote>
 <p>假设我们现在使用正向索引搜索 <strong>中国</strong> 这个词，那么会到第一句话中去查找是否包含有 <strong>中国</strong> 这个关键词，如果有则加入到结果集中；第二句话也是如此。假设现在有成千上百个网页，每个网页非常非常的分词，那么搜索的效率将会非常非常低些。</p>
 </blockquote>
-<h4 id="1-1-2-倒排索引"><a href="#1-1-2-倒排索引" class="headerlink" title="1.1.2 倒排索引"></a>1.1.2 倒排索引</h4><blockquote>
+<h4 id="倒排索引"><a href="#倒排索引" class="headerlink" title="倒排索引"></a>倒排索引</h4><blockquote>
 <p>倒排索引是按照分词与文档进行映射，我们来看看如果按照倒排索引的效果：</p>
 </blockquote>
 <p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20230215153918121.png" alt="image-20230215153918121"></p>
 <blockquote>
 <p>如果采用倒排索引的方式搜索<strong>祖国</strong> 这个词，那么会直接找到关键词中查找到 <strong>祖国</strong> ，然后查找到对应的文档，这就是所谓的倒排索引。</p>
 </blockquote>
-<h2 id="二-软件简介以及启动"><a href="#二-软件简介以及启动" class="headerlink" title="二. 软件简介以及启动"></a>二. 软件简介以及启动</h2><h3 id="2-1-相关软件下载地址"><a href="#2-1-相关软件下载地址" class="headerlink" title="2.1 相关软件下载地址"></a>2.1 相关软件下载地址</h3><table>
+<h2 id="二-软件简介以及启动"><a href="#二-软件简介以及启动" class="headerlink" title="二. 软件简介以及启动"></a>二. 软件简介以及启动</h2><h3 id="相关软件下载地址"><a href="#相关软件下载地址" class="headerlink" title="相关软件下载地址"></a>相关软件下载地址</h3><table>
 <thead>
 <tr>
 <th align="center">软件名</th>
@@ -2859,23 +2859,23 @@
 <td align="center"><a href="https://github.com/alibaba/canal/releases">https://github.com/alibaba/canal/releases</a></td>
 </tr>
 </tbody></table>
-<h3 id="2-2-Elasticsearch安装"><a href="#2-2-Elasticsearch安装" class="headerlink" title="2.2 Elasticsearch安装"></a>2.2 Elasticsearch安装</h3><blockquote>
+<h3 id="Elasticsearch安装"><a href="#Elasticsearch安装" class="headerlink" title="Elasticsearch安装"></a>Elasticsearch安装</h3><blockquote>
 <p>进入到 elasticsearch 解压目录下的 bin 目录下，双击 elasticsearch.bat 即可启动。<br>在浏览器地址栏输入: <a href="http://localhost:9200/">http://localhost:9200/</a> ，如果出现如下页面表示 elasticsearch 启动成功</p>
 </blockquote>
 <p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20230215154119739.png" alt="image-20230215154119739"></p>
-<h3 id="2-3-Kibana"><a href="#2-3-Kibana" class="headerlink" title="2.3 Kibana"></a>2.3 Kibana</h3><h4 id="2-3-1-Kibana简介"><a href="#2-3-1-Kibana简介" class="headerlink" title="2.3.1 Kibana简介"></a>2.3.1 Kibana简介</h4><blockquote>
+<h3 id="Kibana"><a href="#Kibana" class="headerlink" title="Kibana"></a>Kibana</h3><h4 id="Kibana简介"><a href="#Kibana简介" class="headerlink" title="Kibana简介"></a>Kibana简介</h4><blockquote>
 <p>Kibana是世界上最受欢迎的开源日志分析平台ELK Stack中的“K” ，它为用户提供了一个工具，用于在存储于Elasticsearch集群中的日志数据进行检索，可视化和构建仪表板。</p>
 <p>Kibana的核心功能是数据查询和分析。使用各种方法，用户可以搜索Elasticsearch中索引的数据，以查找其数据中的特定事件或字符串，以进行根本原因分析和诊断。基于这些查询，用户可以使用Kibana的可视化功能，允许用户使用图表，表格，地理图和其他类型的可视化以各种不同的方式可视化数据。</p>
 </blockquote>
-<h4 id="2-3-2-Kibana的启动"><a href="#2-3-2-Kibana的启动" class="headerlink" title="2.3.2 Kibana的启动"></a>2.3.2 Kibana的启动</h4><blockquote>
+<h4 id="Kibana的启动"><a href="#Kibana的启动" class="headerlink" title="Kibana的启动"></a>Kibana的启动</h4><blockquote>
 <p>进入到 kibana 解压目录下的 bin 目录下，双击 kibana.bat 即可启动 kibana.<br>在浏览器地址栏输入：<a href="http://localhost:5601，出现如下页面代表">http://localhost:5601，出现如下页面代表</a> kibana 启动成功。</p>
 </blockquote>
 <p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20230215154209405.png" alt="image-20230215154209405"></p>
-<h3 id="2-4-Logstash"><a href="#2-4-Logstash" class="headerlink" title="2.4 Logstash"></a>2.4 Logstash</h3><h4 id="2-4-1-logstash简介"><a href="#2-4-1-logstash简介" class="headerlink" title="2.4.1 logstash简介"></a>2.4.1 logstash简介</h4><blockquote>
+<h3 id="Logstash"><a href="#Logstash" class="headerlink" title="Logstash"></a>Logstash</h3><h4 id="logstash简介"><a href="#logstash简介" class="headerlink" title="logstash简介"></a>logstash简介</h4><blockquote>
 <p>Logstash是一个开源的服务器端数据处理管道，可以同时从多个数据源获取数据，并对其进行转换，然后将其发送到你最喜欢的“存储”。创建于2009年，于2013年被elasticsearch收购</p>
 </blockquote>
 <p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20230215154235736.png" alt="image-20230215154235736"></p>
-<h4 id="2-4-2-logstash导入数据"><a href="#2-4-2-logstash导入数据" class="headerlink" title="2.4.2 logstash导入数据"></a>2.4.2 logstash导入数据</h4><blockquote>
+<h4 id="logstash导入数据"><a href="#logstash导入数据" class="headerlink" title="logstash导入数据"></a>logstash导入数据</h4><blockquote>
 <p>虽然 kibana 提供了一些数据集供我们使用，为了加深对 logstash 的理解，我们 movielens的电影数据集。</p>
 <p>movielens 数据集的下载地址为：<a href="http://files.grouplens.org/datasets/movielens%EF%BC%8C%E8%BF%9B%E5%85%A5%E8%AF%A5%E7%BD%91%E9%A1%B5%E5%8F%AA%E7%94%A8%E4%B8%8B%E8%BD%BD">http://files.grouplens.org/datasets/movielens，进入该网页只用下载</a> ml-latest.zip 数据即可，如下图所示：</p>
 </blockquote>
@@ -2892,22 +2892,22 @@
 <p>logstash.bat -f D:\logstash-datas\config\logstash.conf</p>
 </blockquote>
 <p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20230215154357817.png" alt="image-20230215154357817"></p>
-<h4 id="2-4-3-验证"><a href="#2-4-3-验证" class="headerlink" title="2.4.3 验证"></a>2.4.3 验证</h4><blockquote>
+<h4 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h4><blockquote>
 <p>进入到 kibana 的命令行页面，执行 GET _cat&#x2F;indices 验证数据是否成功导入</p>
 </blockquote>
 <p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20230215154424891.png" alt="image-20230215154424891"></p>
-<h2 id="三-Elasticsearch的基本概念"><a href="#三-Elasticsearch的基本概念" class="headerlink" title="三. Elasticsearch的基本概念"></a>三. Elasticsearch的基本概念</h2><h3 id="3-1-索引Index"><a href="#3-1-索引Index" class="headerlink" title="3.1 索引Index"></a>3.1 索引Index</h3><blockquote>
+<h2 id="三-Elasticsearch的基本概念"><a href="#三-Elasticsearch的基本概念" class="headerlink" title="三. Elasticsearch的基本概念"></a>三. Elasticsearch的基本概念</h2><h3 id="索引Index"><a href="#索引Index" class="headerlink" title="索引Index"></a>索引Index</h3><blockquote>
 <p>Elasticsearch中的索引有多层的意思：<br>a. 某一类文档的集合就构成了一个索引，类比到数据库就是一个数据库(或者数据库表);<br>b.它还描述了一个动作，就是将某个文档保存在elasticsearch的过程也叫索引;<br>c. 倒排索引。</p>
 </blockquote>
-<h3 id="3-2-文档Document"><a href="#3-2-文档Document" class="headerlink" title="3.2 文档Document"></a>3.2 文档Document</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">具体的一条数据，类比到数据库就是一条记录</span><br></pre></td></tr></table></figure>
+<h3 id="文档Document"><a href="#文档Document" class="headerlink" title="文档Document"></a>文档Document</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">具体的一条数据，类比到数据库就是一条记录</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20230215154515755.png" alt="image-20230215154515755"></p>
-<h3 id="3-3-映射mapping"><a href="#3-3-映射mapping" class="headerlink" title="3.3 映射mapping"></a>3.3 映射mapping</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mapping 是ES每一个文档的约束信息，例如属性的类型，是否能被索引等。</span><br></pre></td></tr></table></figure>
+<h3 id="映射mapping"><a href="#映射mapping" class="headerlink" title="映射mapping"></a>映射mapping</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mapping 是ES每一个文档的约束信息，例如属性的类型，是否能被索引等。</span><br></pre></td></tr></table></figure>
 
-<h3 id="3-4-DSL"><a href="#3-4-DSL" class="headerlink" title="3.4 DSL"></a>3.4 DSL</h3><blockquote>
+<h3 id="DSL"><a href="#DSL" class="headerlink" title="DSL"></a>DSL</h3><blockquote>
 <p>DSL 是 ES 的查询语言。</p>
 </blockquote>
-<h3 id="3-5-类比"><a href="#3-5-类比" class="headerlink" title="3.5 类比"></a>3.5 类比</h3><blockquote>
+<h3 id="类比"><a href="#类比" class="headerlink" title="类比"></a>类比</h3><blockquote>
 <p>我们通过大家比较熟悉的 Mysql与 ES 的基本概念进行类比</p>
 </blockquote>
 <table>
@@ -2950,7 +2950,7 @@
 <p>在7.0之前，一个Index可以创建多个类型，从7.0开始，一个索引只能创建一个类型，也就是 _doc</p>
 </blockquote>
 <p><img src="https://gitee.com/studentgitee/note-picture/raw/master/146a779da01f53e7f7a8d53132d3c7cf.png" alt="146a779da01f53e7f7a8d53132d3c7cf"></p>
-<h2 id="四-RestAPI"><a href="#四-RestAPI" class="headerlink" title="四. RestAPI"></a>四. RestAPI</h2><h3 id="4-1-基本CRUD"><a href="#4-1-基本CRUD" class="headerlink" title="4.1 基本CRUD"></a>4.1 基本CRUD</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"># 查询file_data索引的数据</span><br><span class="line">GET file_data/_search </span><br><span class="line">    </span><br><span class="line"># 查询file_data的总数</span><br><span class="line">GET file_data/_count </span><br><span class="line">    </span><br><span class="line"># 查看所有的索引</span><br><span class="line">GET _cat/indices </span><br><span class="line"> </span><br><span class="line"># 查看file_data的索引结构</span><br><span class="line">GET /file_data/_mapping</span><br><span class="line">   </span><br><span class="line"># 查询id为<span class="number">24</span>的数据</span><br><span class="line">GET file_data/_doc/<span class="number">24</span> </span><br><span class="line"></span><br><span class="line"># 添加id为<span class="number">1</span>的文档 ，如果没有指定id，ES会自动生成 &#123; <span class="string">&quot;firstname&quot;</span>: <span class="string">&quot;will&quot;</span>,<span class="string">&quot;lastname&quot;</span>: <span class="string">&quot;smith&quot;</span> &#125;</span><br><span class="line">POST file_data/_doc/<span class="number">1</span> </span><br><span class="line"></span><br><span class="line"># 创建id为<span class="number">2</span>的文档，如果索引中已存在相同id，会报错； &#123; <span class="string">&quot;firstname&quot;</span>: <span class="string">&quot;will&quot;</span>,<span class="string">&quot;lastname&quot;</span>: <span class="string">&quot;smith&quot;</span> &#125;</span><br><span class="line">POST file_data/_create/<span class="number">2</span> </span><br><span class="line"></span><br><span class="line"># 在id位<span class="number">2</span>的文档中添加一个age属性，修改结构 &#123; <span class="string">&quot;doc&quot;</span>: &#123; <span class="string">&quot;age&quot;</span>: <span class="number">30</span> &#125; &#125;    </span><br><span class="line">POST file_data/_update/<span class="number">2</span></span><br><span class="line">    </span><br><span class="line"># 删除id为<span class="number">2</span>的文档   </span><br><span class="line">DELETE file_data/_doc/<span class="number">2</span> </span><br><span class="line"></span><br><span class="line"># 删除 file_data 索引      </span><br><span class="line">DELETE file_data </span><br><span class="line"></span><br><span class="line"># 创建或者修改文档 &#123; <span class="string">&quot;firstname&quot;</span>: <span class="string">&quot;Jack&quot;</span>, <span class="string">&quot;lastname&quot;</span>: <span class="string">&quot;ma&quot;</span> &#125;</span><br><span class="line">PUT file_data/_doc/<span class="number">1</span> </span><br><span class="line">    </span><br><span class="line"># 创建file_data索引</span><br><span class="line">PUT /file_data</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;mappings&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;properties&quot;</span>: &#123;</span><br><span class="line">      <span class="string">&quot;id&quot;</span>:&#123;</span><br><span class="line">        <span class="string">&quot;type&quot;</span>: <span class="string">&quot;keyword&quot;</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="string">&quot;name&quot;</span>:&#123;</span><br><span class="line">        <span class="string">&quot;type&quot;</span>: <span class="string">&quot;text&quot;</span>,</span><br><span class="line">        <span class="string">&quot;analyzer&quot;</span>: <span class="string">&quot;ik_max_word&quot;</span>,</span><br><span class="line">        <span class="string">&quot;fields&quot;</span>: &#123;</span><br><span class="line">          <span class="string">&quot;suggest&quot;</span>: &#123;</span><br><span class="line">            <span class="string">&quot;type&quot;</span>: <span class="string">&quot;completion&quot;</span>,</span><br><span class="line">            <span class="string">&quot;analyzer&quot;</span>: <span class="string">&quot;ik_max_word&quot;</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="string">&quot;format&quot;</span>:&#123;</span><br><span class="line">        <span class="string">&quot;type&quot;</span>: <span class="string">&quot;keyword&quot;</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="string">&quot;type_id&quot;</span>:&#123;</span><br><span class="line">        <span class="string">&quot;type&quot;</span>: <span class="string">&quot;text&quot;</span>,</span><br><span class="line">        <span class="string">&quot;index&quot;</span>: <span class="literal">false</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="string">&quot;address&quot;</span>:&#123;</span><br><span class="line">        <span class="string">&quot;type&quot;</span>: <span class="string">&quot;text&quot;</span>,</span><br><span class="line">        <span class="string">&quot;index&quot;</span>: <span class="literal">false</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="string">&quot;attachment&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;properties&quot;</span>: &#123;</span><br><span class="line">          <span class="string">&quot;content&quot;</span>:&#123;</span><br><span class="line">            <span class="string">&quot;type&quot;</span>: <span class="string">&quot;text&quot;</span>,</span><br><span class="line">            <span class="string">&quot;analyzer&quot;</span>: <span class="string">&quot;ik_max_word&quot;</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="四-RestAPI"><a href="#四-RestAPI" class="headerlink" title="四. RestAPI"></a>四. RestAPI</h2><h3 id="基本CRUD"><a href="#基本CRUD" class="headerlink" title="基本CRUD"></a>基本CRUD</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"># 查询file_data索引的数据</span><br><span class="line">GET file_data/_search </span><br><span class="line">    </span><br><span class="line"># 查询file_data的总数</span><br><span class="line">GET file_data/_count </span><br><span class="line">    </span><br><span class="line"># 查看所有的索引</span><br><span class="line">GET _cat/indices </span><br><span class="line"> </span><br><span class="line"># 查看file_data的索引结构</span><br><span class="line">GET /file_data/_mapping</span><br><span class="line">   </span><br><span class="line"># 查询id为<span class="number">24</span>的数据</span><br><span class="line">GET file_data/_doc/<span class="number">24</span> </span><br><span class="line"></span><br><span class="line"># 添加id为<span class="number">1</span>的文档 ，如果没有指定id，ES会自动生成 &#123; <span class="string">&quot;firstname&quot;</span>: <span class="string">&quot;will&quot;</span>,<span class="string">&quot;lastname&quot;</span>: <span class="string">&quot;smith&quot;</span> &#125;</span><br><span class="line">POST file_data/_doc/<span class="number">1</span> </span><br><span class="line"></span><br><span class="line"># 创建id为<span class="number">2</span>的文档，如果索引中已存在相同id，会报错； &#123; <span class="string">&quot;firstname&quot;</span>: <span class="string">&quot;will&quot;</span>,<span class="string">&quot;lastname&quot;</span>: <span class="string">&quot;smith&quot;</span> &#125;</span><br><span class="line">POST file_data/_create/<span class="number">2</span> </span><br><span class="line"></span><br><span class="line"># 在id位<span class="number">2</span>的文档中添加一个age属性，修改结构 &#123; <span class="string">&quot;doc&quot;</span>: &#123; <span class="string">&quot;age&quot;</span>: <span class="number">30</span> &#125; &#125;    </span><br><span class="line">POST file_data/_update/<span class="number">2</span></span><br><span class="line">    </span><br><span class="line"># 删除id为<span class="number">2</span>的文档   </span><br><span class="line">DELETE file_data/_doc/<span class="number">2</span> </span><br><span class="line"></span><br><span class="line"># 删除 file_data 索引      </span><br><span class="line">DELETE file_data </span><br><span class="line"></span><br><span class="line"># 创建或者修改文档 &#123; <span class="string">&quot;firstname&quot;</span>: <span class="string">&quot;Jack&quot;</span>, <span class="string">&quot;lastname&quot;</span>: <span class="string">&quot;ma&quot;</span> &#125;</span><br><span class="line">PUT file_data/_doc/<span class="number">1</span> </span><br><span class="line">    </span><br><span class="line"># 创建file_data索引</span><br><span class="line">PUT /file_data</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;mappings&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;properties&quot;</span>: &#123;</span><br><span class="line">      <span class="string">&quot;id&quot;</span>:&#123;</span><br><span class="line">        <span class="string">&quot;type&quot;</span>: <span class="string">&quot;keyword&quot;</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="string">&quot;name&quot;</span>:&#123;</span><br><span class="line">        <span class="string">&quot;type&quot;</span>: <span class="string">&quot;text&quot;</span>,</span><br><span class="line">        <span class="string">&quot;analyzer&quot;</span>: <span class="string">&quot;ik_max_word&quot;</span>,</span><br><span class="line">        <span class="string">&quot;fields&quot;</span>: &#123;</span><br><span class="line">          <span class="string">&quot;suggest&quot;</span>: &#123;</span><br><span class="line">            <span class="string">&quot;type&quot;</span>: <span class="string">&quot;completion&quot;</span>,</span><br><span class="line">            <span class="string">&quot;analyzer&quot;</span>: <span class="string">&quot;ik_max_word&quot;</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="string">&quot;format&quot;</span>:&#123;</span><br><span class="line">        <span class="string">&quot;type&quot;</span>: <span class="string">&quot;keyword&quot;</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="string">&quot;type_id&quot;</span>:&#123;</span><br><span class="line">        <span class="string">&quot;type&quot;</span>: <span class="string">&quot;text&quot;</span>,</span><br><span class="line">        <span class="string">&quot;index&quot;</span>: <span class="literal">false</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="string">&quot;address&quot;</span>:&#123;</span><br><span class="line">        <span class="string">&quot;type&quot;</span>: <span class="string">&quot;text&quot;</span>,</span><br><span class="line">        <span class="string">&quot;index&quot;</span>: <span class="literal">false</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="string">&quot;attachment&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;properties&quot;</span>: &#123;</span><br><span class="line">          <span class="string">&quot;content&quot;</span>:&#123;</span><br><span class="line">            <span class="string">&quot;type&quot;</span>: <span class="string">&quot;text&quot;</span>,</span><br><span class="line">            <span class="string">&quot;analyzer&quot;</span>: <span class="string">&quot;ik_max_word&quot;</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 查看ik_max_word分词的效果</span><br><span class="line">GET _analyze</span><br><span class="line">&#123;</span><br><span class="line">  &quot;analyzer&quot;:&quot;ik_max_word&quot;,</span><br><span class="line">  &quot;text&quot;: [&quot;child&quot;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -2966,7 +2966,7 @@
 </ol>
 </blockquote>
 <p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20230215155046204.png" alt="image-20230215155046204"></p>
-<h3 id="5-1-内置分词器"><a href="#5-1-内置分词器" class="headerlink" title="5.1 内置分词器"></a>5.1 内置分词器</h3><table>
+<h3 id="内置分词器"><a href="#内置分词器" class="headerlink" title="内置分词器"></a>内置分词器</h3><table>
 <thead>
 <tr>
 <th align="center">分词器名称</th>
@@ -3002,19 +3002,19 @@
 <td align="center"></td>
 </tr>
 </tbody></table>
-<h3 id="5-2-内置分词器示例"><a href="#5-2-内置分词器示例" class="headerlink" title="5.2 内置分词器示例"></a>5.2 内置分词器示例</h3><h4 id="5-2-1-Standard-Analyzer"><a href="#5-2-1-Standard-Analyzer" class="headerlink" title="5.2.1 Standard Analyzer"></a>5.2.1 Standard Analyzer</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">GET _analyze</span><br><span class="line">&#123;</span><br><span class="line"> <span class="string">&quot;analyzer&quot;</span>: <span class="string">&quot;standard&quot;</span>,</span><br><span class="line"> <span class="string">&quot;text&quot;</span>: <span class="string">&quot;2 Running quick brown-foxes leap over lazy dog in the summer evening&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="内置分词器示例"><a href="#内置分词器示例" class="headerlink" title="内置分词器示例"></a>内置分词器示例</h3><h4 id="Standard-Analyzer"><a href="#Standard-Analyzer" class="headerlink" title="Standard Analyzer"></a>Standard Analyzer</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">GET _analyze</span><br><span class="line">&#123;</span><br><span class="line"> <span class="string">&quot;analyzer&quot;</span>: <span class="string">&quot;standard&quot;</span>,</span><br><span class="line"> <span class="string">&quot;text&quot;</span>: <span class="string">&quot;2 Running quick brown-foxes leap over lazy dog in the summer evening&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h4 id="5-2-2-Simple-Analyze"><a href="#5-2-2-Simple-Analyze" class="headerlink" title="5.2.2 Simple Analyze"></a>5.2.2 Simple Analyze</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">GET _analyze</span><br><span class="line">&#123;</span><br><span class="line"> <span class="string">&quot;analyzer&quot;</span>: <span class="string">&quot;simple&quot;</span>,</span><br><span class="line"> <span class="string">&quot;text&quot;</span>: <span class="string">&quot;2 Running quick brown-foxes leap over lazy dog in the summer evening&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Simple-Analyze"><a href="#Simple-Analyze" class="headerlink" title="Simple Analyze"></a>Simple Analyze</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">GET _analyze</span><br><span class="line">&#123;</span><br><span class="line"> <span class="string">&quot;analyzer&quot;</span>: <span class="string">&quot;simple&quot;</span>,</span><br><span class="line"> <span class="string">&quot;text&quot;</span>: <span class="string">&quot;2 Running quick brown-foxes leap over lazy dog in the summer evening&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h4 id="5-2-3-Stop-Analyzer"><a href="#5-2-3-Stop-Analyzer" class="headerlink" title="5.2.3 Stop Analyzer"></a>5.2.3 Stop Analyzer</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">GET _analyze</span><br><span class="line">&#123;</span><br><span class="line"> <span class="string">&quot;analyzer&quot;</span>: <span class="string">&quot;stop&quot;</span>,</span><br><span class="line"> <span class="string">&quot;text&quot;</span>: <span class="string">&quot;2 Running quick brown-foxes leap over lazy dog in the summer evening&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Stop-Analyzer"><a href="#Stop-Analyzer" class="headerlink" title="Stop Analyzer"></a>Stop Analyzer</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">GET _analyze</span><br><span class="line">&#123;</span><br><span class="line"> <span class="string">&quot;analyzer&quot;</span>: <span class="string">&quot;stop&quot;</span>,</span><br><span class="line"> <span class="string">&quot;text&quot;</span>: <span class="string">&quot;2 Running quick brown-foxes leap over lazy dog in the summer evening&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h4 id="5-2-4-Whitespace-Analyzer"><a href="#5-2-4-Whitespace-Analyzer" class="headerlink" title="5.2.4 Whitespace Analyzer"></a>5.2.4 Whitespace Analyzer</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">GET _analyze</span><br><span class="line">&#123;</span><br><span class="line"> <span class="string">&quot;analyzer&quot;</span>: <span class="string">&quot;whitespace&quot;</span>,</span><br><span class="line"> <span class="string">&quot;text&quot;</span>: <span class="string">&quot;2 Running quick brown-foxes leap over lazy dog in the summer evening&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Whitespace-Analyzer"><a href="#Whitespace-Analyzer" class="headerlink" title="Whitespace Analyzer"></a>Whitespace Analyzer</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">GET _analyze</span><br><span class="line">&#123;</span><br><span class="line"> <span class="string">&quot;analyzer&quot;</span>: <span class="string">&quot;whitespace&quot;</span>,</span><br><span class="line"> <span class="string">&quot;text&quot;</span>: <span class="string">&quot;2 Running quick brown-foxes leap over lazy dog in the summer evening&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h4 id="5-2-5-Keyword-Analyzer"><a href="#5-2-5-Keyword-Analyzer" class="headerlink" title="5.2.5 Keyword Analyzer"></a>5.2.5 Keyword Analyzer</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">GET _analyze</span><br><span class="line">&#123;</span><br><span class="line"> <span class="string">&quot;analyzer&quot;</span>: <span class="string">&quot;keyword&quot;</span>,</span><br><span class="line"> <span class="string">&quot;text&quot;</span>: <span class="string">&quot;2 Running quick brown-foxes leap over lazy dog in the summer evening&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Keyword-Analyzer"><a href="#Keyword-Analyzer" class="headerlink" title="Keyword Analyzer"></a>Keyword Analyzer</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">GET _analyze</span><br><span class="line">&#123;</span><br><span class="line"> <span class="string">&quot;analyzer&quot;</span>: <span class="string">&quot;keyword&quot;</span>,</span><br><span class="line"> <span class="string">&quot;text&quot;</span>: <span class="string">&quot;2 Running quick brown-foxes leap over lazy dog in the summer evening&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h4 id="5-2-6-Pattern-Analyzer"><a href="#5-2-6-Pattern-Analyzer" class="headerlink" title="5.2.6 Pattern Analyzer"></a>5.2.6 Pattern Analyzer</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">GET _analyze</span><br><span class="line">&#123;</span><br><span class="line"> <span class="string">&quot;analyzer&quot;</span>: <span class="string">&quot;pattern&quot;</span>,</span><br><span class="line"> <span class="string">&quot;text&quot;</span>: <span class="string">&quot;2 Running quick brown-foxes leap over lazy dog in the summer evening&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Pattern-Analyzer"><a href="#Pattern-Analyzer" class="headerlink" title="Pattern Analyzer"></a>Pattern Analyzer</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">GET _analyze</span><br><span class="line">&#123;</span><br><span class="line"> <span class="string">&quot;analyzer&quot;</span>: <span class="string">&quot;pattern&quot;</span>,</span><br><span class="line"> <span class="string">&quot;text&quot;</span>: <span class="string">&quot;2 Running quick brown-foxes leap over lazy dog in the summer evening&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="5-3-扩展分词器"><a href="#5-3-扩展分词器" class="headerlink" title="5.3 扩展分词器"></a>5.3 扩展分词器</h3><h4 id="5-3-1-ik分词器"><a href="#5-3-1-ik分词器" class="headerlink" title="5.3.1 ik分词器"></a>5.3.1 ik分词器</h4><p><strong>下载</strong></p>
+<h3 id="扩展分词器"><a href="#扩展分词器" class="headerlink" title="扩展分词器"></a>扩展分词器</h3><h4 id="ik分词器"><a href="#ik分词器" class="headerlink" title="ik分词器"></a>ik分词器</h4><p><strong>下载</strong></p>
 <blockquote>
 <p>下载地址：<a href="https://github.com/medcl/elasticsearch-analysis-ik/releases">https://github.com/medcl/elasticsearch-analysis-ik/releases</a></p>
 </blockquote>
@@ -3045,7 +3045,7 @@
 <blockquote>
 <p>在很多的时候，业务上的⼀一些词库极有可能不不在IK分词器器的词库中，需要去定制属于我们自己的词库。例如下⾯面的例子中， 中国人民 、 up主 被切分为一个个的字，我们希望这两个词语是不被拆分；另外 作为中文的停顿词，也不希望出现在分词中，所以我们需要自定义词库和停顿词库。</p>
 </blockquote>
-<h4 id="5-3-2-pinyin分词器"><a href="#5-3-2-pinyin分词器" class="headerlink" title="5.3.2 pinyin分词器"></a>5.3.2 pinyin分词器</h4><p><strong>下载</strong></p>
+<h4 id="pinyin分词器"><a href="#pinyin分词器" class="headerlink" title="pinyin分词器"></a>pinyin分词器</h4><p><strong>下载</strong></p>
 <blockquote>
 <p>下载地址: <a href="https://github.com/medcl/elasticsearch-analysis-pinyin/releases">https://github.com/medcl/elasticsearch-analysis-pinyin/releases</a></p>
 </blockquote>
@@ -3053,12 +3053,12 @@
 <blockquote>
 <p>pinyin 分词器器在任何操作系统下安装步骤均⼀一样: 在ES的家目录下的 plugins 目录下创建名为pinyin 的⽂文件夹，然后将下载后的 zip 包拷⻉贝到 pinyin 解压即可</p>
 </blockquote>
-<h1 id="Elasticsearch教程-二"><a href="#Elasticsearch教程-二" class="headerlink" title="Elasticsearch教程(二)"></a>Elasticsearch教程(二)</h1><h2 id="一-Request-Body深入搜索"><a href="#一-Request-Body深入搜索" class="headerlink" title="一. Request Body深入搜索"></a>一. Request Body深入搜索</h2><h3 id="1-1-term查询"><a href="#1-1-term查询" class="headerlink" title="1.1 term查询"></a>1.1 term查询</h3><blockquote>
+<h1 id="Elasticsearch教程-二"><a href="#Elasticsearch教程-二" class="headerlink" title="Elasticsearch教程(二)"></a>Elasticsearch教程(二)</h1><h2 id="一-Request-Body深入搜索"><a href="#一-Request-Body深入搜索" class="headerlink" title="一. Request Body深入搜索"></a>一. Request Body深入搜索</h2><h3 id="term查询"><a href="#term查询" class="headerlink" title="term查询"></a>term查询</h3><blockquote>
 <p>term是表达语义的最小单位，在搜索的时候基本都要使用到term。</p>
 <p>term查询的种类有：Term Query、Range Query等。</p>
 <p>在ES中，Term查询不会对输入进行分词处理，将输入作为一个整体，在倒排索引中查找准确的词项。我们也可以使用Constant Score 将查询转换为一个filter，避免算分，利用缓存，提高查询的效率。</p>
 </blockquote>
-<h4 id="1-1-1-term与terms"><a href="#1-1-1-term与terms" class="headerlink" title="1.1.1 term与terms"></a>1.1.1 term与terms</h4><blockquote>
+<h4 id="term与terms"><a href="#term与terms" class="headerlink" title="term与terms"></a>term与terms</h4><blockquote>
 <p>查询电影名字中包含有 beautiful 这个单词的所有的电影，用于查询的单词不会进行分词的处理</p>
 </blockquote>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">GET movies/_search</span><br><span class="line">&#123; </span><br><span class="line">	<span class="string">&quot;query&quot;</span>: &#123;  </span><br><span class="line">		<span class="string">&quot;term&quot;</span>: &#123;   </span><br><span class="line">			<span class="string">&quot;title&quot;</span>: &#123;    </span><br><span class="line">				<span class="string">&quot;value&quot;</span>: <span class="string">&quot;beautiful&quot;</span>  </span><br><span class="line">			&#125; </span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -3068,21 +3068,21 @@
 </blockquote>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">GET movies/_search</span><br><span class="line">&#123; </span><br><span class="line">	<span class="string">&quot;query&quot;</span>: &#123;  </span><br><span class="line">		<span class="string">&quot;terms&quot;</span>: &#123;   </span><br><span class="line">			<span class="string">&quot;title&quot;</span>: [<span class="string">&quot;beautiful&quot;</span>,<span class="string">&quot;mind&quot;</span>] </span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h4 id="1-1-2-range"><a href="#1-1-2-range" class="headerlink" title="1.1.2 range"></a>1.1.2 range</h4><blockquote>
+<h4 id="range"><a href="#range" class="headerlink" title="range"></a>range</h4><blockquote>
 <p>查询上映在2016到2018年的所有的电影，再根据上映时间的倒序进行排序</p>
 </blockquote>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">GET movies/_search</span><br><span class="line">&#123; </span><br><span class="line">	<span class="string">&quot;query&quot;</span>: &#123;  </span><br><span class="line">		<span class="string">&quot;range&quot;</span>: &#123;   </span><br><span class="line">			<span class="string">&quot;year&quot;</span>: &#123;    </span><br><span class="line">				<span class="string">&quot;gte&quot;</span>: <span class="number">2016</span>,</span><br><span class="line">				<span class="string">&quot;lte&quot;</span>: <span class="number">2018</span>  </span><br><span class="line">			&#125; </span><br><span class="line">		&#125;</span><br><span class="line">	&#125;,</span><br><span class="line">	 <span class="string">&quot;sort&quot;</span>: [ &#123;   </span><br><span class="line">		<span class="string">&quot;year&quot;</span>: &#123;    </span><br><span class="line">			<span class="string">&quot;order&quot;</span>: <span class="string">&quot;desc&quot;</span>  </span><br><span class="line">		&#125; </span><br><span class="line">	&#125;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h4 id="1-1-3-Constant-Score"><a href="#1-1-3-Constant-Score" class="headerlink" title="1.1.3 Constant Score"></a>1.1.3 Constant Score</h4><blockquote>
+<h4 id="Constant-Score"><a href="#Constant-Score" class="headerlink" title="Constant Score"></a>Constant Score</h4><blockquote>
 <p>查询title中包含有beautiful的所有的电影，不进行相关性算分，查询的数据进行缓存，提高效率</p>
 </blockquote>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">GET movies/_search</span><br><span class="line">&#123; </span><br><span class="line">	<span class="string">&quot;query&quot;</span>: &#123;  </span><br><span class="line">		<span class="string">&quot;constant_score&quot;</span>: &#123;   </span><br><span class="line">			<span class="string">&quot;filter&quot;</span>: &#123;    </span><br><span class="line">				<span class="string">&quot;term&quot;</span>: &#123;     </span><br><span class="line">					<span class="string">&quot;title&quot;</span>: <span class="string">&quot;beautiful&quot;</span>   </span><br><span class="line">				&#125;  </span><br><span class="line">			&#125; </span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="1-2-全文查询"><a href="#1-2-全文查询" class="headerlink" title="1.2 全文查询"></a>1.2 全文查询</h3><blockquote>
+<h3 id="全文查询"><a href="#全文查询" class="headerlink" title="全文查询"></a>全文查询</h3><blockquote>
 <p>全文查询的种类有: Match Query、Match Phrase Query、Query String Query等</p>
 <p>索引和搜索的时候都会进行分词，在查询的时候，会对输入进行分词，然后每个词项会逐个到底层进行<br>查询，将最终的结果进行合并</p>
 </blockquote>
-<h4 id="1-2-1-match"><a href="#1-2-1-match" class="headerlink" title="1.2.1 match"></a>1.2.1 match</h4><blockquote>
+<h4 id="match"><a href="#match" class="headerlink" title="match"></a>match</h4><blockquote>
 <p>查询电影名字中包含有beautiful的所有电影，每页十条，取第二页的数据</p>
 </blockquote>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">GET movies/_search</span><br><span class="line">&#123;</span><br><span class="line"> <span class="string">&quot;query&quot;</span>: &#123;</span><br><span class="line">  <span class="string">&quot;match&quot;</span>: &#123;</span><br><span class="line">   <span class="string">&quot;title&quot;</span>: <span class="string">&quot;beautiful&quot;</span></span><br><span class="line"> &#125;</span><br><span class="line">&#125;,</span><br><span class="line"> <span class="string">&quot;from&quot;</span>: <span class="number">10</span>,</span><br><span class="line"> <span class="string">&quot;size&quot;</span>: <span class="number">10</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -3092,29 +3092,29 @@
 </blockquote>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">GET movies/_search</span><br><span class="line">&#123; </span><br><span class="line">	<span class="string">&quot;_source&quot;</span>: [<span class="string">&quot;title&quot;</span>, <span class="string">&quot;id&quot;</span>],</span><br><span class="line">	 <span class="string">&quot;query&quot;</span>: &#123;  </span><br><span class="line">		<span class="string">&quot;match&quot;</span>: &#123;   </span><br><span class="line">			<span class="string">&quot;title&quot;</span>: <span class="string">&quot;beautiful mind&quot;</span> </span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h4 id="1-2-2-match-phrase"><a href="#1-2-2-match-phrase" class="headerlink" title="1.2.2 match_phrase"></a>1.2.2 match_phrase</h4><blockquote>
+<h4 id="match-phrase"><a href="#match-phrase" class="headerlink" title="match_phrase"></a>match_phrase</h4><blockquote>
 <p>查询电影名字中包含有 “beautiful mind” 这个短语的所有的数据</p>
 </blockquote>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">GET movies/_search</span><br><span class="line">&#123; </span><br><span class="line">	<span class="string">&quot;query&quot;</span>: &#123;  </span><br><span class="line">		<span class="string">&quot;match_phrase&quot;</span>: &#123;   </span><br><span class="line">			<span class="string">&quot;title&quot;</span>: <span class="string">&quot;beautiful mind&quot;</span> </span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h4 id="1-2-3-multi-match"><a href="#1-2-3-multi-match" class="headerlink" title="1.2.3 multi_match"></a>1.2.3 multi_match</h4><blockquote>
+<h4 id="multi-match"><a href="#multi-match" class="headerlink" title="multi_match"></a>multi_match</h4><blockquote>
 <p>查询 title 或 genre 中包含有 beautiful 或者 Adventure 的所有的数据</p>
 </blockquote>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">GET movies/_search</span><br><span class="line">&#123; </span><br><span class="line">	<span class="string">&quot;query&quot;</span>: &#123;  </span><br><span class="line">		<span class="string">&quot;multi_match&quot;</span>: &#123;   </span><br><span class="line">			<span class="string">&quot;query&quot;</span>: <span class="string">&quot;beautiful Adventure&quot;</span>,</span><br><span class="line">			   <span class="string">&quot;fields&quot;</span>: [<span class="string">&quot;title&quot;</span>, <span class="string">&quot;genre&quot;</span>] </span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h4 id="1-2-4-match-all"><a href="#1-2-4-match-all" class="headerlink" title="1.2.4 match_all"></a>1.2.4 match_all</h4><blockquote>
+<h4 id="match-all"><a href="#match-all" class="headerlink" title="match_all"></a>match_all</h4><blockquote>
 <p>查询所有的数据</p>
 </blockquote>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">GET movies/_search</span><br><span class="line">&#123; </span><br><span class="line">	<span class="string">&quot;query&quot;</span>: &#123;  </span><br><span class="line">		<span class="string">&quot;match_all&quot;</span>: &#123;&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h4 id="1-2-5-query-string"><a href="#1-2-5-query-string" class="headerlink" title="1.2.5 query_string"></a>1.2.5 query_string</h4><blockquote>
+<h4 id="query-string"><a href="#query-string" class="headerlink" title="query_string"></a>query_string</h4><blockquote>
 <p>查询 title 中包含有 beautiful 和 mind 的所有的电影</p>
 </blockquote>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">GET movies/_search</span><br><span class="line">&#123; </span><br><span class="line">	<span class="string">&quot;query&quot;</span>: &#123;  </span><br><span class="line">		<span class="string">&quot;query_string&quot;</span>: &#123;   </span><br><span class="line">			<span class="string">&quot;default_field&quot;</span>: <span class="string">&quot;title&quot;</span>,</span><br><span class="line">			   <span class="string">&quot;query&quot;</span>: <span class="string">&quot;mind AND beautiful&quot;</span> </span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">GET movies/_search</span><br><span class="line">&#123; </span><br><span class="line">	&quot;query&quot;: &#123;  </span><br><span class="line">		&quot;query_string&quot;: &#123;   </span><br><span class="line">			&quot;default_field&quot;: &quot;title&quot;,</span><br><span class="line">			   &quot;query&quot;: &quot;mind beautiful&quot;,</span><br><span class="line">			   &quot;default_operator&quot;: &quot;AND&quot; </span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h4 id="1-2-6-simple-query-string"><a href="#1-2-6-simple-query-string" class="headerlink" title="1.2.6 simple_query_string"></a>1.2.6 simple_query_string</h4><blockquote>
+<h4 id="simple-query-string"><a href="#simple-query-string" class="headerlink" title="simple_query_string"></a>simple_query_string</h4><blockquote>
 <p>simple_query_string 覆盖了很多其他查询的用法。<br>查询 title 中包含有 beautiful 和 mind 的所有的电影</p>
 </blockquote>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">GET movies/_search          </span><br><span class="line"></span><br></pre></td></tr></table></figure>
@@ -3146,12 +3146,12 @@
 </blockquote>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">GET movies/_search</span><br><span class="line">&#123; </span><br><span class="line">	<span class="string">&quot;query&quot;</span>: &#123;  </span><br><span class="line">		<span class="string">&quot;simple_query_string&quot;</span>: &#123;   </span><br><span class="line">			<span class="string">&quot;query&quot;</span>: <span class="string">&quot;beautiful + people + -Animals&quot;</span>,</span><br><span class="line">			 <span class="string">&quot;fields&quot;</span>: [<span class="string">&quot;title&quot;</span>] </span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="1-3-模糊搜索"><a href="#1-3-模糊搜索" class="headerlink" title="1.3 模糊搜索"></a>1.3 模糊搜索</h3><blockquote>
+<h3 id="模糊搜索"><a href="#模糊搜索" class="headerlink" title="模糊搜索"></a>模糊搜索</h3><blockquote>
 <p>查询title中从第6个字母开始只要最多纠正一次，就与 neverendign 匹配的所有的数据</p>
 </blockquote>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">GET movies/_search</span><br><span class="line">&#123; </span><br><span class="line">	<span class="string">&quot;query&quot;</span>: &#123;  </span><br><span class="line">		<span class="string">&quot;fuzzy&quot;</span>: &#123;   </span><br><span class="line">			<span class="string">&quot;title&quot;</span>: &#123;    </span><br><span class="line">				<span class="string">&quot;value&quot;</span>: <span class="string">&quot;neverendign&quot;</span>,</span><br><span class="line">				    <span class="string">&quot;fuzziness&quot;</span>: <span class="number">1</span>,</span><br><span class="line">				    <span class="string">&quot;prefix_length&quot;</span>: <span class="number">5</span>  </span><br><span class="line">			&#125; </span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="1-4-多条件查询"><a href="#1-4-多条件查询" class="headerlink" title="1.4 多条件查询"></a>1.4 多条件查询</h3><blockquote>
+<h3 id="多条件查询"><a href="#多条件查询" class="headerlink" title="多条件查询"></a>多条件查询</h3><blockquote>
 <p>查询title中包含有beautiful或者mind单词，并且上映时间在2016~1018年的所有的电影</p>
 </blockquote>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">GET movies/_search</span><br><span class="line">&#123; </span><br><span class="line">	<span class="string">&quot;query&quot;</span>: &#123;  </span><br><span class="line">		<span class="string">&quot;bool&quot;</span>: &#123;   </span><br><span class="line">			<span class="string">&quot;must&quot;</span>: [   &#123;     </span><br><span class="line">				<span class="string">&quot;simple_query_string&quot;</span>: &#123;      </span><br><span class="line">					<span class="string">&quot;query&quot;</span>: <span class="string">&quot;beautiful mind&quot;</span>,</span><br><span class="line">					      <span class="string">&quot;fields&quot;</span>: [<span class="string">&quot;title&quot;</span>]    </span><br><span class="line">				&#125;   </span><br><span class="line">			&#125;,     &#123;     </span><br><span class="line">				<span class="string">&quot;range&quot;</span>: &#123;      </span><br><span class="line">					<span class="string">&quot;year&quot;</span>: &#123;       </span><br><span class="line">						<span class="string">&quot;gte&quot;</span>: <span class="number">2016</span>,</span><br><span class="line">						<span class="string">&quot;lte&quot;</span>: <span class="number">2018</span>     </span><br><span class="line">					&#125;    </span><br><span class="line">				&#125;   </span><br><span class="line">			&#125;  ] </span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -3161,7 +3161,7 @@
 </blockquote>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"># filter不会进行相关性的算分，并且会将查出来的结果进行缓存，效率上比 query 高</span><br><span class="line">GET movies/_search</span><br><span class="line">&#123; </span><br><span class="line">	<span class="string">&quot;query&quot;</span>: &#123;  </span><br><span class="line">		<span class="string">&quot;bool&quot;</span>: &#123;   </span><br><span class="line">			<span class="string">&quot;filter&quot;</span>: [   &#123;     </span><br><span class="line">				<span class="string">&quot;term&quot;</span>: &#123;      </span><br><span class="line">					<span class="string">&quot;title&quot;</span>: <span class="string">&quot;beautiful&quot;</span>    </span><br><span class="line">				&#125;   </span><br><span class="line">			&#125;,     &#123;     </span><br><span class="line">				<span class="string">&quot;range&quot;</span>: &#123;      </span><br><span class="line">					<span class="string">&quot;year&quot;</span>: &#123;       </span><br><span class="line">						<span class="string">&quot;gte&quot;</span>: <span class="number">2016</span>,</span><br><span class="line">						       <span class="string">&quot;lte&quot;</span>: <span class="number">2018</span>     </span><br><span class="line">					&#125;    </span><br><span class="line">				&#125;   </span><br><span class="line">			&#125;  ] </span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="1-5分页查询"><a href="#1-5分页查询" class="headerlink" title="1.5分页查询"></a>1.5分页查询</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	&quot;query&quot;:&#123;</span><br><span class="line">		&quot;match_all&quot;:&#123;&#125;</span><br><span class="line">	&#125;,</span><br><span class="line">	&quot;from&quot;:0,</span><br><span class="line">	&quot;size&quot;:2</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="分页查询"><a href="#分页查询" class="headerlink" title="分页查询"></a>分页查询</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	&quot;query&quot;:&#123;</span><br><span class="line">		&quot;match_all&quot;:&#123;&#125;</span><br><span class="line">	&#125;,</span><br><span class="line">	&quot;from&quot;:0,</span><br><span class="line">	&quot;size&quot;:2</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
 
@@ -3173,7 +3173,7 @@
 <li>字段倒排索引的设置</li>
 </ol>
 </blockquote>
-<h3 id="2-1-数据类型"><a href="#2-1-数据类型" class="headerlink" title="2.1 数据类型"></a>2.1 数据类型</h3><table>
+<h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><table>
 <thead>
 <tr>
 <th align="center">类型名</th>
@@ -3197,33 +3197,33 @@
 <td align="center"></td>
 </tr>
 </tbody></table>
-<h3 id="2-2-Mapping的定义"><a href="#2-2-Mapping的定义" class="headerlink" title="2.2 Mapping的定义"></a>2.2 Mapping的定义</h3><blockquote>
+<h3 id="Mapping的定义"><a href="#Mapping的定义" class="headerlink" title="Mapping的定义"></a>Mapping的定义</h3><blockquote>
 <p>语法格式如下：</p>
 </blockquote>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">PUT users</span><br><span class="line">&#123;</span><br><span class="line">  &quot;mappings&quot;: &#123;</span><br><span class="line">    // define your mappings here</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="2-3-常见参数"><a href="#2-3-常见参数" class="headerlink" title="2.3 常见参数"></a>2.3 常见参数</h3><h4 id="2-3-1-index"><a href="#2-3-1-index" class="headerlink" title="2.3.1 index"></a>2.3.1 index</h4><blockquote>
+<h3 id="常见参数"><a href="#常见参数" class="headerlink" title="常见参数"></a>常见参数</h3><h4 id="index"><a href="#index" class="headerlink" title="index"></a>index</h4><blockquote>
 <p>可以给属性添加一个 布尔类型的index属性，标识该属性是否能被倒排索引，也就是说是否能通过该字段进行搜索。</p>
 </blockquote>
-<h4 id="2-3-2-null-value"><a href="#2-3-2-null-value" class="headerlink" title="2.3.2 null_value"></a>2.3.2 null_value</h4><blockquote>
+<h4 id="null-value"><a href="#null-value" class="headerlink" title="null_value"></a>null_value</h4><blockquote>
 <p>在数据索引进ES的时候，当某些数据为 null 的时候，该数据是不能被搜索的，可以使用null_value 属性指定一个值，当属性的值为 null 的时候，转换为一个通过 null_value 指定的值。 null_value属性只能用于Keyword类型的属性</p>
 </blockquote>
-<h4 id="2-3-3-analyzer"><a href="#2-3-3-analyzer" class="headerlink" title="2.3.3 analyzer"></a>2.3.3 analyzer</h4><blockquote>
+<h4 id="analyzer"><a href="#analyzer" class="headerlink" title="analyzer"></a>analyzer</h4><blockquote>
 <p>如果想要在创建索引和查询时分别使用不同的分词器，ElasticSearch也是支持的。</p>
 <p>在创建索引，指定analyzer，ES在创建时会先检查是否设置了analyzer字段，如果没定义就用ES预设的</p>
 <p>插入文档时，将text类型的字段做分词然后插入倒排索引，此时就可能用到analyzer指定的分词器</p>
 </blockquote>
-<h4 id="2-3-4-search-analyzer"><a href="#2-3-4-search-analyzer" class="headerlink" title="2.3.4 search_analyzer"></a>2.3.4 search_analyzer</h4><blockquote>
+<h4 id="search-analyzer"><a href="#search-analyzer" class="headerlink" title="search_analyzer"></a>search_analyzer</h4><blockquote>
 <p>在查询时，指定search_analyzer，ES查询时会先检查是否设置了search_analyzer字段，如果没有设置，还会去检查创建索引时是否指定了analyzer，还是没有还设置才会去使用ES预设的</p>
 <p>在查询时，先对要查询的text类型的输入做分词，再去倒排索引搜索，此时就可能用到search_analyzer指定的分词器</p>
 </blockquote>
-<h4 id="2-3-5-fields"><a href="#2-3-5-fields" class="headerlink" title="2.3.5 fields"></a>2.3.5 fields</h4><blockquote>
+<h4 id="fields"><a href="#fields" class="headerlink" title="fields"></a>fields</h4><blockquote>
 <p>在es中，一个字段可能运用于不同的场景，但是某个字段类型的使用场景是有局限的</p>
 <p>fields：多字段特性  让一个字段拥有多个子字段类型，使得一个字段能够被多个不同的索引方式进行索引。</p>
 </blockquote>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"># city能同时被搜索和词语建议补全</span><br><span class="line">PUT index_name</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;mappings&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;properties&quot;</span>: &#123;</span><br><span class="line">      <span class="string">&quot;city&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;type&quot;</span>: <span class="string">&quot;text&quot;</span>,</span><br><span class="line">        <span class="string">&quot;fields&quot;</span>: &#123;</span><br><span class="line">          <span class="string">&quot;suggest&quot;</span>: &#123;</span><br><span class="line">            <span class="string">&quot;type&quot;</span>: <span class="string">&quot;completion&quot;</span>,</span><br><span class="line">            <span class="string">&quot;analyzer&quot;</span>: <span class="string">&quot;ik_max_word&quot;</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h2 id="三-复杂查询"><a href="#三-复杂查询" class="headerlink" title="三.复杂查询"></a>三.复杂查询</h2><h3 id="3-1-聚合查询"><a href="#3-1-聚合查询" class="headerlink" title="3.1 聚合查询"></a>3.1 聚合查询</h3><blockquote>
+<h2 id="三-复杂查询"><a href="#三-复杂查询" class="headerlink" title="三.复杂查询"></a>三.复杂查询</h2><h3 id="聚合查询"><a href="#聚合查询" class="headerlink" title="聚合查询"></a>聚合查询</h3><blockquote>
 <p>聚合允许使用者对 es 文档进行统计分析，类似与关系型数据库中的 group by，当然还有很多其他的聚合，例如取最大值max、平均值avg等等。</p>
 </blockquote>
 <blockquote>
@@ -3243,7 +3243,7 @@
 
 
 
-<h3 id="3-2-推荐搜索"><a href="#3-2-推荐搜索" class="headerlink" title="3.2 推荐搜索"></a>3.2 推荐搜索</h3><blockquote>
+<h3 id="推荐搜索"><a href="#推荐搜索" class="headerlink" title="推荐搜索"></a>推荐搜索</h3><blockquote>
 <p>在搜索过程中，因为单词的拼写错误，没有得到任何的结果，希望ES能够给我们一个推荐搜索。</p>
 </blockquote>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">GET movies/_search</span><br><span class="line">&#123; </span><br><span class="line">	&quot;suggest&quot;: &#123;  </span><br><span class="line">	  #title_suggestion为我们自定义的名字  </span><br><span class="line">        &quot;title_suggestion&quot;: &#123;   </span><br><span class="line">			&quot;text&quot;: &quot;drema&quot;,</span><br><span class="line">			   &quot;term&quot;: &#123;    </span><br><span class="line">				&quot;field&quot;: &quot;title&quot;,</span><br><span class="line">				    &quot;suggest_mode&quot;: &quot;popular&quot;  </span><br><span class="line">			&#125; </span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -3256,7 +3256,7 @@
 <li>always无论什么情况下都进行推荐</li>
 </ol>
 </blockquote>
-<h3 id="3-3-自动补全"><a href="#3-3-自动补全" class="headerlink" title="3.3 自动补全"></a>3.3 自动补全</h3><blockquote>
+<h3 id="自动补全"><a href="#自动补全" class="headerlink" title="自动补全"></a>自动补全</h3><blockquote>
 <p>自动补全应该是我们在日常的开发过程中最常见的搜索方式了，如百度搜索和京东商品搜索。</p>
 </blockquote>
 <p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20230217151312879.png" alt="image-20230217151312879"></p>
@@ -3264,16 +3264,16 @@
 <p>自动补全的功能对性能的要求极高，用户每发送输入一个字符就要发送一个请求去查找匹配项。</p>
 <p>ES采取了不同的数据结构来实现，并不是通过倒排索引来实现的；需要将对应的数据类型设置为completion ; 所以在将数据索引进ES之前需要先定义 mapping 信息。</p>
 </blockquote>
-<h4 id="3-3-1-定义mapping"><a href="#3-3-1-定义mapping" class="headerlink" title="3.3.1 定义mapping"></a>3.3.1 定义mapping</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123; </span><br><span class="line">	&quot;movies&quot;: &#123;  </span><br><span class="line">		&quot;mappings&quot;: &#123;   </span><br><span class="line">			&quot;properties&quot;: &#123;    </span><br><span class="line">				&quot;@version&quot;: &#123;     </span><br><span class="line">					&quot;type&quot;: &quot;text&quot;,</span><br><span class="line">					     &quot;fields&quot;: &#123;      </span><br><span class="line">						&quot;keyword&quot;: &#123;       </span><br><span class="line">							&quot;type&quot;: &quot;keyword&quot;,</span><br><span class="line">							       &quot;ignore_above&quot;: 256     </span><br><span class="line">						&#125;    </span><br><span class="line">					&#125;   </span><br><span class="line">				&#125;,</span><br><span class="line">				    &quot;genre&quot;: &#123;     </span><br><span class="line">					&quot;type&quot;: &quot;text&quot;,</span><br><span class="line">					     &quot;fields&quot;: &#123;      </span><br><span class="line">						&quot;keyword&quot;: &#123;       </span><br><span class="line">							&quot;type&quot;: &quot;keyword&quot;,</span><br><span class="line">							       &quot;ignore_above&quot;: 256     </span><br><span class="line">						&#125;    </span><br><span class="line">					&#125;   </span><br><span class="line">				&#125;,</span><br><span class="line">				    &quot;id&quot;: &#123;     </span><br><span class="line">					&quot;type&quot;: &quot;text&quot;,</span><br><span class="line">					     &quot;fields&quot;: &#123;      </span><br><span class="line">						&quot;keyword&quot;: &#123;       </span><br><span class="line">							&quot;type&quot;: &quot;keyword&quot;,</span><br><span class="line">							       &quot;ignore_above&quot;: 256     </span><br><span class="line">						&#125;    </span><br><span class="line">					&#125;   </span><br><span class="line">				&#125;,</span><br><span class="line">				    &quot;title&quot;: &#123;     </span><br><span class="line">					&quot;type&quot;: &quot;completion&quot;   </span><br><span class="line">				&#125;,</span><br><span class="line">				    &quot;year&quot;: &#123;     </span><br><span class="line">					&quot;type&quot;: &quot;long&quot;   </span><br><span class="line">				&#125;  </span><br><span class="line">			&#125; </span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="定义mapping"><a href="#定义mapping" class="headerlink" title="定义mapping"></a>定义mapping</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123; </span><br><span class="line">	&quot;movies&quot;: &#123;  </span><br><span class="line">		&quot;mappings&quot;: &#123;   </span><br><span class="line">			&quot;properties&quot;: &#123;    </span><br><span class="line">				&quot;@version&quot;: &#123;     </span><br><span class="line">					&quot;type&quot;: &quot;text&quot;,</span><br><span class="line">					     &quot;fields&quot;: &#123;      </span><br><span class="line">						&quot;keyword&quot;: &#123;       </span><br><span class="line">							&quot;type&quot;: &quot;keyword&quot;,</span><br><span class="line">							       &quot;ignore_above&quot;: 256     </span><br><span class="line">						&#125;    </span><br><span class="line">					&#125;   </span><br><span class="line">				&#125;,</span><br><span class="line">				    &quot;genre&quot;: &#123;     </span><br><span class="line">					&quot;type&quot;: &quot;text&quot;,</span><br><span class="line">					     &quot;fields&quot;: &#123;      </span><br><span class="line">						&quot;keyword&quot;: &#123;       </span><br><span class="line">							&quot;type&quot;: &quot;keyword&quot;,</span><br><span class="line">							       &quot;ignore_above&quot;: 256     </span><br><span class="line">						&#125;    </span><br><span class="line">					&#125;   </span><br><span class="line">				&#125;,</span><br><span class="line">				    &quot;id&quot;: &#123;     </span><br><span class="line">					&quot;type&quot;: &quot;text&quot;,</span><br><span class="line">					     &quot;fields&quot;: &#123;      </span><br><span class="line">						&quot;keyword&quot;: &#123;       </span><br><span class="line">							&quot;type&quot;: &quot;keyword&quot;,</span><br><span class="line">							       &quot;ignore_above&quot;: 256     </span><br><span class="line">						&#125;    </span><br><span class="line">					&#125;   </span><br><span class="line">				&#125;,</span><br><span class="line">				    &quot;title&quot;: &#123;     </span><br><span class="line">					&quot;type&quot;: &quot;completion&quot;   </span><br><span class="line">				&#125;,</span><br><span class="line">				    &quot;year&quot;: &#123;     </span><br><span class="line">					&quot;type&quot;: &quot;long&quot;   </span><br><span class="line">				&#125;  </span><br><span class="line">			&#125; </span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h4 id="3-3-2-前缀搜索"><a href="#3-3-2-前缀搜索" class="headerlink" title="3.3.2 前缀搜索"></a>3.3.2 前缀搜索</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">GET movies/_search</span><br><span class="line">&#123; </span><br><span class="line">	<span class="string">&quot;_source&quot;</span>: [<span class="string">&quot;title&quot;</span>],</span><br><span class="line">	 <span class="string">&quot;suggest&quot;</span>: &#123;  </span><br><span class="line">		<span class="string">&quot;prefix_suggestion&quot;</span>: &#123;   </span><br><span class="line">			<span class="string">&quot;prefix&quot;</span>: <span class="string">&quot;Lan&quot;</span>,</span><br><span class="line">			   <span class="string">&quot;completion&quot;</span>: &#123;    </span><br><span class="line">				<span class="string">&quot;field&quot;</span>: <span class="string">&quot;title&quot;</span>,</span><br><span class="line">				<span class="string">&quot;skip_duplicates&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">				<span class="string">&quot;size&quot;</span>: <span class="number">10</span>  </span><br><span class="line">			&#125; </span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="前缀搜索"><a href="#前缀搜索" class="headerlink" title="前缀搜索"></a>前缀搜索</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">GET movies/_search</span><br><span class="line">&#123; </span><br><span class="line">	<span class="string">&quot;_source&quot;</span>: [<span class="string">&quot;title&quot;</span>],</span><br><span class="line">	 <span class="string">&quot;suggest&quot;</span>: &#123;  </span><br><span class="line">		<span class="string">&quot;prefix_suggestion&quot;</span>: &#123;   </span><br><span class="line">			<span class="string">&quot;prefix&quot;</span>: <span class="string">&quot;Lan&quot;</span>,</span><br><span class="line">			   <span class="string">&quot;completion&quot;</span>: &#123;    </span><br><span class="line">				<span class="string">&quot;field&quot;</span>: <span class="string">&quot;title&quot;</span>,</span><br><span class="line">				<span class="string">&quot;skip_duplicates&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">				<span class="string">&quot;size&quot;</span>: <span class="number">10</span>  </span><br><span class="line">			&#125; </span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20230217151612958.png" alt="image-20230217151612958"></p>
 <blockquote>
 <p>skip_duplicates: 表示忽略掉重复。</p>
 <p>size: 表示返回多少条数据。</p>
 </blockquote>
-<h3 id="3-4-高亮显示"><a href="#3-4-高亮显示" class="headerlink" title="3.4 高亮显示"></a>3.4 高亮显示</h3><blockquote>
+<h3 id="高亮显示"><a href="#高亮显示" class="headerlink" title="高亮显示"></a>高亮显示</h3><blockquote>
 <p>高亮显示在实际的应用中也会碰到很多，如下给出了百度高亮搜索的案例</p>
 </blockquote>
 <p><img src="https://gitee.com/studentgitee/note-picture/raw/master/image-20230217151717244.png" alt="image-20230217151717244"></p>
